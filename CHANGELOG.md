@@ -5,6 +5,19 @@ All notable changes to **VenueMind AI** will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+---
+
+## [1.3.0] - 2026-07-09
+
+### Added
+- 🛡️ Content-Security-Policy (CSP) headers config to prevent Cross-Site Scripting (XSS) and code injection.
+- 🔒 Strict-Transport-Security (HSTS) headers config enforcing HTTPS for a duration of 2 years (63,072,000 seconds), including subdomains and preloading.
+- 🧪 Dedicated backend Jest test cases verifying the correct enforcement of CSP and HSTS headers.
+- 🎚️ Advanced Enterprise `.editorconfig` incorporating strict whitespace, indentation, quote policies, and line length rules for scripts, vector formats, HTML/CSS, JSON, and source files.
+- 📄 Enhanced frontend `.env.example` file specifying type requirements, fallback rules, feature flag logic, and security implications of values.
+
+---
+
 ## [1.2.0] - 2026-07-09
 
 ### Added
@@ -21,6 +34,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated README.md with CI badge, project structure, security and testing sections
 - Updated backend `package.json` with proper metadata and start script
 
+---
+
 ## [1.1.0] - 2026-07-08
 
 ### Added
@@ -36,6 +51,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Refactored timer logic into shared `useMatchTimer` custom hook
 - Reduced bottom navigation to 4 professional buttons (Hub, Maps, AI Chat, Ops)
 
+---
+
 ## [1.0.0] - 2026-07-08
 
 ### Added
@@ -50,3 +67,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🌐 Backend API with Express.js and Google Gemini AI integration
 - 🐳 Multi-stage Dockerfile for production deployment
 - 🧪 Unit tests with Vitest (frontend) and Jest + Supertest (backend)
+
+---
+
+## 📌 Release and Versioning Policies
+
+- **Semantic Versioning (SemVer):** All version increments follow `MAJOR.MINOR.PATCH` increments.
+- **Git Commit Standards:** All commits must follow the Angular Conventional Commits format (`feat:`, `fix:`, `docs:`, `style:`, `refactor:`, `test:`, `chore:`).
+- **Branch Protection:** Releases are prepared on a release branch before being merged into `master` or `main`.

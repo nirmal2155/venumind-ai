@@ -98,5 +98,15 @@ describe('VenueMind AI Backend API', () => {
       const res = await request(app).get('/api/health');
       expect(res.headers['permissions-policy']).toBe('camera=(), microphone=(self), geolocation=(self)');
     });
+
+    it('should set Content-Security-Policy header', async () => {
+      const res = await request(app).get('/api/health');
+      expect(res.headers['content-security-policy']).toBe("default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'");
+    });
+
+    it('should set Strict-Transport-Security header', async () => {
+      const res = await request(app).get('/api/health');
+      expect(res.headers['strict-transport-security']).toBe('max-age=63072000; includeSubDomains; preload');
+    });
   });
 });

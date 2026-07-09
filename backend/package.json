@@ -1,13 +1,14 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "VenueMind AI - Enterprise Backend API Gateway for FIFA World Cup 2026",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "jest"
   },
   "keywords": [],
-  "author": "",
+  "author": "VenueMind AI Team",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {

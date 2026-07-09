@@ -23,6 +23,40 @@ app.use(cors({ origin: '*', methods: ['GET', 'POST'] }));
 app.use(express.json({ limit: '10kb' })); // Mitigate DDoS via payload size limit
 
 /**
+ * @middleware Security Headers
+ * Implements OWASP-recommended HTTP security headers.
+ */
+app.use((req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.setHeader('Permissions-Policy', 'camera=(), microphone=(self), geolocation=(self)');
+  next();
+});
+
+/**
+ * @middleware Request Logger
+ * Structured logging for observability and debugging.
+ */
+app.use((req, res, next) => {
+  const start = Date.now();
+  res.on('finish', () => {
+    const duration = Date.now() - start;
+    if (req.path.startsWith('/api')) {
+      console.log(JSON.stringify({
+        method: req.method,
+        path: req.path,
+        status: res.statusCode,
+        duration: `${duration}ms`,
+        timestamp: new Date().toISOString()
+      }));
+    }
+  });
+  next();
+});
+
+/**
  * @constant {GoogleGenAI} aiClient
  * @description Core LLM Engine for VenueMind AI. Fallbacks to NLP keyword engine if API key is missing.
  */
@@ -134,6 +168,21 @@ Rules:
     console.error('Error processing chat request:', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
   }
+});
+
+/**
+ * @api {get} /api/health System Health Check
+ * @description Returns system health status for monitoring and CI/CD readiness checks.
+ * @returns {Object} { status, uptime, timestamp, version }
+ */
+app.get('/api/health', (req, res) => {
+  res.json({
+    status: 'OK',
+    uptime: process.uptime(),
+    timestamp: new Date().toISOString(),
+    version: '1.0.0',
+    environment: process.env.NODE_ENV || 'development'
+  });
 });
 
 // Serve frontend static files

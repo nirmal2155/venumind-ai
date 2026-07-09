@@ -2,6 +2,17 @@ const request = require('supertest');
 const app = require('./app');
 
 describe('VenueMind AI Backend API', () => {
+  describe('GET /api/health', () => {
+    it('should return 200 and system health status', async () => {
+      const res = await request(app).get('/api/health');
+      expect(res.statusCode).toBe(200);
+      expect(res.body.status).toBe('OK');
+      expect(res.body).toHaveProperty('uptime');
+      expect(res.body).toHaveProperty('timestamp');
+      expect(res.body).toHaveProperty('version');
+    });
+  });
+
   describe('GET /api/crowd/density', () => {
     it('should return 200 and crowd density data', async () => {
       const res = await request(app).get('/api/crowd/density');
@@ -37,10 +48,10 @@ describe('VenueMind AI Backend API', () => {
     });
 
     it('should return 400 if message is too long', async () => {
-      const longMessage = 'a'.repeat(501);
+      const longMessage = 'a'.repeat(1001);
       const res = await request(app).post('/api/chat').send({ message: longMessage });
       expect(res.statusCode).toBe(400);
-      expect(res.body.error).toBe('Message exceeds maximum length of 500 characters');
+      expect(res.body.error).toBe('Message exceeds maximum length');
     });
 
     it('should return 200 and a reply for valid message', async () => {

@@ -13,6 +13,38 @@ const Crowd = React.lazy(() => import('./pages/Crowd'));
 const Staff = React.lazy(() => import('./pages/Staff'));
 const AccessibilityPage = React.lazy(() => import('./pages/Accessibility'));
 
+// --- Error Boundary Component (Reliability Check) ---
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error("VenueMind AI Error Caught:", error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: '#0a0a0a', color: '#fff', textAlign: 'center' }}>
+          <AlertOctagon size={64} color="var(--accent-red)" style={{ marginBottom: '1rem' }} />
+          <h2>System Offline</h2>
+          <p style={{ color: 'var(--text-secondary)' }}>Our AI systems are currently rebooting. Please standby.</p>
+          <button onClick={() => window.location.reload()} style={{ marginTop: '1rem', padding: '10px 20px', background: 'var(--accent-green)', color: '#000', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold' }}>
+            Reboot Interface
+          </button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 // --- Bottom Navigation Component ---
 const BottomNav = React.memo(() => {
   const location = useLocation();
@@ -310,28 +342,30 @@ const SplashSequence = ({ onComplete }) => {
   );
 };
 
-function App() {
+function MainApp() {
   const [booting, setBooting] = useState(true);
 
   return (
-    <EmergencyProvider>
-      {booting && <SplashSequence onComplete={() => setBooting(false)} />}
-      <Router>
-        <div className="grid-bg"></div>
-        <EmergencyOverlay />
-        
-        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-          <Header />
+    <ErrorBoundary>
+      <EmergencyProvider>
+        {booting && <SplashSequence onComplete={() => setBooting(false)} />}
+        <Router>
+          <div className="grid-bg"></div>
+          <EmergencyOverlay />
           
-          <main style={{ flex: 1, display: 'flex', flexDirection: 'column', position: 'relative' }}>
-            <AnimatedRoutes />
-          </main>
+          <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+            <Header />
+            
+            <main style={{ flex: 1, display: 'flex', flexDirection: 'column', position: 'relative' }}>
+              <AnimatedRoutes />
+            </main>
 
-          <BottomNav />
-        </div>
-      </Router>
-    </EmergencyProvider>
+            <BottomNav />
+          </div>
+        </Router>
+      </EmergencyProvider>
+    </ErrorBoundary>
   );
 }
 
-export default App;
+export default MainApp;

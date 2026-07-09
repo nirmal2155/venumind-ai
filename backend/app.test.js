@@ -59,5 +59,44 @@ describe('VenueMind AI Backend API', () => {
       expect(res.statusCode).toBe(200);
       expect(res.body).toHaveProperty('reply');
     });
+
+    it('should return contextual reply for food query', async () => {
+      const res = await request(app).post('/api/chat').send({ message: 'Where can I get food?' });
+      expect(res.statusCode).toBe(200);
+      expect(res.body.reply).toContain('Food');
+    });
+
+    it('should return contextual reply for parking query', async () => {
+      const res = await request(app).post('/api/chat').send({ message: 'Where is parking?' });
+      expect(res.statusCode).toBe(200);
+      expect(res.body.reply).toContain('Parking');
+    });
+  });
+
+  describe('Security Headers', () => {
+    it('should set X-Content-Type-Options to nosniff', async () => {
+      const res = await request(app).get('/api/health');
+      expect(res.headers['x-content-type-options']).toBe('nosniff');
+    });
+
+    it('should set X-Frame-Options to DENY', async () => {
+      const res = await request(app).get('/api/health');
+      expect(res.headers['x-frame-options']).toBe('DENY');
+    });
+
+    it('should set X-XSS-Protection header', async () => {
+      const res = await request(app).get('/api/health');
+      expect(res.headers['x-xss-protection']).toBe('1; mode=block');
+    });
+
+    it('should set Referrer-Policy header', async () => {
+      const res = await request(app).get('/api/health');
+      expect(res.headers['referrer-policy']).toBe('strict-origin-when-cross-origin');
+    });
+
+    it('should set Permissions-Policy header', async () => {
+      const res = await request(app).get('/api/health');
+      expect(res.headers['permissions-policy']).toBe('camera=(), microphone=(self), geolocation=(self)');
+    });
   });
 });

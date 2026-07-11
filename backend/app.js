@@ -9,10 +9,40 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const { GoogleGenAI } = require('@google/genai');
 const path = require('path');
+const compression = require('compression');
+const rateLimit = require('express-rate-limit');
 
 dotenv.config();
 
 const app = express();
+
+// Trust first proxy (Cloudflare, Render, etc.) to get correct client IP for rate limiting
+app.set('trust proxy', 1);
+
+// Enable Gzip/Brotli compression for network performance optimization
+app.use(compression());
+
+// Global Rate Limiter for all API routes (120 req/min per IP)
+const globalLimiter = rateLimit({
+  windowMs: 60 * 1000, // 1 minute
+  max: 120,
+  message: { error: 'Too many requests, please try again later.' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// Stricter Rate Limiter for Chat requests (30 req/min per IP) to control API cost & server load
+const chatLimiter = rateLimit({
+  windowMs: 60 * 1000, // 1 minute
+  max: 30,
+  message: { error: 'Too many chat requests, please try again later.' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// Apply rate limiters to API routes
+app.use('/api/', globalLimiter);
+app.use('/api/chat', chatLimiter);
 
 /**
  * @middleware Security & Parsing
@@ -187,10 +217,27 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Serve frontend static files
-app.use(express.static(path.join(__dirname, 'public')));
+// Serve frontend static files with optimized production caching
+app.use(express.static(path.join(__dirname, 'public'), {
+  maxAge: '1y',
+  setHeaders: (res, filepath) => {
+    // index.html and manifest.json should not be cached long term
+    if (filepath.endsWith('index.html') || filepath.endsWith('manifest.json')) {
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    } else {
+      res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+    }
+  }
+}));
+
 app.use((req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// Global Express Error Boundary
+app.use((err, req, res, next) => {
+  console.error('Unhandled Express Error:', err);
+  res.status(500).json({ error: 'Internal Server Error' });
 });
 
 module.exports = app;

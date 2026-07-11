@@ -100,7 +100,7 @@ venumind-ai/
 
 VenueMind AI implements multiple layers of security hardening:
 
-- **OWASP Security Headers** — Helmet.js enforces strict HTTP headers including `X-Content-Type-Options`, `X-Frame-Options`, `Strict-Transport-Security`, and more.
+- **OWASP Security Headers** — Custom middleware enforces strict HTTP security headers including `X-Content-Type-Options`, `X-Frame-Options`, `Strict-Transport-Security`, and more.
 - **Input Sanitization** — All user-facing inputs are sanitized on both client and server side to prevent XSS and injection attacks.
 - **Content Security Policy (CSP)** — A strict CSP is enforced to mitigate cross-site scripting and data injection vulnerabilities.
 - **Rate Limiting** — API endpoints are rate-limited to prevent abuse and denial-of-service attacks.

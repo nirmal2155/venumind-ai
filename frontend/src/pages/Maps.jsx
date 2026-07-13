@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Navigation, CheckCircle2, Timer, AlertTriangle, Target } from 'lucide-react';
+import { Navigation, CheckCircle2, Timer, AlertTriangle, Target, Users, Bot, Info, Camera, Tv, Maximize2, Eye } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useMatchTimer } from '../hooks/useMatchTimer';
 
@@ -10,6 +10,11 @@ const Maps = () => {
   // Dynamic Rerouting State
   const [routeGate, setRouteGate] = useState('GATE B');
   const [notification, setNotification] = useState(null);
+
+  // --- 3D Seat Preview States ---
+  const [selectedSector, setSelectedSector] = useState('vip');
+  const [activeOverlay, setActiveOverlay] = useState('normal');
+  const [zoomLevel, setZoomLevel] = useState(1);
 
   const simulateReroute = () => {
     // Step 1: Red Alert
@@ -167,6 +172,174 @@ const Maps = () => {
               <div style={{ color: 'var(--accent-yellow)', fontSize: '0.9rem', fontWeight: 'bold' }}>MODERATE</div>
             </div>
           </div>
+        </div>
+
+        {/* 🏟️ Interactive AI Seat Angle Previewer */}
+        <div style={{ background: '#121621', borderRadius: '16px', padding: '1.25rem', marginBottom: '1.5rem', border: '1px solid rgba(0, 200, 255, 0.15)' }}>
+          <div className="flex-row justify-between" style={{ alignItems: 'center', marginBottom: '1.25rem' }}>
+            <div className="flex-row gap-3" style={{ alignItems: 'center' }}>
+              <div style={{ background: 'rgba(0, 200, 255, 0.1)', padding: '8px', borderRadius: '8px' }}>
+                <Camera color="#00C8FF" size={20} />
+              </div>
+              <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: '600' }}>AI Seat Angle Preview</h3>
+            </div>
+            <span style={{ color: '#00C8FF', fontWeight: 'bold', fontSize: '0.7rem', letterSpacing: '1px' }}>3D TACTICAL VIEW</span>
+          </div>
+
+          <p style={{ fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.8)', margin: '0 0 1.25rem 0', lineHeight: '1.4' }}>
+            Simulate the precise visual angle of the pitch from different seating sections of the Lusail Stadium.
+          </p>
+
+          {/* Sector Select Dropdown / Buttons */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginBottom: '1rem' }}>
+            {[
+              { id: 'vip', label: 'VIP Suite (Midfield)' },
+              { id: 'east', label: 'East Stand (Close)' },
+              { id: 'west', label: 'West Curve (Goal)' },
+              { id: 'presidential', label: 'Presidential Box' }
+            ].map(s => (
+              <button
+                key={s.id}
+                onClick={() => setSelectedSector(s.id)}
+                style={{
+                  background: selectedSector === s.id ? '#00C8FF' : 'rgba(255,255,255,0.03)',
+                  border: `1px solid ${selectedSector === s.id ? '#00C8FF' : 'rgba(255,255,255,0.1)'}`,
+                  color: selectedSector === s.id ? '#000' : '#fff',
+                  padding: '8px',
+                  borderRadius: '8px',
+                  fontSize: '0.75rem',
+                  fontWeight: 'bold',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s'
+                }}>
+                {s.label}
+              </button>
+            ))}
+          </div>
+
+          {/* 3D Simulated Pitch Field Render */}
+          {(() => {
+            let fieldTransform = `perspective(700px) rotateX(55deg) scale(${zoomLevel})`;
+            if (selectedSector === 'east') {
+              fieldTransform = `perspective(700px) rotateX(65deg) translateY(-10px) scale(${zoomLevel * 1.15})`;
+            } else if (selectedSector === 'west') {
+              fieldTransform = `perspective(700px) rotateX(60deg) rotateZ(90deg) scale(${zoomLevel})`;
+            } else if (selectedSector === 'presidential') {
+              fieldTransform = `perspective(700px) rotateX(40deg) scale(${zoomLevel * 0.85})`;
+            }
+
+            return (
+              <div style={{
+                position: 'relative',
+                height: '240px',
+                background: '#04070c',
+                borderRadius: '12px',
+                border: '1px solid rgba(0, 200, 255, 0.2)',
+                overflow: 'hidden',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxShadow: 'inset 0 0 30px rgba(0,0,0,0.8)',
+                marginBottom: '1rem'
+              }}>
+                {/* HUD Info Overlay */}
+                <div style={{ position: 'absolute', top: '10px', left: '10px', zIndex: 10, display: 'flex', flexDirection: 'column', gap: '2px', background: 'rgba(5, 10, 20, 0.8)', padding: '6px 10px', borderRadius: '6px', border: '1px solid rgba(0, 200, 255, 0.2)' }}>
+                  <span style={{ fontSize: '0.6rem', color: '#00C8FF', fontFamily: 'monospace', fontWeight: 'bold' }}>CAM ANGLE: {selectedSector === 'vip' ? '35.4°' : selectedSector === 'east' ? '18.2°' : selectedSector === 'west' ? '42.1°' : '55.0°'}</span>
+                  <span style={{ fontSize: '0.6rem', color: '#00C8FF', fontFamily: 'monospace', fontWeight: 'bold' }}>DISTANCE: {selectedSector === 'vip' ? '68m' : selectedSector === 'east' ? '45m' : selectedSector === 'west' ? '92m' : '110m'}</span>
+                </div>
+
+                {/* View Zoom Control Overlay */}
+                <div style={{ position: 'absolute', bottom: '10px', right: '10px', zIndex: 10, display: 'flex', gap: '6px' }}>
+                  <button onClick={() => setZoomLevel(prev => Math.min(prev + 0.1, 1.5))} style={{ background: 'rgba(0,0,0,0.8)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', width: '28px', height: '28px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold', fontSize: '0.8rem' }}>+</button>
+                  <button onClick={() => setZoomLevel(prev => Math.max(prev - 0.1, 0.8))} style={{ background: 'rgba(0,0,0,0.8)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', width: '28px', height: '28px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold', fontSize: '0.8rem' }}>-</button>
+                </div>
+
+                {/* 3D Perspective Pitch Container */}
+                <div style={{
+                  width: '280px',
+                  height: '180px',
+                  background: activeOverlay === 'thermal' ? 'radial-gradient(circle, #3a0000 20%, #150000 70%)' : 'linear-gradient(135deg, #1b4d22 0%, #143518 100%)',
+                  border: '3px solid rgba(255,255,255,0.4)',
+                  boxShadow: '0 10px 40px rgba(0,0,0,0.6)',
+                  transform: fieldTransform,
+                  transition: 'transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1)',
+                  position: 'relative'
+                }}>
+                  {/* Field Markings */}
+                  <div style={{ position: 'absolute', top: 0, bottom: 0, left: '50%', width: '2px', background: 'rgba(255,255,255,0.4)', transform: 'translateX(-50%)' }} />
+                  <div style={{ position: 'absolute', top: '50%', left: '50%', width: '50px', height: '50px', border: '2px solid rgba(255,255,255,0.4)', borderRadius: '50%', transform: 'translate(-50%, -50%)' }} />
+                  <div style={{ position: 'absolute', left: 0, top: '25%', bottom: '25%', width: '40px', border: '2px solid rgba(255,255,255,0.4)', borderLeft: 'none' }} />
+                  <div style={{ position: 'absolute', right: 0, top: '25%', bottom: '25%', width: '40px', border: '2px solid rgba(255,255,255,0.4)', borderRight: 'none' }} />
+
+                  {/* Tactical Players dots overlay */}
+                  <div style={{ position: 'absolute', inset: 0 }}>
+                    <div style={{ position: 'absolute', left: '20%', top: '50%', width: '8px', height: '8px', background: '#00C8FF', borderRadius: '50%', boxShadow: '0 0 8px #00C8FF' }} />
+                    <div style={{ position: 'absolute', left: '40%', top: '30%', width: '8px', height: '8px', background: '#00C8FF', borderRadius: '50%', boxShadow: '0 0 8px #00C8FF' }} />
+                    <div style={{ position: 'absolute', left: '40%', top: '70%', width: '8px', height: '8px', background: '#00C8FF', borderRadius: '50%', boxShadow: '0 0 8px #00C8FF' }} />
+                    <div style={{ position: 'absolute', left: '60%', top: '45%', width: '8px', height: '8px', background: '#00C8FF', borderRadius: '50%', boxShadow: '0 0 8px #00C8FF' }} />
+
+                    <div style={{ position: 'absolute', right: '20%', top: '50%', width: '8px', height: '8px', background: '#FF4B4B', borderRadius: '50%', boxShadow: '0 0 8px #FF4B4B' }} />
+                    <div style={{ position: 'absolute', right: '40%', top: '25%', width: '8px', height: '8px', background: '#FF4B4B', borderRadius: '50%', boxShadow: '0 0 8px #FF4B4B' }} />
+                    <div style={{ position: 'absolute', right: '40%', top: '75%', width: '8px', height: '8px', background: '#FF4B4B', borderRadius: '50%', boxShadow: '0 0 8px #FF4B4B' }} />
+                    <div style={{ position: 'absolute', right: '55%', top: '55%', width: '8px', height: '8px', background: '#FF4B4B', borderRadius: '50%', boxShadow: '0 0 8px #FF4B4B' }} />
+                  </div>
+
+                  {/* TACTICAL OVERLAY */}
+                  {activeOverlay === 'tactical' && (
+                    <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}>
+                      <line x1="20%" y1="50%" x2="40%" y2="30%" stroke="var(--accent-yellow)" strokeWidth="2" strokeDasharray="3, 3" />
+                      <line x1="40%" y1="30%" x2="60%" y2="45%" stroke="var(--accent-yellow)" strokeWidth="2" strokeDasharray="3, 3" />
+                      <line x1="60%" y1="45%" x2="80%" y2="50%" stroke="var(--accent-green)" strokeWidth="3" />
+                      <circle cx="80%" cy="50%" r="5" fill="var(--accent-green)" />
+                    </svg>
+                  )}
+
+                  {/* THERMAL OVERLAY */}
+                  {activeOverlay === 'thermal' && (
+                    <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 70% 30%, rgba(255,75,75,0.6) 0%, rgba(255,222,89,0.3) 40%, transparent 70%), radial-gradient(circle at 30% 70%, rgba(255,75,75,0.5) 0%, rgba(255,222,89,0.2) 40%, transparent 70%)', pointerEvents: 'none' }} />
+                  )}
+                </div>
+
+                {/* Grid scanning effect */}
+                <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(0, 200, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 200, 255, 0.05) 1px, transparent 1px)', backgroundSize: '15px 15px', pointerEvents: 'none' }} />
+              </div>
+            );
+          })()}
+
+          {/* View Overlay Toggle */}
+          <div style={{ display: 'flex', gap: '8px' }}>
+            {[
+              { id: 'normal', label: 'Tactical View', icon: Tv },
+              { id: 'tactical', label: 'Pass Map', icon: Maximize2 },
+              { id: 'thermal', label: 'Occupancy Heat', icon: Eye }
+            ].map(o => {
+              const Icon = o.icon;
+              return (
+                <button
+                  key={o.id}
+                  onClick={() => setActiveOverlay(o.id)}
+                  style={{
+                    flex: 1,
+                    background: activeOverlay === o.id ? 'rgba(0, 200, 255, 0.1)' : 'transparent',
+                    border: `1px solid ${activeOverlay === o.id ? '#00C8FF' : 'rgba(255,255,255,0.1)'}`,
+                    color: activeOverlay === o.id ? '#00C8FF' : '#fff',
+                    padding: '8px',
+                    borderRadius: '8px',
+                    fontSize: '0.7rem',
+                    fontWeight: 'bold',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '4px',
+                    transition: 'all 0.3s'
+                  }}>
+                  <Icon size={12} /> {o.label}
+                </button>
+              );
+            })}
+          </div>
+
         </div>
 
         {/* AI Concierge Card */}

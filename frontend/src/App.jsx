@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
-import { Map, Bot, RadioTower, Zap, AlertOctagon, ArrowRight, Home, Film } from 'lucide-react';
+import { Map, Bot, RadioTower, Zap, AlertOctagon, ArrowRight, Home } from 'lucide-react';
 import './index.css';
 import { EmergencyProvider, useEmergency } from './EmergencyContext';
 
@@ -12,7 +12,7 @@ const Ops = React.lazy(() => import('./pages/Ops'));
 const Crowd = React.lazy(() => import('./pages/Crowd'));
 const Staff = React.lazy(() => import('./pages/Staff'));
 const AccessibilityPage = React.lazy(() => import('./pages/Accessibility'));
-const Creator = React.lazy(() => import('./pages/Creator'));
+
 
 // --- Error Boundary Component (Reliability Check) ---
 class ErrorBoundary extends React.Component {
@@ -53,7 +53,7 @@ const BottomNav = React.memo(() => {
     { path: '/', icon: Home, label: 'Hub' },
     { path: '/maps', icon: Map, label: 'Maps' },
     { path: '/concierge', icon: Bot, label: 'AI Chat' },
-    { path: '/creator', icon: Film, label: 'AI Reels' },
+
     { path: '/ops', icon: RadioTower, label: 'Ops' },
   ];
 
@@ -300,7 +300,7 @@ const AnimatedRoutes = () => {
           <Route path="/staff" element={<Staff />} />
           <Route path="/access" element={<AccessibilityPage />} />
           <Route path="/ops" element={<Ops />} />
-          <Route path="/creator" element={<Creator />} />
+
         </Routes>
       </React.Suspense>
     </div>

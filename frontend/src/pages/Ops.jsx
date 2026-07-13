@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Activity, Eye, Radio, Server, CheckCircle2, AlertOctagon, Terminal, Leaf, Sun, Thermometer, Wind } from 'lucide-react';
+import { Activity, Eye, Radio, Server, CheckCircle2, AlertOctagon, Terminal, Leaf, Sun, Thermometer, Wind, Shield, Lock, Unlock, Droplet, AlertTriangle } from 'lucide-react';
 import { useEmergency } from '../EmergencyContext';
 
 const NEW_LOGS = [
@@ -32,6 +32,46 @@ const Ops = () => {
   const [isDiagnosing, setIsDiagnosing] = useState(false);
   
   const { setEmergency, setBroadcastMessage } = useEmergency();
+
+  // --- Perimeter Security Node States ---
+  const [outerTierStatus, setOuterTierStatus] = useState('SECURE');
+  const [isHydrationDispatched, setIsHydrationDispatched] = useState(false);
+  const [turnstileTemp, setTurnstileTemp] = useState(39);
+
+  const triggerBreachSimulation = () => {
+    setOuterTierStatus('BREACH');
+    setLogs(prev => [
+      `[ALERT] Outer Barrier (Tier 1) breached at Sector 4. Crowd overflow warning!`,
+      ...prev
+    ]);
+  };
+
+  const deployBarrierShield = () => {
+    setOuterTierStatus('LOCKDOWN');
+    setLogs(prev => [
+      `[AI COMMAND] Deploying AI Shield Barrier at Sector 4 Gates. Locking outer perimeter.`,
+      `[SECURITY] Security drones routed to disperse unverified crowd.`,
+      ...prev
+    ]);
+  };
+
+  const resetBarrierShield = () => {
+    setOuterTierStatus('SECURE');
+    setLogs(prev => [
+      `[AI COMMAND] Outer barrier gates unlocked. Re-establishing baseline flow.`,
+      ...prev
+    ]);
+  };
+
+  const dispatchHydration = () => {
+    setIsHydrationDispatched(true);
+    setTurnstileTemp(28);
+    setLogs(prev => [
+      `[HVAC] Automated misting nozzles activated in Sector A turnstile queue.`,
+      `[STAFF] Dispatched 6 autonomous Hydration units with water supplies.`,
+      ...prev
+    ]);
+  };
 
   useEffect(() => {
     if (isDiagnosing) return; // Pause auto logs during diagnostics
@@ -164,6 +204,128 @@ const Ops = () => {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* 🛡️ Perimeter Security & Anti-Gatecrash Control Node */}
+      <div style={{ marginBottom: '1.5rem' }}>
+        <h3 style={{ fontSize: '0.85rem', letterSpacing: '2px', color: '#00C8FF', margin: '0 0 10px 0', display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <Shield size={16} /> PERIMETER SECURITY & BREACH MITIGATION
+        </h3>
+        <div style={{ background: 'rgba(0, 200, 255, 0.03)', border: '1px solid rgba(0, 200, 255, 0.15)', borderRadius: '16px', padding: '1.25rem' }}>
+          
+          {/* Status of Perimeters */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '1.25rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.02)', padding: '10px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.05)' }}>
+              <div>
+                <div style={{ fontSize: '0.8rem', color: '#fff', fontWeight: 'bold' }}>Tier 1: Outer Barrier (1km)</div>
+                <div style={{ fontSize: '0.65rem', color: 'var(--text-secondary)' }}>Fences, gates, & checkpoint screening</div>
+              </div>
+              <span style={{ 
+                background: outerTierStatus === 'SECURE' ? 'rgba(0, 200, 120, 0.15)' : outerTierStatus === 'BREACH' ? 'rgba(255, 30, 30, 0.15)' : 'rgba(255, 222, 89, 0.15)',
+                color: outerTierStatus === 'SECURE' ? 'var(--accent-green)' : outerTierStatus === 'BREACH' ? '#FF4B4B' : 'var(--accent-yellow)',
+                fontSize: '0.65rem', padding: '4px 10px', borderRadius: '12px', fontWeight: 'bold', fontFamily: 'monospace'
+              }}>
+                {outerTierStatus}
+              </span>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.02)', padding: '10px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.05)' }}>
+              <div>
+                <div style={{ fontSize: '0.8rem', color: '#fff', fontWeight: 'bold' }}>Tier 2: Inner Security (200m)</div>
+                <div style={{ fontSize: '0.65rem', color: 'var(--text-secondary)' }}>Bag screening & metal detection lanes</div>
+              </div>
+              <span style={{ 
+                background: 'rgba(0, 200, 120, 0.15)',
+                color: 'var(--accent-green)',
+                fontSize: '0.65rem', padding: '4px 10px', borderRadius: '12px', fontWeight: 'bold', fontFamily: 'monospace'
+              }}>
+                SECURE
+              </span>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.02)', padding: '10px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.05)' }}>
+              <div>
+                <div style={{ fontSize: '0.8rem', color: '#fff', fontWeight: 'bold' }}>Tier 3: Main Turnstiles</div>
+                <div style={{ fontSize: '0.65rem', color: 'var(--text-secondary)' }}>Stadium final entrance validation</div>
+              </div>
+              <span style={{ 
+                background: 'rgba(0, 200, 120, 0.15)',
+                color: 'var(--accent-green)',
+                fontSize: '0.65rem', padding: '4px 10px', borderRadius: '12px', fontWeight: 'bold', fontFamily: 'monospace'
+              }}>
+                SECURE
+              </span>
+            </div>
+          </div>
+
+          {/* Interactive Breach Simulator Area */}
+          {outerTierStatus === 'BREACH' ? (
+            <div style={{ background: 'rgba(255, 75, 75, 0.08)', border: '1px solid #FF4B4B', borderRadius: '12px', padding: '10px', marginBottom: '1.25rem', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#FF4B4B', fontSize: '0.82rem', fontWeight: 'bold' }}>
+                <AlertTriangle size={16} /> WARNING: BREACH IN PROGRESS
+              </div>
+              <p style={{ fontSize: '0.78rem', color: 'rgba(255,255,255,0.85)', margin: 0, lineHeight: '1.4' }}>
+                CCTV vision sensors detected 120 ticketless individuals scaling the perimeter fences at Sector 4 Outer Barrier. 
+              </p>
+              <button 
+                onClick={deployBarrierShield}
+                style={{
+                  background: '#FF4B4B', border: 'none', color: '#fff', padding: '8px 12px', borderRadius: '8px', fontSize: '0.8rem', fontWeight: 'bold', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px'
+                }}>
+                <Lock size={14} /> DEPLOY SHIELD BARRIER
+              </button>
+            </div>
+          ) : outerTierStatus === 'LOCKDOWN' ? (
+            <div style={{ background: 'rgba(255, 222, 89, 0.08)', border: '1px solid var(--accent-yellow)', borderRadius: '12px', padding: '10px', marginBottom: '1.25rem', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--accent-yellow)', fontSize: '0.82rem', fontWeight: 'bold' }}>
+                <Lock size={16} /> LOCKDOWN SHIELD DEPLOYED
+              </div>
+              <p style={{ fontSize: '0.78rem', color: 'rgba(255,255,255,0.85)', margin: 0, lineHeight: '1.4' }}>
+                Outer barrier gates locked. Security drones successfully dispersed crowd. Legitimate ticket flows restored.
+              </p>
+              <button 
+                onClick={resetBarrierShield}
+                style={{
+                  background: 'transparent', border: '1px solid var(--accent-yellow)', color: 'var(--accent-yellow)', padding: '6px 12px', borderRadius: '8px', fontSize: '0.75rem', fontWeight: 'bold', cursor: 'pointer'
+                }}>
+                <Unlock size={12} /> RELEASE LOCKDOWN
+              </button>
+            </div>
+          ) : (
+            <button 
+              onClick={triggerBreachSimulation}
+              style={{
+                width: '100%', background: 'rgba(0, 200, 255, 0.1)', border: '1px solid rgba(0, 200, 255, 0.3)', color: '#00C8FF', padding: '10px', borderRadius: '10px', fontSize: '0.85rem', fontWeight: 'bold', cursor: 'pointer', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px'
+              }}>
+              <AlertTriangle size={14} /> SIMULATE COPA-STYLE SURGE BREACH
+            </button>
+          )}
+
+          {/* Thermal/Hydration Dispatcher Panel */}
+          <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '1rem', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ fontSize: '0.8rem', color: '#fff', fontWeight: 'bold' }}>Queue Climate & Hydration</span>
+              <span style={{ fontSize: '0.75rem', color: turnstileTemp > 30 ? '#FF6B35' : 'var(--accent-green)', fontWeight: 'bold', fontFamily: 'monospace' }}>
+                Sector A: {turnstileTemp}°C
+              </span>
+            </div>
+            {isHydrationDispatched ? (
+              <div style={{ background: 'rgba(43,255,136,0.06)', border: '1px solid var(--accent-green)', borderRadius: '10px', padding: '8px 12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <CheckCircle2 size={16} color="var(--accent-green)" />
+                <span style={{ fontSize: '0.75rem', color: '#fff' }}>Hydration bots dispatched. Misting fans ON. Temp reduced to 28°C.</span>
+              </div>
+            ) : (
+              <button 
+                onClick={dispatchHydration}
+                style={{
+                  width: '100%', background: '#FF6B35', border: 'none', color: '#fff', padding: '8px', borderRadius: '8px', fontSize: '0.78rem', fontWeight: 'bold', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px'
+                }}>
+                <Droplet size={14} /> DISPATCH WATER BOTS (HEAT ALERT)
+              </button>
+            )}
+          </div>
+
         </div>
       </div>
 

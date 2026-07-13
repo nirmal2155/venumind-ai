@@ -109,4 +109,52 @@ describe('VenueMind AI Backend API', () => {
       expect(res.headers['strict-transport-security']).toBe('max-age=63072000; includeSubDomains; preload');
     });
   });
+
+  describe('Creator Endpoints', () => {
+    describe('POST /api/creator/train', () => {
+      it('should return 200 and simulated training stats', async () => {
+        const res = await request(app).post('/api/creator/train').send({ fileCount: 10 });
+        expect(res.statusCode).toBe(200);
+        expect(res.body.success).toBe(true);
+        expect(res.body).toHaveProperty('sessionId');
+        expect(res.body.metrics.epochs).toBe(100);
+        expect(res.body.logs.length).toBe(6);
+      });
+    });
+
+    describe('POST /api/creator/script', () => {
+      it('should return 400 if topic is missing', async () => {
+        const res = await request(app).post('/api/creator/script').send({});
+        expect(res.statusCode).toBe(400);
+      });
+
+      it('should return 200 and script structure if topic is present', async () => {
+        const res = await request(app).post('/api/creator/script').send({ topic: 'FIFA stadium food' });
+        expect(res.statusCode).toBe(200);
+        expect(res.body.success).toBe(true);
+        expect(res.body.script).toHaveProperty('hook');
+        expect(res.body.script).toHaveProperty('body');
+        expect(res.body.script).toHaveProperty('cta');
+        expect(Array.isArray(res.body.script.broll)).toBe(true);
+      });
+    });
+
+    describe('POST /api/creator/generate', () => {
+      it('should return 400 if script is missing or invalid', async () => {
+        const res = await request(app).post('/api/creator/generate').send({});
+        expect(res.statusCode).toBe(400);
+      });
+
+      it('should return 200 and generate subtitles timeline', async () => {
+        const script = { hook: 'Engaging hook', body: 'Engaging body content', cta: 'Follow us!' };
+        const res = await request(app).post('/api/creator/generate').send({ script });
+        expect(res.statusCode).toBe(200);
+        expect(res.body.success).toBe(true);
+        expect(res.body).toHaveProperty('videoUrl');
+        expect(res.body).toHaveProperty('durationSeconds');
+        expect(Array.isArray(res.body.subtitles)).toBe(true);
+        expect(res.body.subtitles.length).toBeGreaterThan(0);
+      });
+    });
+  });
 });

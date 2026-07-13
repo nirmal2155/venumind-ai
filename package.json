@@ -1,7 +1,0 @@
-{
-  "name": "venumind-ai",
-  "version": "1.0.0",
-  "scripts": {
-    "build": "npm run build --prefix frontend && mv frontend/dist ./dist"
-  }
-}

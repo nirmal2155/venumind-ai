@@ -13,6 +13,23 @@ This project directly addresses the challenge to: **"Build a GenAI-enabled solut
 
 VenueMind AI leverages cutting-edge Generative AI to completely transform stadium logistics, safety, and accessibility.
 
+## 🎯 Chosen Vertical & Persona
+* **Chosen Vertical:** Smart Stadium Infrastructure, Crowd Management & Organizer Control Panel.
+* **Target Personas:** 
+  1. **Fans / Spectators:** Navigating the physical stadium, seeking kiosk assistance (Lost & Found, food stands, smart transit, 3D seat angle previews) in their native language.
+  2. **Stadium Organizers / Operations Command:** Managing perimeter barriers during breaches, monitoring heat maps, and triggering hydration dispatcher networks to coordinate volunteers.
+
+## 🧠 Approach & Logic
+1. **Dynamic Intent Routing:** The backend API gateway parses user prompts and uses Gemini NLP classification to route questions to specific domain contexts (e.g., lost items tracking, parking slots, gate details).
+2. **Context-Aware Fail-Safe:** If the external Gemini API is unreachable or the network drops, the backend automatically activates an offline regex-based keyword-matching NLP engine to ensure kiosk functionality.
+3. **Threshold-Based Recalculation:** The navigation controller triggers automated safety rerouting notifications the moment crowd density at a gate crosses an **80% occupancy threshold**, routing fans to alternative gates.
+4. **Interactive 3D Simulation:** Utilizes GPU-accelerated CSS 3D perspective projection matrices to dynamically translate, rotate, and scale a simulated digital twin pitch based on the fan's chosen seating sector.
+
+## 📋 Assumptions Made
+1. **Simulated Sensory Network:** Crowd densities, solar grid metrics, and temperature variables are streamed from a mock API simulating physical IoT edge CCTV and sensor networks.
+2. **Browser Context Compatibility:** Speech synthesis (TTS) and voice speech recognition assume standard HTML5 Web Speech API support in the user's host browser.
+3. **API Keys Handling:** The backend is configured to read `GEMINI_API_KEY` from the environment. If absent, the system falls back to offline modes for test compatibility.
+
 ## 🚀 Key Features (10/10 Score Breakdown)
 
 ### 1️⃣ GenAI-Powered Multilingual Concierge (Fan Experience)

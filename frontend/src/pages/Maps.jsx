@@ -80,7 +80,7 @@ const Maps = () => {
             </h1>
           </div>
           {/* Hidden Demo Trigger */}
-          <button onClick={simulateReroute} style={{ background: 'rgba(255,255,255,0.1)', border: 'none', padding: '8px', borderRadius: '50%', cursor: 'pointer' }}>
+          <button onClick={simulateReroute} aria-label="Trigger AI route optimization recalculation" style={{ background: 'rgba(255,255,255,0.1)', border: 'none', padding: '8px', borderRadius: '50%', cursor: 'pointer' }}>
             <Target size={20} color="var(--accent-yellow)" />
           </button>
         </div>
@@ -113,7 +113,7 @@ const Maps = () => {
           </div>
           
           <div style={{ position: 'relative', height: '180px', borderRadius: '12px', overflow: 'hidden', marginBottom: '1rem', background: '#0a0d14' }}>
-            <img src="/images/stadium_isometric.png" alt="Map" style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.8 }} />
+            <img src="/images/stadium_isometric.png" alt="Stadium Seating Isometric map navigation overview" style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.8 }} />
             <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', background: 'var(--accent-green)', color: '#000', padding: '8px 16px', borderRadius: '20px', fontSize: '0.8rem', fontWeight: 'bold', whiteSpace: 'nowrap', transition: 'all 0.5s' }}>
               FASTEST ROUTE: {routeGate}
             </div>
@@ -145,7 +145,7 @@ const Maps = () => {
           </div>
 
           <div style={{ position: 'relative', height: '160px', borderRadius: '12px', overflow: 'hidden', marginBottom: '1rem', background: '#000' }}>
-            <img src="/images/stadium_heatmap.png" alt="Heatmap" style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.9 }} />
+            <img src="/images/stadium_heatmap.png" alt="Live Crowd Occupancy Heatmap of Sector A and B" style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.9 }} />
             
             {/* Overlay Labels */}
             <div style={{ position: 'absolute', top: '10px', right: '10px', background: 'rgba(10,13,20,0.85)', padding: '8px 12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)' }}>
@@ -250,8 +250,8 @@ const Maps = () => {
 
                 {/* View Zoom Control Overlay */}
                 <div style={{ position: 'absolute', bottom: '10px', right: '10px', zIndex: 10, display: 'flex', gap: '6px' }}>
-                  <button onClick={() => setZoomLevel(prev => Math.min(prev + 0.1, 1.5))} style={{ background: 'rgba(0,0,0,0.8)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', width: '28px', height: '28px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold', fontSize: '0.8rem' }}>+</button>
-                  <button onClick={() => setZoomLevel(prev => Math.max(prev - 0.1, 0.8))} style={{ background: 'rgba(0,0,0,0.8)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', width: '28px', height: '28px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold', fontSize: '0.8rem' }}>-</button>
+                  <button onClick={() => setZoomLevel(prev => Math.min(prev + 0.1, 1.5))} aria-label="Zoom In Seating View" style={{ background: 'rgba(0,0,0,0.8)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', width: '28px', height: '28px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold', fontSize: '0.8rem' }}>+</button>
+                  <button onClick={() => setZoomLevel(prev => Math.max(prev - 0.1, 0.8))} aria-label="Zoom Out Seating View" style={{ background: 'rgba(0,0,0,0.8)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', width: '28px', height: '28px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold', fontSize: '0.8rem' }}>-</button>
                 </div>
 
                 {/* 3D Perspective Pitch Container */}

@@ -12,7 +12,8 @@ const Ops = React.lazy(() => import('./pages/Ops'));
 const Crowd = React.lazy(() => import('./pages/Crowd'));
 const Staff = React.lazy(() => import('./pages/Staff'));
 const AccessibilityPage = React.lazy(() => import('./pages/Accessibility'));
-
+const Login = React.lazy(() => import('./pages/Login'));
+const AuthorityDashboard = React.lazy(() => import('./pages/AuthorityDashboard'));
 
 // --- Error Boundary Component (Reliability Check) ---
 class ErrorBoundary extends React.Component {
@@ -123,7 +124,7 @@ const LiveClock = () => {
 };
 
 // --- Main Header Component ---
-const Header = () => {
+const Header = ({ onLogout, currentUser }) => {
   const { isEmergency, broadcastMessage, setBroadcastMessage } = useEmergency();
   
   return (
@@ -149,22 +150,40 @@ const Header = () => {
         
         <LiveClock />
 
-        <div style={{
-          width: '36px',
-          height: '36px',
-          borderRadius: '50%',
-          background: 'var(--bg-card)',
-          border: '1px solid var(--border-glass)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          overflow: 'hidden'
-        }}>
-          {/* User Avatar - SVG fallback, no external dependency */}
-          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-            <circle cx="14" cy="11" r="5" fill="var(--accent-green)" opacity="0.8"/>
-            <ellipse cx="14" cy="22" rx="8" ry="5" fill="var(--accent-green)" opacity="0.5"/>
-          </svg>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          {currentUser && currentUser.role !== 'fan' && (
+            <button
+              onClick={onLogout}
+              style={{
+                background: 'transparent',
+                border: '1px solid rgba(255,255,255,0.15)',
+                color: 'var(--text-secondary)',
+                fontSize: '0.75rem',
+                fontWeight: 'bold',
+                padding: '4px 8px',
+                borderRadius: '6px',
+                cursor: 'pointer'
+              }}
+            >
+              LOGOUT
+            </button>
+          )}
+          <div style={{
+            width: '36px',
+            height: '36px',
+            borderRadius: '50%',
+            background: 'var(--bg-card)',
+            border: '1px solid var(--border-glass)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            overflow: 'hidden'
+          }}>
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+              <circle cx="14" cy="11" r="5" fill={currentUser?.role !== 'fan' ? 'var(--accent-yellow)' : 'var(--accent-green)'} opacity="0.8"/>
+              <ellipse cx="14" cy="22" rx="8" ry="5" fill={currentUser?.role !== 'fan' ? 'var(--accent-yellow)' : 'var(--accent-green)'} opacity="0.5"/>
+            </svg>
+          </div>
         </div>
       </header>
 
@@ -347,25 +366,67 @@ const SplashSequence = ({ onComplete }) => {
 
 function MainApp() {
   const [booting, setBooting] = useState(true);
+  const [currentUser, setCurrentUser] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('venumind_user')) || null;
+    } catch { return null; }
+  });
+
+  const handleLoginSuccess = (user) => {
+    setCurrentUser(user);
+    try {
+      localStorage.setItem('venumind_user', JSON.stringify(user));
+    } catch {}
+  };
+
+  const handleLogout = () => {
+    setCurrentUser(null);
+    try {
+      localStorage.removeItem('venumind_user');
+    } catch {}
+  };
 
   return (
     <ErrorBoundary>
       <EmergencyProvider>
         {booting && <SplashSequence onComplete={() => setBooting(false)} />}
-        <Router>
-          <div className="grid-bg"></div>
-          <EmergencyOverlay />
-          
-          <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-            <Header />
-            
-            <main style={{ flex: 1, display: 'flex', flexDirection: 'column', position: 'relative' }}>
-              <AnimatedRoutes />
-            </main>
+        
+        {!booting && !currentUser ? (
+          <React.Suspense fallback={
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', gap: '1rem', background: '#050a14' }}>
+              <div style={{ width: '40px', height: '40px', border: '3px solid rgba(43,255,136,0.1)', borderTopColor: 'var(--accent-green)', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
+            </div>
+          }>
+            <Login onLoginSuccess={handleLoginSuccess} />
+          </React.Suspense>
+        ) : (
+          !booting && (
+            <Router>
+              <div className="grid-bg"></div>
+              <EmergencyOverlay />
+              
+              <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+                <Header onLogout={handleLogout} currentUser={currentUser} />
+                
+                <main style={{ flex: 1, display: 'flex', flexDirection: 'column', position: 'relative' }}>
+                  {currentUser?.role !== 'fan' ? (
+                    <React.Suspense fallback={
+                      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '50vh', gap: '1rem' }}>
+                        <div style={{ width: '40px', height: '40px', border: '3px solid rgba(43,255,136,0.1)', borderTopColor: 'var(--accent-green)', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
+                      </div>
+                    }>
+                      <AuthorityDashboard user={currentUser} onLogout={handleLogout} />
+                    </React.Suspense>
+                  ) : (
+                    <AnimatedRoutes />
+                  )}
+                </main>
 
-            <BottomNav />
-          </div>
-        </Router>
+                {currentUser?.role === 'fan' && <BottomNav />}
+              </div>
+            </Router>
+          )
+        )}
       </EmergencyProvider>
     </ErrorBoundary>
   );

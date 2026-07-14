@@ -394,9 +394,8 @@ const AppLayout = ({ currentUser, onLogout }) => {
           className="cyber-floating-assistant"
           style={{
             position: 'fixed',
-            top: '50%',
+            bottom: '100px',
             right: '20px',
-            transform: 'translateY(-50%)',
             height: '60px',
             padding: '0 24px',
             background: 'var(--accent-yellow)',

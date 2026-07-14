@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Zap, ShieldCheck, Mail, Lock } from 'lucide-react';
+import { ShieldCheck, Mail, Lock } from 'lucide-react';
 
 const Login = ({ onLoginSuccess }) => {
   const [loginType, setLoginType] = useState('fan'); // 'fan' or 'authority'
@@ -91,12 +91,12 @@ const Login = ({ onLoginSuccess }) => {
             width: '60px',
             height: '60px',
             borderRadius: '16px',
-            background: 'rgba(0, 200, 255, 0.1)',
+            overflow: 'hidden',
             border: '1px solid rgba(0, 200, 255, 0.3)',
             marginBottom: '1rem',
             boxShadow: '0 0 15px rgba(0,200,255,0.2)'
           }}>
-            <Zap size={32} color="#00C8FF" />
+            <img src="/logo.jpg" alt="VenueMind Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           </div>
           <h2 style={{ margin: 0, fontSize: '1.75rem', fontWeight: '800', letterSpacing: '0.5px' }}>
             VENUE<span style={{ color: '#FFD60A' }}>MIND AI</span>

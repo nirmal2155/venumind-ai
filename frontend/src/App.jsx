@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
-import { Map, Bot, RadioTower, Zap, AlertOctagon, ArrowRight, Home } from 'lucide-react';
+import { Map, Bot, RadioTower, AlertOctagon, ArrowRight, Home } from 'lucide-react';
 import './index.css';
 import { EmergencyProvider, useEmergency } from './EmergencyContext';
 
@@ -140,8 +140,8 @@ const Header = ({ onLogout, currentUser }) => {
         transition: 'background 0.5s'
       }}>
         <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-          <div className="flex-row gap-2">
-            <Zap className="text-accent-yellow" size={24} />
+          <div className="flex-row gap-2" style={{ alignItems: 'center' }}>
+            <img src="/logo.jpg" alt="VenueMind Logo" style={{ width: '28px', height: '28px', borderRadius: '6px', border: '1px solid rgba(0, 200, 255, 0.3)' }} />
             <span style={{ fontSize: '1.25rem', fontWeight: '800', letterSpacing: '1px' }}>
               VENUE<span className="text-accent-yellow">MIND AI</span>
             </span>
@@ -353,7 +353,7 @@ const SplashSequence = ({ onComplete }) => {
 
   return (
     <div style={{ position: 'fixed', inset: 0, zIndex: 999999, background: '#050A14', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '2rem' }}>
-      <Zap size={64} color="var(--accent-green)" style={{ animation: 'pulse 1s infinite', marginBottom: '2rem' }} />
+      <img src="/logo.jpg" alt="VenueMind Logo" style={{ width: '80px', height: '80px', borderRadius: '16px', border: '2px solid rgba(0, 200, 255, 0.3)', animation: 'pulse 1.5s infinite', marginBottom: '2rem', boxShadow: '0 0 20px rgba(0, 200, 255, 0.4)' }} />
       <div style={{ width: '100%', maxWidth: '400px', fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--accent-green)', display: 'flex', flexDirection: 'column', gap: '8px' }}>
         {logs.map((log, i) => (
           <div key={i} style={{ animation: 'slideUp 0.2s ease-out' }}>&gt; {log}</div>

@@ -172,7 +172,7 @@ const Dashboard = () => {
               <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.7rem', fontWeight: 'bold', letterSpacing: '2px', margin: 0, fontFamily: 'monospace' }}>LUSAIL STADIUM | DAY 14</p>
             </div>
             <h1 style={{ fontSize: '2.8rem', margin: '0', lineHeight: '1.05', fontWeight: '800', letterSpacing: '-0.5px', background: 'linear-gradient(135deg, #fff 60%, rgba(255,255,255,0.3))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-              Stadium <span style={{ color: 'var(--accent-yellow)', textShadow: '0 0 25px rgba(255,222,89,0.3)' }}>Portal</span>
+              VenueMind AI <span style={{ color: 'var(--accent-yellow)', textShadow: '0 0 25px rgba(255,222,89,0.3)' }}>Portal</span>
             </h1>
           </div>
           {/* AI Trigger button - designed like a scan target */}

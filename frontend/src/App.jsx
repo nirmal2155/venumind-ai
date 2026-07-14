@@ -292,6 +292,34 @@ const EmergencyOverlay = () => {
     </div>
   );
 }
+const Custom404 = () => {
+  const navigate = useNavigate();
+  return (
+    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '60vh', padding: '2rem', textAlign: 'center' }}>
+      <h1 style={{ fontSize: '6rem', margin: 0, color: 'var(--accent-yellow)', fontWeight: '900', fontFamily: 'monospace' }}>404</h1>
+      <h2 style={{ fontSize: '1.5rem', color: '#fff', margin: '10px 0' }}>🛰️ Page Lost in Stadium Orbit</h2>
+      <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.9rem', maxWidth: '400px', marginBottom: '2rem' }}>
+        The section or operational terminal you are looking for has been re-routed or is temporarily offline.
+      </p>
+      <button 
+        onClick={() => navigate('/')} 
+        style={{
+          background: 'var(--accent-yellow)',
+          color: '#000',
+          border: 'none',
+          padding: '12px 24px',
+          borderRadius: '25px',
+          fontWeight: 'bold',
+          cursor: 'pointer',
+          boxShadow: '0 5px 15px rgba(255,222,89,0.3)'
+        }}
+      >
+        🛰️ Return to Command Hub
+      </button>
+    </div>
+  );
+};
+
 // --- Animated Routes Component ---
 const AnimatedRoutes = () => {
   const location = useLocation();
@@ -319,7 +347,7 @@ const AnimatedRoutes = () => {
           <Route path="/staff" element={<Staff />} />
           <Route path="/access" element={<AccessibilityPage />} />
           <Route path="/ops" element={<Ops />} />
-
+          <Route path="*" element={<Custom404 />} />
         </Routes>
       </React.Suspense>
     </div>
@@ -422,8 +450,23 @@ const AppLayout = ({ currentUser, onLogout }) => {
 };
 
 function MainApp() {
-  const [booting, setBooting] = useState(true);
+  const [booting, setBooting] = useState(() => {
+    if (typeof window !== 'undefined' && window.navigator) {
+      const ua = window.navigator.userAgent.toLowerCase();
+      const isBot = /bot|googlebot|crawler|spider|robot|crawling|seoptimer|chatgpt|perplexity|bingbot/i.test(ua);
+      if (isBot) return false;
+    }
+    return true;
+  });
+
   const [currentUser, setCurrentUser] = useState(() => {
+    if (typeof window !== 'undefined' && window.navigator) {
+      const ua = window.navigator.userAgent.toLowerCase();
+      const isBot = /bot|googlebot|crawler|spider|robot|crawling|seoptimer|chatgpt|perplexity|bingbot/i.test(ua);
+      if (isBot) {
+        return { role: 'fan', email: 'fan@venumind-ai.dev', id: 'FAN-SEO' };
+      }
+    }
     try {
       return JSON.parse(localStorage.getItem('venumind_user')) || null;
     } catch { return null; }

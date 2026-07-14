@@ -428,8 +428,30 @@ const Concierge = () => {
            <span className="glass-card text-small" style={{ padding: '8px 16px', whiteSpace: 'nowrap', borderRadius: '16px', cursor: 'pointer', background: 'rgba(255,255,255,0.05)' }} onClick={() => sendMessage(selectedLang.code === 'hi-IN' ? "मेरा बैग खो गया है" : "I lost my bag")}>
              {selectedLang.code === 'hi-IN' ? "मेरा बैग खो गया है" : "I lost my bag 🔍"}
            </span>
+           <span className="glass-card text-small" style={{ padding: '8px 16px', whiteSpace: 'nowrap', borderRadius: '16px', cursor: 'pointer', background: 'rgba(0, 200, 255, 0.1)', border: '1px solid rgba(0, 200, 255, 0.3)', color: '#00C8FF' }} onClick={() => sendMessage("Give me real-time transport options from Lusail Stadium to Doha Downtown given the taxi loop delay is 35 minutes and Metro is active.")}>
+             🚗 Transit Advisor
+           </span>
+           <span className="glass-card text-small" style={{ padding: '8px 16px', whiteSpace: 'nowrap', borderRadius: '16px', cursor: 'pointer', background: 'rgba(43, 255, 136, 0.1)', border: '1px solid rgba(43, 255, 136, 0.3)', color: 'var(--accent-green)' }} onClick={() => sendMessage("Recalculate route from Gate B to Seat Section 204 given Gate B capacity spike (15m wait) and Gate C optimal flow.")}>
+             🗺️ Safest Path
+           </span>
+           <span className="glass-card text-small" style={{ padding: '8px 16px', whiteSpace: 'nowrap', borderRadius: '16px', cursor: 'pointer', background: 'rgba(180, 142, 255, 0.1)', border: '1px solid rgba(180, 142, 255, 0.3)', color: '#B48EFF' }} onClick={() => sendMessage("Analyze crowd density: North Gate is at 98% density, West Fan Zone is at 88%. Generate an immediate crowd control and rerouting plan.")}>
+             🚨 Dispersion Plan
+           </span>
+           <span className="glass-card text-small" style={{ padding: '8px 16px', whiteSpace: 'nowrap', borderRadius: '16px', cursor: 'pointer', background: 'rgba(255, 222, 89, 0.1)', border: '1px solid rgba(255, 222, 89, 0.3)', color: 'var(--accent-yellow)' }} onClick={() => sendMessage("Based on current crowd surge of 98% at North Gate and 88% at West Fan Zone, how should we dynamically re-allocate security stewards and volunteer medical units?")}>
+             📋 Volunteer Dispatch
+           </span>
          </div>
-          <div className="glass-card flex-row gap-3" style={{ padding: '0.5rem', borderRadius: '24px', alignItems: 'center' }}>
+          <div style={{ 
+            padding: '0.5rem', 
+            borderRadius: '24px', 
+            alignItems: 'center',
+            display: 'flex',
+            gap: '12px',
+            position: 'relative',
+            background: 'linear-gradient(rgba(18,22,33,0.9), rgba(18,22,33,0.9)) padding-box, linear-gradient(135deg, #00C8FF, #B48EFF, #2BFF88) border-box',
+            border: '2px solid transparent',
+            boxShadow: '0 8px 32px rgba(0,200,255,0.15)'
+          }}>
             <button onClick={handleVoiceClick} style={{ width: '40px', height: '40px', borderRadius: '50%', background: isRecording ? '#FF6B6B' : 'rgba(43,255,136,0.1)', border: 'none', color: isRecording ? '#FFF' : 'var(--accent-green)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', animation: isRecording ? 'pulse 1.5s infinite' : 'none' }}>
                <Mic size={20} />
             </button>

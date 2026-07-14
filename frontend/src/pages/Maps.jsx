@@ -10,6 +10,24 @@ const Maps = () => {
   // Dynamic Rerouting State
   const [routeGate, setRouteGate] = useState('GATE B');
   const [notification, setNotification] = useState(null);
+  const [navAiText, setNavAiText] = useState('');
+  const [navLoading, setNavLoading] = useState(false);
+
+  const getNavAiAdvice = async () => {
+    setNavLoading(true);
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: 'Recalculate route from Gate B to Seat Section 204 given Gate B capacity spike (15m wait) and Gate C optimal flow.' })
+      });
+      const data = await res.json();
+      setNavAiText(data.reply);
+    } catch {
+      setNavAiText('Error calculating AI routing directives.');
+    }
+    setNavLoading(false);
+  };
 
   // --- 3D Seat Preview States ---
   const [selectedSector, setSelectedSector] = useState('vip');
@@ -130,6 +148,43 @@ const Maps = () => {
               START<br/>GUIDANCE
             </button>
           </div>
+          <button
+            onClick={getNavAiAdvice}
+            disabled={navLoading}
+            style={{
+              width: '100%',
+              marginTop: '15px',
+              background: 'rgba(43, 255, 136, 0.1)',
+              border: '1px solid rgba(43, 255, 136, 0.3)',
+              color: 'var(--accent-green)',
+              padding: '10px',
+              borderRadius: '10px',
+              fontWeight: 'bold',
+              cursor: 'pointer',
+              fontSize: '0.85rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px'
+            }}
+          >
+            {navLoading ? 'Recalculating safest route...' : '🤖 Ask AI Navigator for Safest Path'}
+          </button>
+          {navAiText && (
+            <div style={{
+              marginTop: '12px',
+              background: 'rgba(43, 255, 136, 0.05)',
+              border: '1px solid rgba(43, 255, 136, 0.15)',
+              padding: '12px',
+              borderRadius: '10px',
+              fontSize: '0.85rem',
+              color: '#fff',
+              lineHeight: '1.4',
+              fontFamily: 'monospace'
+            }}>
+              {navAiText}
+            </div>
+          )}
         </div>
 
         {/* Live Heatmap Card */}

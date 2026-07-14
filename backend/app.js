@@ -162,7 +162,25 @@ app.post('/api/chat', async (req, res) => {
       // Intelligent mock response based on keywords
       const lower = message.toLowerCase();
       let reply = 'Welcome to Lusail Stadium! I am VenueMind AI. How can I assist you at the FIFA World Cup 2026?';
-      if (lower.includes('toilet') || lower.includes('bathroom') || lower.includes('restroom')) reply = '🚻 Nearest restrooms are at Gates A & D, Level 1. Accessible restrooms available at Block 208. Average wait: 2 min.';
+      
+      // New custom GenAI feature triggers
+      if (lower.includes('doha downtown') || lower.includes('transport options')) {
+        reply = '🚗 Taxi/Careem loop is heavily congested with a 35-minute delay. AI recommends taking the **Lusail Metro (Red Line)** which has active high-frequency trains running every 2.5 minutes with zero queues. Free entry with your FIFA Fan ID!';
+      } else if (lower.includes('recalculate route') || lower.includes('gate b capacity spike')) {
+        reply = '🗺️ REROUTING INSTRUCTIONS: Gate B is currently at 92% density with a 15-minute wait. Please proceed to **Gate C (2-min wait)** instead. Once inside, take Elevator 4 to Level 2 and follow Sector 200 directional arrows directly to **Section 204**. Time saved: 13 mins!';
+      } else if (lower.includes('critical surge') || lower.includes('dispersion plan')) {
+        reply = '🚨 AI CROWD CONTROL INSTRUCTIONS:\n1. North Gate is at 98% (Critical Surge). Directing digital ticket displays to reroute inbound fans to East Plaza (40%).\n2. West Fan Zone is at 88% (Busy). Dispatching 4 crowd-control volunteers and deploying barrier shield to Sector 4 Turnstiles.\n3. Activating auxiliary turnstiles at North Gate to increase flow rate by 20%.';
+      } else if (lower.includes('sensory guide') || lower.includes('sensory-sensitive')) {
+        reply = '🧘 SENSORY ASSIST PLAN:\n- **Quiet Zone:** Quiet Room 1 is located at Level 2, Block 208 (currently 8/15 capacity). Sensory Rest Zone is nearest to you at Level 1, near Gate A (3/10 capacity).\n- **Calm Path:** Proceed via Level 1 corridor avoiding the main food court noise. Noise-canceling headphones are available at First Aid Post 2.';
+      } else if (lower.includes('energy saving') || lower.includes('eco grid')) {
+        reply = '🌱 ECO OPTIMIZATION PLAN:\n1. Solar Grid harvest is highly efficient at 87% (producing 1.4MW excess energy).\n2. Optimize HVAC load: Increase thermostat from 21°C to 22.5°C in unoccupied luxury lounges to reduce grid load by 14.2%.\n3. Redirect excess solar power to concessions block battery banks to offset evening lighting peaks.';
+      } else if (lower.includes('sector 4 perimeter breach') || lower.includes('breach containment')) {
+        reply = '🛡️ AI SECURITY COMMAND ACTION PLAN:\n1. **Deploy AI Shield Barrier:** Remotely lock outer barrier gates in Sector 4 to contain overflow.\n2. **Steward Dispatch:** Deploy 6 safety stewards from Sector A to Sector 4 turnstile loop.\n3. **Drone Routing:** Route security drones 04 and 08 to broadcast verbal instructions and dispersion notices.';
+      } else if (lower.includes('resource allocation') || lower.includes('security stewards')) {
+        reply = '📋 AI RESOURCE ALLOCATION ADVICE:\n- **Security Stewards:** Move 8 stewards from South VIP (Clear, 20% load) to North Gate (Critical, 98% load) to manage queueing grids.\n- **Medical Volunteers:** Deploy 2 mobile volunteer medical teams to West Fan Zone (88% load) to establish a cooling and first-aid hub.';
+      }
+      // Classic triggers
+      else if (lower.includes('toilet') || lower.includes('bathroom') || lower.includes('restroom')) reply = '🚻 Nearest restrooms are at Gates A & D, Level 1. Accessible restrooms available at Block 208. Average wait: 2 min.';
       else if (lower.includes('seat') || lower.includes('section')) reply = '🏟️ Your seat is in Section 302, Row G, Seat 14. Take elevator to Level 3, turn right after Gate D. AI navigation is available in the Maps tab.';
       else if (lower.includes('parking') || lower.includes('car')) reply = '🅿️ Parking Zone B2 is 85% full. AI recommends Zone D (5 min walk). Shuttle runs every 8 min.';
       else if (lower.includes('security') || lower.includes('help') || lower.includes('emergency')) reply = '🚨 Security team alerted. Nearest security post is Gate B, 50m. If urgent, press the SOS button in the Accessibility tab.';

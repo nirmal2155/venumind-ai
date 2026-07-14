@@ -16,6 +16,24 @@ const Crowd = () => {
   const [alertActive, setAlertActive] = useState(false);
   const [rerouteActive, setRerouteActive] = useState(false);
   const [isSurge, setIsSurge] = useState(false);
+  const [crowdAiText, setCrowdAiText] = useState('');
+  const [crowdLoading, setCrowdLoading] = useState(false);
+
+  const getCrowdAiPlan = async () => {
+    setCrowdLoading(true);
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: 'Analyze crowd density: North Gate is at 98% density, West Fan Zone is at 88%. Generate an immediate crowd control and rerouting plan.' })
+      });
+      const data = await res.json();
+      setCrowdAiText(data.reply);
+    } catch {
+      setCrowdAiText('Error generating crowd dispersion plan.');
+    }
+    setCrowdLoading(false);
+  };
 
   // ✅ Live breathing: density fluctuates naturally every 3s
   useEffect(() => {
@@ -93,6 +111,50 @@ const Crowd = () => {
           <div style={{ fontSize: '0.65rem', color: 'var(--text-secondary)', fontFamily: 'monospace' }}>AVG STADIUM LOAD</div>
           <div style={{ fontSize: '1.3rem', fontWeight: 'bold', color: 'var(--accent-green)', marginTop: '4px' }}>{avgDensity}%</div>
         </div>
+      </div>
+
+      {/* GenAI Dispersion Strategy Advisor */}
+      <div style={{ background: 'linear-gradient(135deg, rgba(180,142,255,0.06), rgba(0,0,0,0.4))', border: '1px solid rgba(180,142,255,0.2)', borderRadius: '16px', padding: '1.25rem', marginBottom: '2rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
+          <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#B48EFF', boxShadow: '0 0 8px #B48EFF' }}></div>
+          <span style={{ fontSize: '0.7rem', color: '#B48EFF', fontWeight: 'bold', letterSpacing: '1.5px', fontFamily: 'monospace' }}>GENAI DISPERSION STRATEGY</span>
+        </div>
+        <p style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.7)', margin: '0 0 1rem 0', lineHeight: '1.4' }}>
+          Analyze active surge bottlenecks across North Gate (98%) and West Fan Zone (88%) to output tactical safety mitigation guides.
+        </p>
+        <button
+          onClick={getCrowdAiPlan}
+          disabled={crowdLoading}
+          style={{
+            width: '100%',
+            background: 'rgba(180, 142, 255, 0.1)',
+            border: '1px solid rgba(180, 142, 255, 0.3)',
+            color: '#B48EFF',
+            padding: '10px',
+            borderRadius: '8px',
+            fontWeight: 'bold',
+            cursor: 'pointer',
+            fontSize: '0.85rem'
+          }}
+        >
+          {crowdLoading ? 'Generating control directives...' : '🤖 Generate AI Dispersion Plan'}
+        </button>
+        {crowdAiText && (
+          <div style={{
+            marginTop: '12px',
+            background: 'rgba(180, 142, 255, 0.04)',
+            border: '1px solid rgba(180, 142, 255, 0.15)',
+            padding: '12px',
+            borderRadius: '10px',
+            fontSize: '0.85rem',
+            color: '#fff',
+            lineHeight: '1.4',
+            fontFamily: 'monospace',
+            whiteSpace: 'pre-wrap'
+          }}>
+            {crowdAiText}
+          </div>
+        )}
       </div>
 
       {/* Reroute Alert Banner */}

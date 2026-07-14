@@ -10,6 +10,55 @@ const Dashboard = () => {
   // Dynamic Rerouting State
   const [routeGate, setRouteGate] = useState('GATE B');
   const [notification, setNotification] = useState(null);
+  const [transitAdvisorText, setTransitAdvisorText] = useState('');
+  const [transitLoading, setTransitLoading] = useState(false);
+  const [activeSimulationPreset, setActiveSimulationPreset] = useState('Standard');
+
+  const applyPreset = (presetName) => {
+    setActiveSimulationPreset(presetName);
+    if (presetName === 'Emergency') {
+      setRouteGate('GATE C');
+      setNotification({ type: 'danger', message: '🚨 EMERGENCY ACTIVE: Gate B capacity surge. Mist fans activated, stewards redeployed.' });
+      setSystemLogs(prev => [
+        `[PRESET] Applied: Emergency Crowd Surge Mode`,
+        `[ALERT] Outer Barrier Tier 1: Sector 4 perimeter warning`,
+        ...prev.slice(0, 5)
+      ]);
+    } else if (presetName === 'Eco') {
+      setRouteGate('GATE B');
+      setNotification({ type: 'success', message: '🌱 ECO PRESET ACTIVE: Grid load reduced by 14.2%, solar optimization enabled.' });
+      setSystemLogs(prev => [
+        `[PRESET] Applied: Sustainable Eco Match Day`,
+        `[SOLAR] Grid efficiency set to optimum 87%`,
+        ...prev.slice(0, 5)
+      ]);
+    } else {
+      setRouteGate('GATE B');
+      setNotification({ type: 'success', message: '⚽ Standard Mode: इसके तहत पूरा स्टेडियम सामान्य रूप से संचालित होता है और एआई सोलर ग्रिड 87% दक्षता पर काम करता है।' });
+      setSystemLogs(prev => [
+        `[PRESET] Applied: Standard Tournament Mode`,
+        `[SYS_INFO] Uptime normal, 98.4% system reliability`,
+        ...prev.slice(0, 5)
+      ]);
+    }
+  };
+
+  const consultTransitAdvisor = async () => {
+    setTransitLoading(true);
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: 'Give me real-time transport options from Lusail Stadium to Doha Downtown given the taxi loop delay is 35 minutes and Metro is active.' })
+      });
+      const data = await res.json();
+      setTransitAdvisorText(data.reply);
+    } catch {
+      setTransitAdvisorText('Error connecting to GenAI transit node.');
+    }
+    setTransitLoading(false);
+  };
+
   const [systemLogs, setSystemLogs] = useState([
     "SYS_INIT: VenueMind Core Kernel v1.3.0 loaded",
     "NETWORK: Encrypted connection to Lusail Grid established",
@@ -144,6 +193,41 @@ const Dashboard = () => {
             }}>
             <Target size={22} color="var(--accent-yellow)" />
           </button>
+        </div>
+
+        {/* GenAI Simulator Preset Selector */}
+        <div style={{
+          display: 'flex',
+          gap: '10px',
+          overflowX: 'auto',
+          paddingBottom: '1rem',
+          scrollbarWidth: 'none',
+          marginBottom: '1rem'
+        }}>
+          {[
+            { id: 'Standard', label: '⚽ Standard Mode', color: 'var(--accent-green)' },
+            { id: 'Emergency', label: '🚨 Crowd Surge Mode', color: '#ff4b4b' },
+            { id: 'Eco', label: '🌱 Eco Match Mode', color: '#00c8ff' }
+          ].map(preset => (
+            <button
+              key={preset.id}
+              onClick={() => applyPreset(preset.id)}
+              style={{
+                background: activeSimulationPreset === preset.id ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.02)',
+                border: `1px solid ${activeSimulationPreset === preset.id ? preset.color : 'rgba(255,255,255,0.08)'}`,
+                color: activeSimulationPreset === preset.id ? preset.color : 'var(--text-secondary)',
+                borderRadius: '12px',
+                padding: '8px 16px',
+                fontSize: '0.8rem',
+                fontWeight: 'bold',
+                cursor: 'pointer',
+                whiteSpace: 'nowrap',
+                transition: 'all 0.3s'
+              }}
+            >
+              {preset.label}
+            </button>
+          ))}
         </div>
 
         {/* ⏱️ Match Kickoff Countdown HUD Card */}
@@ -551,6 +635,43 @@ const Dashboard = () => {
               <div style={{ fontSize: '0.95rem', color: 'var(--accent-yellow)', fontWeight: 'bold', fontFamily: 'monospace' }}>8m Wait (Normal)</div>
             </div>
           </div>
+          <button 
+            onClick={consultTransitAdvisor} 
+            disabled={transitLoading}
+            style={{
+              width: '100%',
+              marginTop: '15px',
+              background: 'rgba(0, 200, 255, 0.1)',
+              border: '1px solid rgba(0, 200, 255, 0.3)',
+              color: '#00C8FF',
+              padding: '10px',
+              borderRadius: '10px',
+              fontWeight: 'bold',
+              cursor: 'pointer',
+              fontSize: '0.85rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px'
+            }}
+          >
+            {transitLoading ? 'Analyzing Options...' : '🤖 Consult GenAI Transit Advisor'}
+          </button>
+          {transitAdvisorText && (
+            <div style={{
+              marginTop: '12px',
+              background: 'rgba(0, 200, 255, 0.05)',
+              border: '1px solid rgba(0, 200, 255, 0.15)',
+              padding: '12px',
+              borderRadius: '10px',
+              fontSize: '0.85rem',
+              color: '#fff',
+              lineHeight: '1.4',
+              fontFamily: 'monospace'
+            }}>
+              {transitAdvisorText}
+            </div>
+          )}
         </div>
 
       </div>

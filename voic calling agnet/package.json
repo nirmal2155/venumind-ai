@@ -1,0 +1,21 @@
+{
+  "name": "gemini-voice-calling-agent",
+  "version": "1.0.0",
+  "description": "Real-time Voice Calling Agent using Gemini Multimodal Live API",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "gemini",
+    "voice-agent",
+    "websocket",
+    "pcm",
+    "web-audio"
+  ],
+  "author": "Antigravity Pair Programmer",
+  "license": "MIT",
+  "dependencies": {
+    "ws": "^8.21.0"
+  }
+}

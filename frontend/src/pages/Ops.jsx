@@ -37,6 +37,43 @@ const Ops = () => {
   const [outerTierStatus, setOuterTierStatus] = useState('SECURE');
   const [isHydrationDispatched, setIsHydrationDispatched] = useState(false);
   const [turnstileTemp, setTurnstileTemp] = useState(39);
+  const [ecoAiText, setEcoAiText] = useState('');
+  const [ecoLoading, setEcoLoading] = useState(false);
+  
+  const [breachAiText, setBreachAiText] = useState('');
+  const [breachLoading, setBreachLoading] = useState(false);
+
+  const getEcoAiAdvice = async () => {
+    setEcoLoading(true);
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: 'Provide energy saving recommendations for Lusail Stadium with solar harvest efficiency at 87% and HVAC running at 21 degrees.' })
+      });
+      const data = await res.json();
+      setEcoAiText(data.reply);
+    } catch {
+      setEcoAiText('Error generating eco-saving directives.');
+    }
+    setEcoLoading(false);
+  };
+
+  const getBreachAiPlan = async () => {
+    setBreachLoading(true);
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: 'Sector 4 outer barrier has been breached by crowd overflow. Provide tactical containment steps.' })
+      });
+      const data = await res.json();
+      setBreachAiText(data.reply);
+    } catch {
+      setBreachAiText('Error generating emergency action steps.');
+    }
+    setBreachLoading(false);
+  };
 
   const triggerBreachSimulation = () => {
     setOuterTierStatus('BREACH');
@@ -204,6 +241,18 @@ const Ops = () => {
               </div>
             </div>
           </div>
+          <button 
+            onClick={getEcoAiAdvice} 
+            disabled={ecoLoading}
+            style={{ width: '100%', marginTop: '12px', background: 'rgba(43,255,136,0.1)', border: '1px solid rgba(43,255,136,0.3)', color: 'var(--accent-green)', padding: '10px', borderRadius: '8px', fontWeight: 'bold', fontSize: '0.8rem', cursor: 'pointer' }}
+          >
+            {ecoLoading ? 'Running Grid Optimization...' : '🤖 Run GenAI Eco Grid Optimization'}
+          </button>
+          {ecoAiText && (
+            <div style={{ marginTop: '10px', background: 'rgba(43,255,136,0.04)', border: '1px solid rgba(43,255,136,0.15)', padding: '10px', borderRadius: '8px', fontSize: '0.8rem', color: '#fff', fontFamily: 'monospace', whiteSpace: 'pre-wrap' }}>
+              {ecoAiText}
+            </div>
+          )}
         </div>
       </div>
 
@@ -301,6 +350,46 @@ const Ops = () => {
               <AlertTriangle size={14} /> SIMULATE COPA-STYLE SURGE BREACH
             </button>
           )}
+
+          {/* AI Emergency Incident commander block */}
+          <div style={{ margin: '1rem 0' }}>
+            <button
+              onClick={getBreachAiPlan}
+              disabled={breachLoading}
+              style={{
+                width: '100%',
+                background: 'rgba(255, 75, 75, 0.1)',
+                border: '1px solid rgba(255, 75, 75, 0.3)',
+                color: '#FF4B4B',
+                padding: '10px',
+                borderRadius: '10px',
+                fontWeight: 'bold',
+                cursor: 'pointer',
+                fontSize: '0.85rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px'
+              }}
+            >
+              {breachLoading ? 'Formulating tactical directives...' : '🤖 Generate AI Breach Containment Plan'}
+            </button>
+            {breachAiText && (
+              <div style={{
+                marginTop: '10px',
+                background: 'rgba(255, 75, 75, 0.04)',
+                border: '1px solid rgba(255, 75, 75, 0.15)',
+                padding: '10px',
+                borderRadius: '8px',
+                fontSize: '0.8rem',
+                color: '#fff',
+                fontFamily: 'monospace',
+                whiteSpace: 'pre-wrap'
+              }}>
+                {breachAiText}
+              </div>
+            )}
+          </div>
 
           {/* Thermal/Hydration Dispatcher Panel */}
           <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '1rem', display: 'flex', flexDirection: 'column', gap: '10px' }}>

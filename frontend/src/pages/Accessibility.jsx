@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Accessibility as AccessibilityIcon, Eye, Volume2, MapPin, Heart, Phone, Navigation, CheckCircle2 } from 'lucide-react';
+import { Accessibility as AccessibilityIcon, Eye, Volume2, MapPin, Heart, Navigation } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const ACCESSIBLE_ZONES = [
@@ -21,7 +21,50 @@ const Accessibility = () => {
   const [largeText, setLargeText] = useState(false);
   const [audioGuide, setAudioGuide] = useState(false);
   const [sosTriggered, setSosTriggered] = useState(false);
+  const [sosLoading, setSosLoading] = useState(false);
+  const [sosDetails, setSosDetails] = useState(null);
+
+  const triggerSos = () => {
+    setSosLoading(true);
+    setSosTriggered(true);
+    setSosDetails(null);
+    setTimeout(() => {
+      setSosDetails({
+        location: 'Level 1, Section 104, Row K, Seat 12',
+        guard: 'Security Officer Marcus (20m - Gate A Corridor)',
+        ambulance: 'Medical Unit 3 (80m - Gate A Bay)',
+        route: 'Reroute via Gate C corridor (Sector 4 bypass)'
+      });
+      setSosLoading(false);
+    }, 1500);
+  };
+
+  const cancelSos = () => {
+    setSosTriggered(false);
+    setSosDetails(null);
+    setSosLoading(false);
+  };
+
   const [selectedRoute, setSelectedRoute] = useState(null);
+  const [accessAiText, setAccessAiText] = useState('');
+  const [accessLoading, setAccessLoading] = useState(false);
+
+  const getAccessibilityAiGuide = async () => {
+    setAccessLoading(true);
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: 'Give a sensory guide and calm routing recommendations for a sensory-sensitive fan near Gate A at Level 1, closest quiet zones.' })
+      });
+      const data = await res.json();
+      setAccessAiText(data.reply);
+    } catch {
+      setAccessAiText('Error generating sensory calming routing directives.');
+    }
+    setAccessLoading(false);
+  };
+
   const fontSize = largeText ? '1.05rem' : '0.9rem';
 
   return (
@@ -40,20 +83,102 @@ const Accessibility = () => {
         <p style={{ color: 'var(--text-secondary)', margin: 0, lineHeight: '1.5' }}>AI-powered accessibility services for every fan at Lusail Stadium.</p>
       </div>
 
-      {/* SOS Emergency Assistance Button */}
-      <button
-        onClick={() => setSosTriggered(true)}
-        style={{ width: '100%', padding: '1rem', borderRadius: '14px', background: sosTriggered ? 'rgba(43,255,136,0.1)' : 'rgba(255,75,75,0.15)', border: `2px solid ${sosTriggered ? 'var(--accent-green)' : '#FF4B4B'}`, color: sosTriggered ? 'var(--accent-green)' : '#FF4B4B', fontWeight: '900', fontSize: largeText ? '1.1rem' : '0.95rem', letterSpacing: '1px', cursor: 'pointer', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', transition: 'all 0.3s' }}>
-        {sosTriggered ? <CheckCircle2 size={22} /> : <Phone size={22} />}
-        {sosTriggered ? 'Help is On the Way! (ETA: 2 min)' : '🆘 Request Accessibility Assistance'}
-      </button>
-      {sosTriggered && (
+      {/* 🚨 AI Emergency SOS Block */}
+      <div style={{ marginBottom: '1.5rem' }}>
         <button
-          onClick={() => setSosTriggered(false)}
-          style={{ width: '100%', padding: '8px', borderRadius: '10px', background: 'transparent', border: '1px solid rgba(255,255,255,0.1)', color: 'var(--text-secondary)', fontWeight: '600', fontSize: '0.8rem', cursor: 'pointer', marginTop: '-8px', marginBottom: '1.5rem' }}>
-          Cancel Request
+          onClick={triggerSos}
+          style={{
+            width: '100%',
+            padding: '1.25rem',
+            borderRadius: '16px',
+            background: sosTriggered ? 'rgba(255, 75, 75, 0.1)' : '#FF4B4B',
+            border: '2px solid #FF4B4B',
+            color: sosTriggered ? '#FF4B4B' : '#fff',
+            fontWeight: '900',
+            fontSize: largeText ? '1.2rem' : '1.05rem',
+            letterSpacing: '1px',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '12px',
+            boxShadow: sosTriggered ? 'none' : '0 8px 24px rgba(255,75,75,0.3)',
+            transition: 'all 0.3s'
+          }}
+        >
+          <span>🆘</span> {sosTriggered ? 'AI EMERGENCY SOS ACTIVE' : 'AI EMERGENCY HELP / SOS'}
         </button>
-      )}
+
+        {sosTriggered && (
+          <div style={{
+            marginTop: '12px',
+            background: 'rgba(255, 75, 75, 0.05)',
+            border: '1px solid rgba(255, 75, 75, 0.3)',
+            borderRadius: '16px',
+            padding: '1.25rem',
+            boxShadow: '0 8px 32px rgba(255,75,75,0.1)'
+          }}>
+            {sosLoading ? (
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', padding: '1rem' }}>
+                <div style={{ width: '32px', height: '32px', border: '3px solid rgba(255,75,75,0.1)', borderTopColor: '#FF4B4B', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
+                <div style={{ fontSize: '0.85rem', color: '#FF4B4B', fontWeight: 'bold', fontFamily: 'monospace' }}>
+                  🚨 AI Locating & Dispatching emergency systems...
+                </div>
+              </div>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <div style={{ fontSize: '0.9rem', color: '#FF4B4B', fontWeight: 'bold', borderBottom: '1px solid rgba(255,75,75,0.2)', paddingBottom: '6px' }}>
+                  🚨 AI DISPATCHED: Help arriving in 2 mins
+                </div>
+                
+                <div style={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '8px 12px', alignItems: 'center', fontSize: '0.9rem' }}>
+                  <span style={{ fontSize: '1.1rem' }}>📍</span>
+                  <div>
+                    <span style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', display: 'block' }}>EXACT LOCATION</span>
+                    <strong style={{ color: '#fff' }}>{sosDetails?.location}</strong>
+                  </div>
+
+                  <span style={{ fontSize: '1.1rem' }}>🛡️</span>
+                  <div>
+                    <span style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', display: 'block' }}>NEAREST GUARD</span>
+                    <strong style={{ color: '#fff' }}>{sosDetails?.guard}</strong>
+                  </div>
+
+                  <span style={{ fontSize: '1.1rem' }}>🚑</span>
+                  <div>
+                    <span style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', display: 'block' }}>NEAREST AMBULANCE</span>
+                    <strong style={{ color: '#fff' }}>{sosDetails?.ambulance}</strong>
+                  </div>
+
+                  <span style={{ fontSize: '1.1rem' }}>🗺️</span>
+                  <div>
+                    <span style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', display: 'block' }}>SHORTEST SAFE ROUTE</span>
+                    <strong style={{ color: '#FF4B4B' }}>{sosDetails?.route}</strong>
+                  </div>
+                </div>
+
+                <button
+                  onClick={cancelSos}
+                  style={{
+                    marginTop: '8px',
+                    width: '100%',
+                    padding: '8px',
+                    borderRadius: '8px',
+                    background: 'transparent',
+                    border: '1px solid rgba(255,255,255,0.15)',
+                    color: 'var(--text-secondary)',
+                    fontWeight: 'bold',
+                    fontSize: '0.8rem',
+                    cursor: 'pointer'
+                  }}
+                >
+                  Cancel Request / Reset SOS
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
       {/* Visual Accessibility Controls */}
       <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', padding: '1.25rem', marginBottom: '1.5rem' }}>
         <h3 style={{ margin: '0 0 14px 0', fontSize: '0.8rem', letterSpacing: '2px', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -75,6 +200,49 @@ const Accessibility = () => {
             </button>
           </div>
         ))}
+      </div>
+
+      {/* GenAI Sensory rest & Calm path advisor */}
+      <div style={{ background: 'linear-gradient(135deg, rgba(0,200,255,0.06), rgba(0,0,0,0.4))', border: '1px solid rgba(0,200,255,0.2)', borderRadius: '16px', padding: '1.25rem', marginBottom: '1.5rem' }}>
+        <h3 style={{ margin: '0 0 10px 0', fontSize: '0.8rem', letterSpacing: '2px', color: '#00C8FF', display: 'flex', alignItems: 'center', gap: '6px' }}>
+          🧘 AI SENSORY GUIDE COORDINATOR
+        </h3>
+        <p style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.7)', margin: '0 0 12px 0', lineHeight: '1.4' }}>
+          Generate quiet path mapping and sensory resting advice for neurodivergent or sensory-sensitive fans.
+        </p>
+        <button
+          onClick={getAccessibilityAiGuide}
+          disabled={accessLoading}
+          style={{
+            width: '100%',
+            background: 'rgba(0, 200, 255, 0.1)',
+            border: '1px solid rgba(0, 200, 255, 0.3)',
+            color: '#00C8FF',
+            padding: '10px',
+            borderRadius: '8px',
+            fontWeight: 'bold',
+            cursor: 'pointer',
+            fontSize: '0.85rem'
+          }}
+        >
+          {accessLoading ? 'Coordinating sensory rest...' : '🤖 AI Sensory Guide Coordinator'}
+        </button>
+        {accessAiText && (
+          <div style={{
+            marginTop: '12px',
+            background: 'rgba(0, 200, 255, 0.04)',
+            border: '1px solid rgba(0, 200, 255, 0.15)',
+            padding: '12px',
+            borderRadius: '10px',
+            fontSize: '0.85rem',
+            color: '#fff',
+            lineHeight: '1.4',
+            fontFamily: 'monospace',
+            whiteSpace: 'pre-wrap'
+          }}>
+            {accessAiText}
+          </div>
+        )}
       </div>
 
       {/* Wheelchair Accessible Routes */}

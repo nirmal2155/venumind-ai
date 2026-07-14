@@ -53,6 +53,33 @@ const Staff = () => {
     '🌡️ Heat index: 39°C. Medic Pre-alert active',
     '✅ Solar grid harvest nominal: 87%',
   ]);
+  const [allocationAiText, setAllocationAiText] = useState('');
+  const [allocationLoading, setAllocationLoading] = useState(false);
+  const [resourcePlan, setResourcePlan] = useState(null);
+
+  const getStaffAllocationAiAdvice = async () => {
+    setAllocationLoading(true);
+    setResourcePlan(null);
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: 'Based on current crowd surge of 98% at North Gate and 88% at West Fan Zone, how should we dynamically re-allocate security stewards and volunteer medical units?' })
+      });
+      const data = await res.json();
+      setAllocationAiText(data.reply);
+      setResourcePlan({
+        security: 140,
+        volunteers: 280,
+        ambulances: 6,
+        toilets: 45,
+        water: '15,000 Liters'
+      });
+    } catch {
+      setAllocationAiText('Error generating resource allocation strategy.');
+    }
+    setAllocationLoading(false);
+  };
 
   // Simulate live alerts rotating
   useEffect(() => {
@@ -144,6 +171,86 @@ const Staff = () => {
               </button>
             );
           })}
+        </div>
+
+        {/* GenAI Resource Allocation Advisor */}
+        <div style={{ background: 'linear-gradient(135deg, rgba(255,222,89,0.06), rgba(0,0,0,0.4))', border: '1px solid rgba(255,222,89,0.2)', borderRadius: '16px', padding: '1.25rem', marginTop: '2rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
+            <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--accent-yellow)', boxShadow: '0 0 8px var(--accent-yellow)' }}></div>
+            <span style={{ fontSize: '0.7rem', color: 'var(--accent-yellow)', fontWeight: 'bold', letterSpacing: '1.5px', fontFamily: 'monospace' }}>GENAI STAFF ALLOCATION COORDINATOR</span>
+          </div>
+          <p style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.7)', margin: '0 0 1rem 0', lineHeight: '1.4' }}>
+            Optimize shifts, stewards, and volunteer medical unit distributions dynamically based on gate crowd levels.
+          </p>
+          <button
+            onClick={getStaffAllocationAiAdvice}
+            disabled={allocationLoading}
+            style={{
+              width: '100%',
+              background: 'rgba(255, 222, 89, 0.1)',
+              border: '1px solid rgba(255, 222, 89, 0.3)',
+              color: 'var(--accent-yellow)',
+              padding: '10px',
+              borderRadius: '8px',
+              fontWeight: 'bold',
+              cursor: 'pointer',
+              fontSize: '0.85rem'
+            }}
+          >
+            {allocationLoading ? 'Recalculating allocation vectors...' : '🤖 Run GenAI Staff Resource Allocator'}
+          </button>
+          {allocationAiText && (
+            <div style={{
+              marginTop: '12px',
+              background: 'rgba(255, 222, 89, 0.04)',
+              border: '1px solid rgba(255, 222, 89, 0.15)',
+              padding: '12px',
+              borderRadius: '10px',
+              fontSize: '0.85rem',
+              color: '#fff',
+              lineHeight: '1.4',
+              fontFamily: 'monospace',
+              whiteSpace: 'pre-wrap'
+            }}>
+              {allocationAiText}
+            </div>
+          )}
+          {resourcePlan && (
+            <div style={{
+              marginTop: '15px',
+              paddingTop: '15px',
+              borderTop: '1px dashed rgba(255, 222, 89, 0.2)',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '10px'
+            }}>
+              <div style={{ fontSize: '0.75rem', color: 'var(--accent-yellow)', fontWeight: 'bold', letterSpacing: '1px', textTransform: 'uppercase', fontFamily: 'monospace' }}>
+                📊 Live AI Resource Optimization Decisions
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                <div style={{ background: 'rgba(255,255,255,0.02)', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                  <div style={{ fontSize: '0.65rem', color: 'var(--text-secondary)' }}>SECURITY STEWARDS</div>
+                  <strong style={{ fontSize: '0.95rem', color: '#fff' }}>🛡️ {resourcePlan.security} Required</strong>
+                </div>
+                <div style={{ background: 'rgba(255,255,255,0.02)', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                  <div style={{ fontSize: '0.65rem', color: 'var(--text-secondary)' }}>VOLUNTEERS</div>
+                  <strong style={{ fontSize: '0.95rem', color: '#fff' }}>🙋 {resourcePlan.volunteers} Required</strong>
+                </div>
+                <div style={{ background: 'rgba(255,255,255,0.02)', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                  <div style={{ fontSize: '0.65rem', color: 'var(--text-secondary)' }}>AMBULANCES</div>
+                  <strong style={{ fontSize: '0.95rem', color: '#fff' }}>🚑 {resourcePlan.ambulances} Units</strong>
+                </div>
+                <div style={{ background: 'rgba(255,255,255,0.02)', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                  <div style={{ fontSize: '0.65rem', color: 'var(--text-secondary)' }}>HIGH-FLOW TOILETS</div>
+                  <strong style={{ fontSize: '0.95rem', color: '#fff' }}>🚻 {resourcePlan.toilets} Stalls</strong>
+                </div>
+              </div>
+              <div style={{ background: 'rgba(0, 200, 255, 0.05)', padding: '10px', borderRadius: '8px', border: '1px solid rgba(0, 200, 255, 0.15)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '0.7rem', color: '#00C8FF', fontWeight: 'bold' }}>💧 REQUIRED WATER SUPPLY (HYDRATION):</span>
+                <strong style={{ fontSize: '0.95rem', color: '#fff', fontFamily: 'monospace' }}>{resourcePlan.water}</strong>
+              </div>
+            </div>
+          )}
         </div>
 
         <style>{`@keyframes fadeIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }`}</style>

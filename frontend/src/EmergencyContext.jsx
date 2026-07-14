@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 /**
  * @fileoverview Emergency Context Provider with Offline State Persistence
  * @description Manages stadium-wide emergency broadcast state using React Context.

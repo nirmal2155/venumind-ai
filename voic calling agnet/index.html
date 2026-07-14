@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VenuMind AI - Voice Calling Agent</title>
+  
+  <!-- Modern Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="glass-bg"></div>
+  <div class="glow-orb" id="orb-left"></div>
+  <div class="glow-orb" id="orb-right"></div>
+
+  <main class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="logo">
+        <span class="logo-symbol">✦</span>
+        <h1>VenuMind <span class="accent-text">AI</span></h1>
+      </div>
+      
+      <!-- Mode Selection Tabs -->
+      <nav class="mode-tabs">
+        <button id="tab-browser" class="tab-btn active">🌐 Browser Mode</button>
+        <button id="tab-phone" class="tab-btn">📞 Phone Call Mode</button>
+        <button id="tab-bulk" class="tab-btn">📢 Bulk Campaign</button>
+      </nav>
+
+      <button id="toggle-settings-btn" class="icon-btn" title="Toggle Configuration">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+      </button>
+    </header>
+
+    <!-- Main Workspace Grid -->
+    <div class="workspace-grid">
+      
+      <!-- Configuration Panel -->
+      <section id="settings-panel" class="settings-card glass-panel">
+        <div class="card-header">
+          <h2>Configuration</h2>
+        </div>
+        
+        <!-- BROWSER MODE INPUTS -->
+        <div id="browser-config-fields">
+          <div class="form-group">
+            <label for="provider-select">Model Provider</label>
+            <select id="provider-select">
+              <option value="ollama" selected>Local Ollama (100% Free)</option>
+              <option value="groq">Groq Cloud (Free Tier)</option>
+              <option value="huggingface">Hugging Face (Free Tier)</option>
+            </select>
+          </div>
+
+          <div class="form-group" id="provider-key-group" style="display: none;">
+            <label id="provider-key-label" for="provider-key-input">Provider API Key</label>
+            <div class="input-wrapper">
+              <input type="password" id="provider-key-input" placeholder="Paste API Key here..." autocomplete="off">
+              <button id="toggle-api-key-btn" class="field-btn" type="button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+              </button>
+            </div>
+            <span class="helper-text" id="provider-key-helper">Not required for local Ollama.</span>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="browser-model-select">LLM Model</label>
+              <select id="browser-model-select">
+                <option value="qwen2.5:1.5b" selected>Qwen 2.5 1.5B (Fast)</option>
+                <option value="llama3:8b">Llama 3 8B</option>
+                <option value="mistral">Mistral</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="browser-voice-select">System Text Voice</label>
+              <select id="browser-voice-select">
+                <!-- Dynamically populated via SpeechSynthesis -->
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- PHONE MODE INPUTS (Twilio + Gemini) -->
+        <div id="phone-config-fields" style="display: none;">
+          <div class="form-group">
+            <label for="gemini-key-input">Gemini API Key</label>
+            <div class="input-wrapper">
+              <input type="password" id="gemini-key-input" placeholder="AIzaSy..." autocomplete="off">
+            </div>
+            <span class="helper-text">Get a free key from <a href="https://aistudio.google.com/" target="_blank">Google AI Studio</a>.</span>
+          </div>
+
+          <div class="form-group">
+            <label for="target-phone-input">Indian Phone Number (To Call)</label>
+            <input type="text" id="target-phone-input" placeholder="e.g. +919876543210">
+            <span class="helper-text">Enter target number including +91 country code.</span>
+          </div>
+
+          <div class="form-group">
+            <label for="public-url-input">Public Server URL (ngrok)</label>
+            <input type="text" id="public-url-input" placeholder="https://xxxx-xxxx.ngrok-free.app">
+            <span class="helper-text">Copy your ngrok tunnel URL (starts with https://).</span>
+          </div>
+
+          <fieldset class="config-fieldset">
+            <legend>Twilio Settings</legend>
+            <div class="form-group">
+              <label for="twilio-sid-input">Twilio Account SID</label>
+              <input type="text" id="twilio-sid-input" placeholder="AC...">
+            </div>
+            <div class="form-group">
+              <label for="twilio-token-input">Twilio Auth Token</label>
+              <input type="password" id="twilio-token-input" placeholder="Auth Token">
+            </div>
+            <div class="form-group">
+              <label for="twilio-number-input">Twilio Phone Number</label>
+              <input type="text" id="twilio-number-input" placeholder="e.g. +1877XXXXXXX">
+            </div>
+          </fieldset>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="phone-model-select">Gemini Model</label>
+              <select id="phone-model-select">
+                <option value="models/gemini-2.0-flash" selected>Gemini 2.0 Flash</option>
+                <option value="models/gemini-2.0-flash-exp">Gemini 2.0 Flash Exp</option>
+                <option value="models/gemini-2.5-flash">Gemini 2.5 Flash</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="phone-voice-select">Agent Live Voice</label>
+              <select id="phone-voice-select">
+                <option value="Fenrir" selected>Fenrir (Warm)</option>
+                <option value="Puck">Puck (Friendly)</option>
+                <option value="Charon">Charon (Deep)</option>
+                <option value="Kore">Kore (Neutral)</option>
+                <option value="Aoede">Aoede (Bright)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- BULK MODE INPUTS (Twilio Outbound Campaign) -->
+        <div id="bulk-config-fields" style="display: none;">
+          <div class="form-group">
+            <label for="bulk-gemini-key-input">Gemini API Key</label>
+            <div class="input-wrapper">
+              <input type="password" id="bulk-gemini-key-input" placeholder="AIzaSy..." autocomplete="off">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="bulk-numbers-input">Target Numbers List (1000+ support)</label>
+            <textarea id="bulk-numbers-input" rows="5" placeholder="Enter Indian numbers, one per line or comma-separated:&#10;+919876543210&#10;+919876543211"></textarea>
+            <span class="helper-text">Enter E.164 formats, country-code first.</span>
+          </div>
+
+          <div class="form-group">
+            <label for="bulk-public-url-input">Public Server URL (ngrok)</label>
+            <input type="text" id="bulk-public-url-input" placeholder="https://xxxx-xxxx.ngrok-free.app">
+          </div>
+
+          <fieldset class="config-fieldset">
+            <legend>Twilio Settings</legend>
+            <div class="form-group">
+              <label for="bulk-twilio-sid-input">Twilio Account SID</label>
+              <input type="text" id="bulk-twilio-sid-input" placeholder="AC...">
+            </div>
+            <div class="form-group">
+              <label for="bulk-twilio-token-input">Twilio Auth Token</label>
+              <input type="password" id="bulk-twilio-token-input" placeholder="Auth Token">
+            </div>
+            <div class="form-group">
+              <label for="bulk-twilio-number-input">Twilio Phone Number</label>
+              <input type="text" id="bulk-twilio-number-input" placeholder="e.g. +1877XXXXXXX">
+            </div>
+          </fieldset>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="bulk-concurrency-select">Concurrency Limit</label>
+              <select id="bulk-concurrency-select">
+                <option value="5" selected>5 Concurrent Calls</option>
+                <option value="10">10 Concurrent Calls</option>
+                <option value="25">25 Concurrent Calls</option>
+                <option value="50">50 Concurrent Calls</option>
+                <option value="100">100 Concurrent Calls</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="bulk-voice-select">Agent Live Voice</label>
+              <select id="bulk-voice-select">
+                <option value="Fenrir" selected>Fenrir (Warm)</option>
+                <option value="Puck">Puck (Friendly)</option>
+                <option value="Charon">Charon (Deep)</option>
+                <option value="Kore">Kore (Neutral)</option>
+                <option value="Aoede">Aoede (Bright)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- SHARED PROMPT -->
+        <div class="form-group">
+          <label for="system-instruction-input">System Instructions (Agent Personality)</label>
+          <textarea id="system-instruction-input" rows="4">You are a helpful, friendly, and concise AI voice assistant. Speak naturally, keeping responses concise (1-3 sentences) so the conversation flows easily like a phone call.</textarea>
+        </div>
+
+        <!-- DEVELOPER API DOCUMENTATION -->
+        <div class="api-docs-section">
+          <div class="api-docs-header" id="api-docs-toggle">
+            <h3>🛠 Developer API Docs</h3>
+            <span class="arrow-icon">▼</span>
+          </div>
+          
+          <div class="api-docs-content" id="api-docs-content" style="display: none;">
+            <div class="form-group" style="margin-top: 12px; gap: 4px;">
+              <label>API Authorization Token</label>
+              <div class="token-container">
+                <code id="api-token-display">vm_token_secure_987654</code>
+                <button class="action-link-btn" id="copy-token-btn" style="padding: 2px 8px; font-size: 11px;">Copy</button>
+              </div>
+            </div>
+
+            <!-- API Action Selector -->
+            <div class="form-group" style="margin-top: 12px; gap: 4px;">
+              <label for="api-action-select">API Endpoint Action</label>
+              <select id="api-action-select">
+                <option value="call" selected>POST /api/v1/call (Trigger Call)</option>
+                <option value="list">GET /api/v1/calls (List Logs)</option>
+                <option value="transcript">GET /api/v1/calls?callSid=... (Get Transcript)</option>
+                <option value="hangup">POST /api/v1/calls/terminate (Hang up Call)</option>
+              </select>
+            </div>
+
+            <!-- API Code Tabs -->
+            <div class="api-tabs">
+              <button class="api-tab-btn active" data-api-tab="curl">cURL</button>
+              <button class="api-tab-btn" data-api-tab="python">Python</button>
+              <button class="api-tab-btn" data-api-tab="node">Node.js</button>
+            </div>
+
+            <div class="api-tab-content">
+              <!-- cURL Snippet -->
+              <pre id="snippet-curl" class="snippet-code"><code></code></pre>
+              
+              <!-- Python Snippet -->
+              <pre id="snippet-python" class="snippet-code" style="display: none;"><code></code></pre>
+
+              <!-- Node.js Snippet -->
+              <pre id="snippet-node" class="snippet-code" style="display: none;"><code></code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Center Visualization Panel -->
+      <section class="visualizer-card glass-panel">
+        
+        <!-- SINGLE CALL VISUALIZER STAGE -->
+        <div class="visualizer-container" id="single-call-stage">
+          <div class="status-container">
+            <span class="status-indicator-dot disconnected" id="status-dot"></span>
+            <span class="status-text" id="status-label">Disconnected</span>
+          </div>
+
+          <!-- Pulsating Wave Visualizer -->
+          <div class="visualizer-stage">
+            <canvas id="visualizer-canvas"></canvas>
+            <div class="orb-backdrop" id="orb-stage"></div>
+          </div>
+
+          <!-- Controls Section -->
+          <div class="controls-panel">
+            <button id="connect-btn" class="btn btn-primary">
+              <span class="btn-icon">⚡</span>
+              <span class="btn-text" id="connect-btn-text">Connect Session</span>
+            </button>
+            
+            <button id="mute-btn" class="btn btn-secondary btn-icon-only disabled" disabled title="Mute Microphone">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mic" id="mic-icon"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- BULK CALLING CAMPAIGN STAGE -->
+        <div class="bulk-campaign-container" id="bulk-call-stage" style="display: none; width: 100%; height: 100%;">
+          <div class="card-header" style="border: none; padding: 0 0 20px 0;">
+            <h2>Campaign Monitor</h2>
+            <span class="header-tag" id="campaign-status-tag">Inactive</span>
+          </div>
+          
+          <!-- Progress Stats Panel -->
+          <div class="progress-container-card">
+            <div class="progress-bar-labels">
+              <span>Campaign Progress</span>
+              <span id="bulk-progress-percent">0%</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill" id="bulk-progress-bar-fill"></div>
+            </div>
+          </div>
+
+          <!-- Numerical Counters Grid -->
+          <div class="bulk-stats-grid">
+            <div class="bulk-stat-box queued">
+              <span class="stat-num" id="stat-bulk-queued">0</span>
+              <span class="stat-label">Queued</span>
+            </div>
+            <div class="bulk-stat-box active">
+              <span class="stat-num" id="stat-bulk-active">0</span>
+              <span class="stat-label">Active</span>
+            </div>
+            <div class="bulk-stat-box completed">
+              <span class="stat-num" id="stat-bulk-completed">0</span>
+              <span class="stat-label">Completed</span>
+            </div>
+            <div class="bulk-stat-box failed">
+              <span class="stat-num" id="stat-bulk-failed">0</span>
+              <span class="stat-label">Failed</span>
+            </div>
+          </div>
+
+          <!-- Campaign Actions -->
+          <div class="controls-panel" style="margin-top: 36px;">
+            <button id="bulk-start-btn" class="btn btn-primary">
+              <span class="btn-icon">▶</span>
+              <span class="btn-text">Start Campaign</span>
+            </button>
+            <button id="bulk-stop-btn" class="btn btn-secondary disabled" disabled>
+              <span class="btn-icon">⏸</span>
+              <span class="btn-text">Pause Campaign</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Live Transcript Panel -->
+      <section class="transcript-card glass-panel">
+        <div class="card-header">
+          <h2 id="transcript-header-title">Live Conversation Transcript</h2>
+          <div class="header-actions" style="display: flex; align-items: center;">
+            <select id="bulk-call-monitor-select" style="display: none;">
+              <option value="dashboard" selected>📋 Campaign Dashboard Grid</option>
+            </select>
+            <button id="clear-transcript-btn" class="text-btn">Clear</button>
+          </div>
+        </div>
+        
+        <!-- Standard scrolling speech transcript bubbles -->
+        <div class="transcript-scroll" id="transcript-container">
+          <div class="system-message">Select a mode and click "Connect Session" to start.</div>
+        </div>
+
+        <!-- Bulk Dashboard Grid Logs (Toggled in bulk mode) -->
+        <div class="bulk-dashboard-scroll" id="bulk-dashboard-container" style="display: none;">
+          <table class="bulk-log-table">
+            <thead>
+              <tr>
+                <th>Phone Number</th>
+                <th>Status</th>
+                <th>Duration</th>
+                <th>Monitor</th>
+              </tr>
+            </thead>
+            <tbody id="bulk-log-tbody">
+              <tr>
+                <td colspan="4" class="table-empty">No calls queued. Start the campaign to see call logs.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Token Monitor Widget -->
+        <div class="token-monitor" id="token-monitor" style="display: none;">
+          <div class="token-stat">Prompt: <span id="stat-prompt">0</span></div>
+          <div class="token-stat">Completion: <span id="stat-completion">0</span></div>
+          <div class="token-stat">Total: <span id="stat-total">0</span></div>
+          <div class="token-stat session-stat">Session Total: <span id="stat-session">0</span></div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+  
+  <footer class="app-footer">
+    <p>Powered by VenuMind AI • Supporting Local Ollama, Groq, Hugging Face & Twilio Telephony</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

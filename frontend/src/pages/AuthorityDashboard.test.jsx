@@ -62,4 +62,22 @@ describe('AuthorityDashboard Component', () => {
       expect(screen.getByText(/Saved: venumind_hq_report.pdf/i)).toBeInTheDocument();
     }, { timeout: 2000 });
   });
+
+  it('interacts with AI Operations Assistant chatbot successfully', async () => {
+    const handleLogout = vi.fn();
+    render(
+      <EmergencyProvider>
+        <AuthorityDashboard user={mockUser} onLogout={handleLogout} />
+      </EmergencyProvider>
+    );
+
+    expect(screen.getByText(/AI Operations Assistant for Staff & Volunteers/i)).toBeInTheDocument();
+
+    const gateBtn = screen.getByRole('button', { name: /Where is Gate 5?/i });
+    fireEvent.click(gateBtn);
+
+    await waitFor(() => {
+      expect(screen.getByText(/Gate 5 is at Sector 3 North/i)).toBeInTheDocument();
+    });
+  });
 });

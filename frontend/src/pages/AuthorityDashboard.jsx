@@ -58,6 +58,34 @@ const AuthorityDashboard = ({ user, onLogout }) => {
     'CROWD_NODE: Gate B bypass turning active (stewards re-routed).',
     'ENERGY_GRID: Solar output peak reached: 1.4MW generated.'
   ]);
+  const [messages, setMessages] = useState([
+    { sender: 'ai', text: 'Welcome, Officer. How can I assist you with stadium operations today?' }
+  ]);
+  const [inputText, setInputText] = useState('');
+
+  const handleSendMessage = (textToSend) => {
+    const text = textToSend || inputText;
+    if (!text.trim()) return;
+
+    const newMsgs = [...messages, { sender: 'user', text }];
+    setMessages(newMsgs);
+    setInputText('');
+
+    setTimeout(() => {
+      const lower = text.toLowerCase();
+      let reply = '🤖 Operational Query received. Dispatch status: Nominal.';
+      if (lower.includes('gate 5')) {
+        reply = '🚪 Gate 5 is at Sector 3 North. Turn-style gates are nominal. Re-route VIP guest vehicles via Zone 2.';
+      } else if (lower.includes('medical')) {
+        reply = '🏥 The nearest Medical unit is First Aid Post 2, located behind Section 104 Corridor. Current occupancy: 1 patient.';
+      } else if (lower.includes('water')) {
+        reply = '💧 Water hydration station is at Gate A Bay (Zone 1) and Sector 2 walkway. Supply levels are stable.';
+      } else if (lower.includes('emergency')) {
+        reply = '🚨 Emergency alert status is currently NOMINAL. Evacuation paths are clear. Sector 4 lockdown controls are standing by.';
+      }
+      setMessages(prev => [...prev, { sender: 'ai', text: reply }]);
+    }, 600);
+  };
 
   const activeMeta = ROLE_METADATA[activeRole] || ROLE_METADATA.collector;
 
@@ -327,6 +355,62 @@ const AuthorityDashboard = ({ user, onLogout }) => {
             )}
           </div>
         </div>
+      </div>
+
+      {/* 🛡️ AI Digital Assistant for Staff & Volunteers */}
+      <div style={{ background: 'rgba(0, 200, 255, 0.02)', border: '1px solid rgba(0, 200, 255, 0.15)', borderRadius: '20px', padding: '1.5rem', marginTop: '2rem' }}>
+        <h3 style={{ margin: '0 0 1rem 0', fontSize: '1.1rem', color: '#fff', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <Cpu size={18} color="#00C8FF" /> 🛡️ AI Operations Assistant for Staff & Volunteers
+        </h3>
+        
+        {/* Quick Suggestion buttons */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '1rem' }}>
+          <button onClick={() => handleSendMessage('Where is Gate 5?')} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '20px', padding: '6px 12px', color: '#fff', fontSize: '0.75rem', cursor: 'pointer' }}>
+            🚪 Where is Gate 5?
+          </button>
+          <button onClick={() => handleSendMessage('Where is Medical?')} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '20px', padding: '6px 12px', color: '#fff', fontSize: '0.75rem', cursor: 'pointer' }}>
+            🏥 Where is Medical?
+          </button>
+          <button onClick={() => handleSendMessage('Nearest Water?')} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '20px', padding: '6px 12px', color: '#fff', fontSize: '0.75rem', cursor: 'pointer' }}>
+            💧 Nearest Water?
+          </button>
+          <button onClick={() => handleSendMessage('Emergency?')} style={{ background: 'rgba(255,75,75,0.1)', border: '1px solid rgba(255,75,75,0.2)', borderRadius: '20px', padding: '6px 12px', color: '#FF4B4B', fontSize: '0.75rem', cursor: 'pointer' }}>
+            🚨 Emergency?
+          </button>
+        </div>
+
+        {/* Chat window viewport */}
+        <div style={{ height: '200px', overflowY: 'auto', background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '12px', padding: '12px', display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '1rem' }}>
+          {messages.map((msg, idx) => (
+            <div key={idx} style={{
+              alignSelf: msg.sender === 'user' ? 'flex-end' : 'flex-start',
+              background: msg.sender === 'user' ? 'rgba(0, 200, 255, 0.15)' : 'rgba(255,255,255,0.03)',
+              border: msg.sender === 'user' ? '1px solid rgba(0, 200, 255, 0.3)' : '1px solid rgba(255,255,255,0.06)',
+              padding: '10px 14px',
+              borderRadius: msg.sender === 'user' ? '14px 14px 2px 14px' : '14px 14px 14px 2px',
+              maxWidth: '85%',
+              fontSize: '0.85rem',
+              color: '#fff',
+              lineHeight: '1.4'
+            }}>
+              {msg.text}
+            </div>
+          ))}
+        </div>
+
+        {/* Input box */}
+        <form onSubmit={(e) => { e.preventDefault(); handleSendMessage(); }} style={{ display: 'flex', gap: '10px' }}>
+          <input
+            type="text"
+            placeholder="Type your operational query (e.g. Where is Gate 5?)..."
+            value={inputText}
+            onChange={(e) => setInputText(e.target.value)}
+            style={{ flex: 1, background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '10px 14px', color: '#fff', outline: 'none', fontSize: '0.85rem' }}
+          />
+          <button type="submit" style={{ background: 'var(--accent-yellow)', border: 'none', color: '#000', padding: '10px 20px', borderRadius: '10px', fontWeight: 'bold', cursor: 'pointer', fontSize: '0.85rem' }}>
+            SEND
+          </button>
+        </form>
       </div>
     </div>
   );

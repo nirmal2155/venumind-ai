@@ -676,35 +676,7 @@ const Dashboard = () => {
 
       </div>
 
-      {/* Floating AI Assistant Action Trigger */}
-      <button 
-        onClick={() => navigate('/concierge')}
-        className="cyber-floating-assistant"
-        style={{
-          position: 'fixed',
-          top: '50%',
-          right: '20px',
-          transform: 'translateY(-50%)',
-          height: '60px',
-          padding: '0 24px',
-          background: 'var(--accent-yellow)',
-          borderRadius: '30px',
-          border: 'none',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '10px',
-          boxShadow: '0 10px 30px rgba(255,222,89,0.35)',
-          cursor: 'pointer',
-          zIndex: 200,
-          fontWeight: '900',
-          fontSize: '1rem',
-          letterSpacing: '1px',
-          color: '#000'
-        }}>
-        <Bot color="#000" size={24} className="pulse-fast" />
-        <span>AI ASSISTANT</span>
-      </button>
+
 
       {/* Live HUD Navigation Screen Overlay */}
       {isLiveNavigating && (

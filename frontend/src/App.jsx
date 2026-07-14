@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
 import { Map, Bot, RadioTower, AlertOctagon, ArrowRight, Home } from 'lucide-react';
 import './index.css';
 import { EmergencyProvider, useEmergency } from './EmergencyContext';
@@ -364,6 +364,64 @@ const SplashSequence = ({ onComplete }) => {
   );
 };
 
+const AppLayout = ({ currentUser, onLogout }) => {
+  const navigate = useNavigate();
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <Header onLogout={onLogout} currentUser={currentUser} />
+      
+      <main style={{ flex: 1, display: 'flex', flexDirection: 'column', position: 'relative' }}>
+        {currentUser?.role !== 'fan' ? (
+          <React.Suspense fallback={
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '50vh', gap: '1rem' }}>
+              <div style={{ width: '40px', height: '40px', border: '3px solid rgba(43,255,136,0.1)', borderTopColor: 'var(--accent-green)', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
+            </div>
+          }>
+            <AuthorityDashboard user={currentUser} onLogout={onLogout} />
+          </React.Suspense>
+        ) : (
+          <AnimatedRoutes />
+        )}
+      </main>
+
+      {currentUser?.role === 'fan' && <BottomNav />}
+
+      {/* Root-level Fixed Floating AI Assistant Button (Locked to Viewport Side, does not scroll!) */}
+      {currentUser?.role === 'fan' && (
+        <button 
+          onClick={() => navigate('/concierge')}
+          className="cyber-floating-assistant"
+          style={{
+            position: 'fixed',
+            top: '50%',
+            right: '20px',
+            transform: 'translateY(-50%)',
+            height: '60px',
+            padding: '0 24px',
+            background: 'var(--accent-yellow)',
+            borderRadius: '30px',
+            border: 'none',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '10px',
+            boxShadow: '0 10px 30px rgba(255,222,89,0.35)',
+            cursor: 'pointer',
+            zIndex: 99999, // Floating on top of everything
+            fontWeight: '900',
+            fontSize: '1rem',
+            letterSpacing: '1px',
+            color: '#000'
+          }}>
+          <Bot color="#000" size={24} className="pulse-fast" />
+          <span>AI ASSISTANT</span>
+        </button>
+      )}
+    </div>
+  );
+};
+
 function MainApp() {
   const [booting, setBooting] = useState(true);
   const [currentUser, setCurrentUser] = useState(() => {
@@ -404,26 +462,7 @@ function MainApp() {
             <Router>
               <div className="grid-bg"></div>
               <EmergencyOverlay />
-              
-              <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-                <Header onLogout={handleLogout} currentUser={currentUser} />
-                
-                <main style={{ flex: 1, display: 'flex', flexDirection: 'column', position: 'relative' }}>
-                  {currentUser?.role !== 'fan' ? (
-                    <React.Suspense fallback={
-                      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '50vh', gap: '1rem' }}>
-                        <div style={{ width: '40px', height: '40px', border: '3px solid rgba(43,255,136,0.1)', borderTopColor: 'var(--accent-green)', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
-                      </div>
-                    }>
-                      <AuthorityDashboard user={currentUser} onLogout={handleLogout} />
-                    </React.Suspense>
-                  ) : (
-                    <AnimatedRoutes />
-                  )}
-                </main>
-
-                {currentUser?.role === 'fan' && <BottomNav />}
-              </div>
+              <AppLayout currentUser={currentUser} onLogout={handleLogout} />
             </Router>
           )
         )}

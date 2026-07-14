@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ShieldCheck, Stethoscope, Users, Wrench, Bell, CheckCircle2, AlertTriangle, MapPin, Radio, RefreshCw, ClipboardList } from 'lucide-react';
+import { ShieldCheck, Stethoscope, Users, Wrench, CheckCircle2, AlertTriangle, MapPin, Radio, ClipboardList } from 'lucide-react';
 
 const ROLES = [
   { id: 'security', label: 'Security', icon: ShieldCheck, color: '#FF4B4B', badge: 'SEC-042' },

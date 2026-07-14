@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Activity, Eye, Radio, Server, CheckCircle2, AlertOctagon, Terminal, Leaf, Sun, Thermometer, Wind, Shield, Lock, Unlock, Droplet, AlertTriangle } from 'lucide-react';
+import { Activity, Eye, Radio, Server, CheckCircle2, AlertOctagon, Terminal, Leaf, Sun, Thermometer, Shield, Lock, Unlock, Droplet, AlertTriangle } from 'lucide-react';
 import { useEmergency } from '../EmergencyContext';
 
 const NEW_LOGS = [

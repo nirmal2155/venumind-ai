@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import App from './App';
-import { EmergencyProvider } from './EmergencyContext';
 
 // Mocking child components to isolate App testing
 vi.mock('./pages/Dashboard', () => ({ default: () => <div data-testid="mock-dashboard">Dashboard</div> }));

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Bot, Send, Mic, Loader, Volume2 } from 'lucide-react';
+import { Bot, Send, Mic, Volume2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const LANGUAGES = [
@@ -167,7 +167,7 @@ const Concierge = () => {
       sendMessage(transcript);
     };
 
-    recognition.onerror = (event) => {
+    recognition.onerror = () => {
       setIsRecording(false);
     };
 
@@ -283,7 +283,7 @@ const Concierge = () => {
         setLoading(false);
       }, 200);
       
-    } catch (error) {
+    } catch {
       setMessages([...newMessages, { role: 'assistant', content: 'Sorry, I am having trouble connecting right now.' }]);
       setLoading(false);
     }

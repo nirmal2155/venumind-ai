@@ -16,14 +16,16 @@ import { useState, useEffect, useMemo } from 'react';
 export const useMatchTimer = (initialSeconds = 2 * 3600 + 48 * 60 + 8) => {
   const [timeLeft, setTimeLeft] = useState(initialSeconds);
 
+  const isTimeLeftPositive = timeLeft > 0;
+
   useEffect(() => {
-    if (timeLeft <= 0) return; // Don't start interval if already at zero
+    if (!isTimeLeftPositive) return; // Don't start interval if already at zero
 
     const interval = setInterval(() => {
       setTimeLeft(prev => (prev > 0 ? prev - 1 : 0));
     }, 1000);
     return () => clearInterval(interval);
-  }, [timeLeft <= 0]); // Only re-subscribe when crossing the zero boundary
+  }, [isTimeLeftPositive]); // Only re-subscribe when crossing the zero boundary
 
   /** @description Memoized formatted values to prevent recalculation on unrelated re-renders */
   const timerValues = useMemo(() => {

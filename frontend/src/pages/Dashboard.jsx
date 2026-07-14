@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Navigation, Users, Bot, CheckCircle2, Info, Timer, AlertTriangle, Target, ShieldCheck, Accessibility as AccessibilityIcon, Cpu, CloudRain, Bell, Activity, Thermometer, Sun } from 'lucide-react';
+import { Navigation, Users, Bot, CheckCircle2, Timer, AlertTriangle, Target, ShieldCheck, Accessibility as AccessibilityIcon, Cpu, CloudRain, Activity, Thermometer, Sun } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useMatchTimer } from '../hooks/useMatchTimer';
 

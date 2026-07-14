@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { AlertTriangle, Users, Activity, ArrowRight, CheckCircle2, TrendingUp } from 'lucide-react';
+import { AlertTriangle, Activity, ArrowRight, CheckCircle2 } from 'lucide-react';
 
 const INITIAL_GATES = [
   { id: 'A', name: 'North Gate', density: 45, status: 'NORMAL', wait: '2 min', trend: +2 },
@@ -76,10 +76,22 @@ const Crowd = () => {
     <div className="flex-col" style={{ zIndex: 1, height: '100%', padding: '1.5rem', paddingBottom: '120px', maxWidth: '1200px', margin: '0 auto', width: '100%' }}>
       
       {/* Header */}
-      <div className="flex-row justify-between" style={{ alignItems: 'center', marginBottom: '2rem' }}>
+      <div className="flex-row justify-between" style={{ alignItems: 'center', marginBottom: '1.5rem' }}>
         <h2 style={{ fontSize: '2rem', margin: 0, fontWeight: '300' }}>Live Crowd<br/><span style={{fontWeight: '800'}}>Analytics</span></h2>
         <div style={{ background: 'rgba(255,255,255,0.1)', padding: '8px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Activity className="text-accent-green" size={24} />
+        </div>
+      </div>
+
+      {/* Summary KPI Block */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginBottom: '2rem' }}>
+        <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '12px', padding: '10px' }}>
+          <div style={{ fontSize: '0.65rem', color: 'var(--text-secondary)', fontFamily: 'monospace' }}>TOTAL DETECTED FANS</div>
+          <div style={{ fontSize: '1.3rem', fontWeight: 'bold', color: '#fff', marginTop: '4px' }}>{totalFans.toLocaleString()}</div>
+        </div>
+        <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '12px', padding: '10px' }}>
+          <div style={{ fontSize: '0.65rem', color: 'var(--text-secondary)', fontFamily: 'monospace' }}>AVG STADIUM LOAD</div>
+          <div style={{ fontSize: '1.3rem', fontWeight: 'bold', color: 'var(--accent-green)', marginTop: '4px' }}>{avgDensity}%</div>
         </div>
       </div>
 

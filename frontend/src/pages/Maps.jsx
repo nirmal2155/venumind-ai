@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Navigation, CheckCircle2, Timer, AlertTriangle, Target, Users, Bot, Info, Camera, Tv, Maximize2, Eye } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useMatchTimer } from '../hooks/useMatchTimer';

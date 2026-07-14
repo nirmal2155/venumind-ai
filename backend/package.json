@@ -7,10 +7,27 @@
     "start": "node index.js",
     "test": "jest"
   },
-  "keywords": [],
+  "keywords": [
+    "fifa",
+    "operations",
+    "security",
+    "ai",
+    "venue-management"
+  ],
   "author": "VenueMind AI Team",
-  "license": "ISC",
+  "license": "MIT",
   "type": "commonjs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nirmal2155/venumind-ai.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nirmal2155/venumind-ai/issues"
+  },
+  "homepage": "https://github.com/nirmal2155/venumind-ai#readme",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "dependencies": {
     "@google/genai": "^2.10.0",
     "compression": "^1.8.1",

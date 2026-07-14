@@ -3,6 +3,20 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "description": "VenueMind AI - Enterprise Frontend Client Interface for FIFA World Cup 2026",
+  "author": "VenueMind AI Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nirmal2155/venumind-ai.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nirmal2155/venumind-ai/issues"
+  },
+  "homepage": "https://github.com/nirmal2155/venumind-ai#readme",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",

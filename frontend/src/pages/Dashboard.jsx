@@ -348,7 +348,7 @@ const Dashboard = () => {
               <Bot color="#000" size={24} />
             </div>
             <div style={{ flex: 1 }}>
-              <h3 style={{ margin: '0 0 4px 0', fontSize: '1.1rem', fontWeight: '700', color: '#fff' }}>Multilingual Concierge</h3>
+              <h3 style={{ margin: '0 0 4px 0', fontSize: '1.1rem', fontWeight: '700', color: '#fff' }}>Multilingual AI Assistant</h3>
               <span style={{ fontSize: '0.65rem', color: 'var(--accent-yellow)', fontFamily: 'monospace', letterSpacing: '1px', fontWeight: 'bold' }}>8 LANGUAGES AVAILABLE</span>
             </div>
           </div>
@@ -682,8 +682,9 @@ const Dashboard = () => {
         className="cyber-floating-assistant"
         style={{
           position: 'fixed',
-          bottom: '100px',
+          top: '50%',
           right: '20px',
+          transform: 'translateY(-50%)',
           height: '60px',
           padding: '0 24px',
           background: 'var(--accent-yellow)',
@@ -702,7 +703,7 @@ const Dashboard = () => {
           color: '#000'
         }}>
         <Bot color="#000" size={24} className="pulse-fast" />
-        <span>AI CONCIERGE</span>
+        <span>AI ASSISTANT</span>
       </button>
 
       {/* Live HUD Navigation Screen Overlay */}

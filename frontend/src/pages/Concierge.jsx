@@ -297,7 +297,7 @@ const Concierge = () => {
         <div style={{ width: '70px', height: '70px', borderRadius: '20px', background: 'var(--accent-green)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 25px rgba(43,255,136,0.2)', marginBottom: '0.75rem' }}>
           <Bot size={36} color="#000" />
         </div>
-        <h3 className="text-accent-green" style={{ fontSize: '1rem', letterSpacing: '0.5px', fontWeight: 'bold' }}>Concierge AI Active</h3>
+        <h3 className="text-accent-green" style={{ fontSize: '1rem', letterSpacing: '0.5px', fontWeight: 'bold' }}>AI Assistant Active</h3>
         
         {/* Flag Language Switcher Bar */}
         <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', width: '100%', padding: '8px 0', justifyContent: 'flex-start', marginTop: '8px', scrollbarWidth: 'none' }}>

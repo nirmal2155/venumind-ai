@@ -404,7 +404,7 @@ const Maps = () => {
               <Bot color="#000" size={24} />
             </div>
             <div className="flex-col" style={{ flex: 1 }}>
-              <h3 style={{ margin: '0 0 8px 0', fontSize: '1rem', fontWeight: '600' }}>AI Concierge</h3>
+              <h3 style={{ margin: '0 0 8px 0', fontSize: '1rem', fontWeight: '600' }}>AI Assistant</h3>
               <p style={{ margin: '0 0 16px 0', fontSize: '0.9rem', color: 'rgba(255,255,255,0.8)', lineHeight: '1.4' }}>
                 "Where is the nearest official merchandise stand with the Brazil jersey?"
               </p>

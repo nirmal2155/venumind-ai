@@ -53,7 +53,7 @@ const BottomNav = React.memo(() => {
   const navItems = [
     { path: '/', icon: Home, label: 'Hub' },
     { path: '/maps', icon: Map, label: 'Maps' },
-    { path: '/concierge', icon: Bot, label: 'AI Chat' },
+    { path: '/concierge', icon: Bot, label: 'AI Assistant' },
 
     { path: '/ops', icon: RadioTower, label: 'Ops' },
   ];

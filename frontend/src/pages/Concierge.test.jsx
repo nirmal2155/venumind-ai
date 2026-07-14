@@ -27,7 +27,7 @@ describe('Concierge Component', () => {
     );
 
     // Verify title and input box exist
-    expect(screen.getByText(/Concierge AI Active/i)).toBeInTheDocument();
+    expect(screen.getByText(/AI Assistant Active/i)).toBeInTheDocument();
     const input = screen.getByPlaceholderText(/Ask VenueMind/i);
     expect(input).toBeInTheDocument();
 

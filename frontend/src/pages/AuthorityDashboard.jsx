@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Zap, AlertTriangle, Download, Server, Cpu, Eye } from 'lucide-react';
+import { Zap, AlertTriangle, Download, Server, Cpu, Eye, RadioTower } from 'lucide-react';
 import { useEmergency } from '../EmergencyContext';
 
 const ROLE_METADATA = {
@@ -62,6 +62,35 @@ const AuthorityDashboard = ({ user, onLogout }) => {
     { sender: 'ai', text: 'Welcome, Officer. How can I assist you with stadium operations today?' }
   ]);
   const [inputText, setInputText] = useState('');
+  const [radioConnected, setRadioConnected] = useState(false);
+  const [radioConnecting, setRadioConnecting] = useState(false);
+  const [pushToTalkActive, setPushToTalkActive] = useState(false);
+  const [radioLogs, setRadioLogs] = useState([
+    '[Radio Logs Ready for channel OPERATIONS-HQ-01]'
+  ]);
+
+  const connectRadio = () => {
+    setRadioConnecting(true);
+    setTimeout(() => {
+      setRadioConnecting(false);
+      setRadioConnected(true);
+      setRadioLogs(prev => [
+        ...prev,
+        '📡 CONNECTION ESTABLISHED ON 164.250 MHz',
+        '📢 [OPERATIONS-HQ] Listening for dispatch triggers...'
+      ]);
+    }, 1500);
+  };
+
+  const togglePushToTalk = () => {
+    if (!pushToTalkActive) {
+      setPushToTalkActive(true);
+      setRadioLogs(prev => [...prev, '🎙️ [YOU] Transmitting operational update...']);
+    } else {
+      setPushToTalkActive(false);
+      setRadioLogs(prev => [...prev, '📻 [OPERATIONS-HQ] Message received, over.']);
+    }
+  };
 
   const handleSendMessage = (textToSend) => {
     const text = textToSend || inputText;
@@ -84,6 +113,10 @@ const AuthorityDashboard = ({ user, onLogout }) => {
         reply = '🚨 Emergency alert status is currently NOMINAL. Evacuation paths are clear. Sector 4 lockdown controls are standing by.';
       }
       setMessages(prev => [...prev, { sender: 'ai', text: reply }]);
+      // Log matching query in walkie talkie log too
+      if (radioConnected) {
+        setRadioLogs(prev => [...prev, `📢 [AI DISPATCH] Resolved query: "${reply}"`]);
+      }
     }, 600);
   };
 
@@ -357,60 +390,143 @@ const AuthorityDashboard = ({ user, onLogout }) => {
         </div>
       </div>
 
-      {/* 🛡️ AI Digital Assistant for Staff & Volunteers */}
-      <div style={{ background: 'rgba(0, 200, 255, 0.02)', border: '1px solid rgba(0, 200, 255, 0.15)', borderRadius: '20px', padding: '1.5rem', marginTop: '2rem' }}>
-        <h3 style={{ margin: '0 0 1rem 0', fontSize: '1.1rem', color: '#fff', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <Cpu size={18} color="#00C8FF" /> 🛡️ AI Operations Assistant for Staff & Volunteers
-        </h3>
+      {/* 🛡️ AI Digital Assistant & Walkie-Talkie for Staff & Volunteers */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '20px', marginTop: '2rem' }}>
         
-        {/* Quick Suggestion buttons */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '1rem' }}>
-          <button onClick={() => handleSendMessage('Where is Gate 5?')} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '20px', padding: '6px 12px', color: '#fff', fontSize: '0.75rem', cursor: 'pointer' }}>
-            🚪 Where is Gate 5?
-          </button>
-          <button onClick={() => handleSendMessage('Where is Medical?')} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '20px', padding: '6px 12px', color: '#fff', fontSize: '0.75rem', cursor: 'pointer' }}>
-            🏥 Where is Medical?
-          </button>
-          <button onClick={() => handleSendMessage('Nearest Water?')} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '20px', padding: '6px 12px', color: '#fff', fontSize: '0.75rem', cursor: 'pointer' }}>
-            💧 Nearest Water?
-          </button>
-          <button onClick={() => handleSendMessage('Emergency?')} style={{ background: 'rgba(255,75,75,0.1)', border: '1px solid rgba(255,75,75,0.2)', borderRadius: '20px', padding: '6px 12px', color: '#FF4B4B', fontSize: '0.75rem', cursor: 'pointer' }}>
-            🚨 Emergency?
-          </button>
+        {/* AI Operations Assistant Chatbot */}
+        <div style={{ background: 'rgba(0, 200, 255, 0.02)', border: '1px solid rgba(0, 200, 255, 0.15)', borderRadius: '20px', padding: '1.5rem' }}>
+          <h3 style={{ margin: '0 0 1rem 0', fontSize: '1.1rem', color: '#fff', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <Cpu size={18} color="#00C8FF" /> 🛡️ AI Operations Assistant
+          </h3>
+          
+          {/* Quick Suggestion buttons */}
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '1rem' }}>
+            <button onClick={() => handleSendMessage('Where is Gate 5?')} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '20px', padding: '6px 12px', color: '#fff', fontSize: '0.75rem', cursor: 'pointer' }}>
+              🚪 Where is Gate 5?
+            </button>
+            <button onClick={() => handleSendMessage('Where is Medical?')} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '20px', padding: '6px 12px', color: '#fff', fontSize: '0.75rem', cursor: 'pointer' }}>
+              🏥 Where is Medical?
+            </button>
+            <button onClick={() => handleSendMessage('Nearest Water?')} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '20px', padding: '6px 12px', color: '#fff', fontSize: '0.75rem', cursor: 'pointer' }}>
+              💧 Nearest Water?
+            </button>
+            <button onClick={() => handleSendMessage('Emergency?')} style={{ background: 'rgba(255,75,75,0.1)', border: '1px solid rgba(255,75,75,0.2)', borderRadius: '20px', padding: '6px 12px', color: '#FF4B4B', fontSize: '0.75rem', cursor: 'pointer' }}>
+              🚨 Emergency?
+            </button>
+          </div>
+
+          {/* Chat window viewport */}
+          <div style={{ height: '200px', overflowY: 'auto', background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '12px', padding: '12px', display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '1rem' }}>
+            {messages.map((msg, idx) => (
+              <div key={idx} style={{
+                alignSelf: msg.sender === 'user' ? 'flex-end' : 'flex-start',
+                background: msg.sender === 'user' ? 'rgba(0, 200, 255, 0.15)' : 'rgba(255,255,255,0.03)',
+                border: msg.sender === 'user' ? '1px solid rgba(0, 200, 255, 0.3)' : '1px solid rgba(255,255,255,0.06)',
+                padding: '10px 14px',
+                borderRadius: msg.sender === 'user' ? '14px 14px 2px 14px' : '14px 14px 14px 2px',
+                maxWidth: '85%',
+                fontSize: '0.85rem',
+                color: '#fff',
+                lineHeight: '1.4'
+              }}>
+                {msg.text}
+              </div>
+            ))}
+          </div>
+
+          {/* Input box */}
+          <form onSubmit={(e) => { e.preventDefault(); handleSendMessage(); }} style={{ display: 'flex', gap: '10px' }}>
+            <input
+              type="text"
+              placeholder="Type operational query..."
+              value={inputText}
+              onChange={(e) => setInputText(e.target.value)}
+              style={{ flex: 1, background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '10px 14px', color: '#fff', outline: 'none', fontSize: '0.85rem' }}
+            />
+            <button type="submit" style={{ background: 'var(--accent-yellow)', border: 'none', color: '#000', padding: '10px 20px', borderRadius: '10px', fontWeight: 'bold', cursor: 'pointer', fontSize: '0.85rem' }}>
+              SEND
+            </button>
+          </form>
         </div>
 
-        {/* Chat window viewport */}
-        <div style={{ height: '200px', overflowY: 'auto', background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '12px', padding: '12px', display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '1rem' }}>
-          {messages.map((msg, idx) => (
-            <div key={idx} style={{
-              alignSelf: msg.sender === 'user' ? 'flex-end' : 'flex-start',
-              background: msg.sender === 'user' ? 'rgba(0, 200, 255, 0.15)' : 'rgba(255,255,255,0.03)',
-              border: msg.sender === 'user' ? '1px solid rgba(0, 200, 255, 0.3)' : '1px solid rgba(255,255,255,0.06)',
-              padding: '10px 14px',
-              borderRadius: msg.sender === 'user' ? '14px 14px 2px 14px' : '14px 14px 14px 2px',
-              maxWidth: '85%',
-              fontSize: '0.85rem',
-              color: '#fff',
-              lineHeight: '1.4'
-            }}>
-              {msg.text}
+        {/* Walkie-Talkie Simulator */}
+        <div style={{ background: 'rgba(43,255,136,0.02)', border: '1px solid rgba(43,255,136,0.15)', borderRadius: '20px', padding: '1.5rem', display: 'flex', flexDirection: 'column' }}>
+          <h3 style={{ margin: '0 0 1rem 0', fontSize: '1.1rem', color: '#fff', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <RadioTower size={18} color="var(--accent-green)" /> Secure Live Radio Dispatch (Walkie-Talkie)
+          </h3>
+          
+          {!radioConnected && !radioConnecting ? (
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '260px', textAlign: 'center', gap: '15px' }}>
+              <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Live operations walkie-talkie link offline. Connect to secure radio line.</span>
+              <button
+                onClick={connectRadio}
+                style={{
+                  background: 'rgba(43,255,136,0.15)',
+                  border: '1px solid var(--accent-green)',
+                  color: 'var(--accent-green)',
+                  padding: '12px 24px',
+                  borderRadius: '12px',
+                  fontWeight: 'bold',
+                  cursor: 'pointer',
+                  fontSize: '0.9rem',
+                  boxShadow: '0 0 15px rgba(43,255,136,0.1)'
+                }}
+              >
+                📻 Connect Operations Radio Channel
+              </button>
             </div>
-          ))}
-        </div>
+          ) : radioConnecting ? (
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '260px', gap: '15px' }}>
+              <div style={{ width: '40px', height: '40px', border: '3px solid rgba(43,255,136,0.1)', borderTopColor: 'var(--accent-green)', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
+              <span style={{ fontSize: '0.8rem', color: 'var(--accent-green)', fontFamily: 'monospace' }}>TUNING FREQUENCY 164.250 MHz...</span>
+            </div>
+          ) : (
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {/* Radio details card */}
+              <div style={{ background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '12px', padding: '12px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+                  <span style={{ fontSize: '0.7rem', color: 'var(--text-secondary)' }}>CHANNEL: OPERATIONS-HQ-01</span>
+                  <span style={{ fontSize: '0.7rem', color: 'var(--accent-green)', fontWeight: 'bold' }}>🟢 RADIO ACTIVE</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <span style={{ fontSize: '0.7rem', color: 'var(--text-secondary)' }}>FREQ: 164.250 MHz</span>
+                  <span style={{ fontSize: '0.7rem', color: 'var(--text-secondary)' }}>📶 SIGNAL: EXCELLENT (98%)</span>
+                </div>
+              </div>
 
-        {/* Input box */}
-        <form onSubmit={(e) => { e.preventDefault(); handleSendMessage(); }} style={{ display: 'flex', gap: '10px' }}>
-          <input
-            type="text"
-            placeholder="Type your operational query (e.g. Where is Gate 5?)..."
-            value={inputText}
-            onChange={(e) => setInputText(e.target.value)}
-            style={{ flex: 1, background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '10px 14px', color: '#fff', outline: 'none', fontSize: '0.85rem' }}
-          />
-          <button type="submit" style={{ background: 'var(--accent-yellow)', border: 'none', color: '#000', padding: '10px 20px', borderRadius: '10px', fontWeight: 'bold', cursor: 'pointer', fontSize: '0.85rem' }}>
-            SEND
-          </button>
-        </form>
+              {/* Radio feed logs */}
+              <div style={{ flex: 1, height: '120px', overflowY: 'auto', background: '#000', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '10px', fontFamily: 'monospace', fontSize: '0.75rem', color: 'var(--accent-green)' }}>
+                {radioLogs.map((log, idx) => (
+                  <div key={idx} style={{ marginBottom: '4px' }}>&gt; {log}</div>
+                ))}
+              </div>
+
+              {/* Push to talk trigger */}
+              <button
+                onMouseDown={togglePushToTalk}
+                onMouseUp={togglePushToTalk}
+                style={{
+                  width: '100%',
+                  background: pushToTalkActive ? '#FF4B4B' : 'rgba(43,255,136,0.1)',
+                  border: `1px solid ${pushToTalkActive ? '#FF4B4B' : 'var(--accent-green)'}`,
+                  color: pushToTalkActive ? '#fff' : 'var(--accent-green)',
+                  padding: '12px',
+                  borderRadius: '10px',
+                  fontWeight: 'bold',
+                  cursor: 'pointer',
+                  fontSize: '0.9rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  boxShadow: pushToTalkActive ? '0 0 15px rgba(255,75,75,0.3)' : 'none'
+                }}
+              >
+                🎤 {pushToTalkActive ? 'TRANSMITTING VOICE ACTIVE (Release to Mute)' : 'Push to Talk (Hold Mouse Click)'}
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

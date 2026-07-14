@@ -71,7 +71,7 @@ describe('AuthorityDashboard Component', () => {
       </EmergencyProvider>
     );
 
-    expect(screen.getByText(/AI Operations Assistant for Staff & Volunteers/i)).toBeInTheDocument();
+    expect(screen.getByText(/AI Operations Assistant/i)).toBeInTheDocument();
 
     const gateBtn = screen.getByRole('button', { name: /Where is Gate 5?/i });
     fireEvent.click(gateBtn);
@@ -79,5 +79,26 @@ describe('AuthorityDashboard Component', () => {
     await waitFor(() => {
       expect(screen.getByText(/Gate 5 is at Sector 3 North/i)).toBeInTheDocument();
     });
+  });
+
+  it('connects to secure radio walkie talkie simulator successfully', async () => {
+    const handleLogout = vi.fn();
+    render(
+      <EmergencyProvider>
+        <AuthorityDashboard user={mockUser} onLogout={handleLogout} />
+      </EmergencyProvider>
+    );
+
+    expect(screen.getByText(/Secure Live Radio Dispatch/i)).toBeInTheDocument();
+
+    const connectBtn = screen.getByRole('button', { name: /Connect Operations Radio Channel/i });
+    fireEvent.click(connectBtn);
+
+    expect(screen.getByText(/TUNING FREQUENCY/i)).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(screen.getByText(/RADIO ACTIVE/i)).toBeInTheDocument();
+      expect(screen.getByText(/CONNECTION ESTABLISHED/i)).toBeInTheDocument();
+    }, { timeout: 2000 });
   });
 });

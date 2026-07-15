@@ -60,10 +60,40 @@ const Dashboard = () => {
   };
 
   const [systemLogs, setSystemLogs] = useState([
-    "SYS_INIT: VenueMind Core Kernel v1.3.0 loaded",
+    "SYS_INIT: VenueMind Core Kernel v1.3.0 loaded (Type /help)",
     "NETWORK: Encrypted connection to Lusail Grid established",
     "CROWD_TELEMETRY: Gate B capacity stable at 45/min"
   ]);
+  const [terminalCommand, setTerminalCommand] = useState('');
+
+  const handleTerminalSubmit = (e) => {
+    e.preventDefault();
+    const cmd = terminalCommand.trim();
+    if (!cmd) return;
+
+    setSystemLogs(prev => [`$ ${cmd}`, ...prev]);
+    setTerminalCommand('');
+
+    setTimeout(() => {
+      const lower = cmd.toLowerCase();
+      let response = `ERR: Command "${cmd}" not recognized. Type "/help" for protocols.`;
+      
+      if (lower === '/help') {
+        response = "PROTOCOLS: /status, /evacuate, /optimize, /clear";
+      } else if (lower === '/status') {
+        response = `STATUS: Core Active. Uptime: 98.4%. Active Gate: ${routeGate}. Preset: ${activeSimulationPreset}.`;
+      } else if (lower === '/evacuate') {
+        response = "ALERT: Evacuation path calculation initiated.";
+        simulateReroute();
+      } else if (lower === '/optimize') {
+        response = "OPT: Reallocating. Security: +12, Water: Nominal.";
+      } else if (lower === '/clear') {
+        setSystemLogs([]);
+        return;
+      }
+      setSystemLogs(prev => [response, ...prev]);
+    }, 300);
+  };
 
   const simulateReroute = () => {
     // Step 1: Red Alert
@@ -479,13 +509,23 @@ const Dashboard = () => {
             </div>
             <span style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.65rem' }}>SYNC: ONLINE</span>
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', maxHeight: '100px', overflowY: 'hidden' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', maxHeight: '100px', overflowY: 'auto', marginBottom: '10px' }}>
             {systemLogs.map((log, idx) => (
               <div key={idx} style={{ fontSize: '0.72rem', color: idx === 0 ? 'var(--accent-green)' : 'rgba(255,255,255,0.55)', transition: 'all 0.3s' }}>
-                &gt; {log}
+                {log.startsWith('$') ? log : `> ${log}`}
               </div>
             ))}
           </div>
+          <form onSubmit={handleTerminalSubmit} style={{ display: 'flex', gap: '6px', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '10px' }}>
+            <span style={{ color: 'var(--accent-green)', fontSize: '0.75rem' }}>$</span>
+            <input
+              type="text"
+              placeholder="Enter console command (e.g. /status)..."
+              value={terminalCommand}
+              onChange={(e) => setTerminalCommand(e.target.value)}
+              style={{ flex: 1, background: 'transparent', border: 'none', color: 'var(--accent-green)', outline: 'none', fontSize: '0.72rem', fontFamily: 'monospace' }}
+            />
+          </form>
         </div>
 
         {/* Gate Status Card */}

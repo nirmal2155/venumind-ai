@@ -30,12 +30,21 @@ export const EmergencyProvider = ({ children }) => {
     } catch { return ''; }
   });
 
-  // Persist emergency state changes to localStorage
+  // Persist emergency state changes to localStorage and announce vocally if enabled
   useEffect(() => {
     try {
       localStorage.setItem('venumind_emergency', JSON.stringify(isEmergency));
       localStorage.setItem('venumind_broadcast', broadcastMessage);
     } catch { /* localStorage unavailable - graceful degradation */ }
+
+    if (isEmergency) {
+      if (typeof window !== 'undefined' && window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance("Attention. Evacuation protocol initiated. Please proceed to the nearest exit gate D immediately.");
+        utterance.rate = 0.95;
+        window.speechSynthesis.speak(utterance);
+      }
+    }
   }, [isEmergency, broadcastMessage]);
 
   /** @function setEmergency - Memoized setter to prevent unnecessary re-renders */

@@ -72,4 +72,24 @@ describe('Dashboard Component', () => {
     });
     expect(global.fetch).toHaveBeenCalledTimes(1);
   });
+
+  it('interacts with the Command Terminal Console successfully', async () => {
+    render(
+      <BrowserRouter>
+        <EmergencyProvider>
+          <Dashboard />
+        </EmergencyProvider>
+      </BrowserRouter>
+    );
+
+    const input = screen.getByPlaceholderText(/Enter console command/i);
+    fireEvent.change(input, { target: { value: '/help' } });
+    fireEvent.submit(input);
+
+    expect(screen.getByText(/\$ \/help/i)).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(screen.getByText(/PROTOCOLS: \/status/i)).toBeInTheDocument();
+    });
+  });
 });

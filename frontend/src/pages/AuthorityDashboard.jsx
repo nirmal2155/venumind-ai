@@ -602,11 +602,19 @@ Generate a response following this structure:
         {/* Live Command Log Alerts */}
         <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '20px', padding: '1.5rem', display: 'flex', flexDirection: 'column' }}>
           <h3 style={{ margin: '0 0 1rem 0', fontSize: '1rem', color: '#fff', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Server size={18} color="var(--accent-yellow)" /> Secure Command Center Feed
+            <Server size={18} color="var(--accent-yellow)" /> NASA Telemetry & Anomaly Desk
           </h3>
-          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '8px', maxHeight: '220px', overflowY: 'auto', paddingRight: '5px' }}>
+          <div style={{ background: '#05070c', border: '1px solid rgba(255,222,89,0.15)', borderRadius: '8px', padding: '10px', fontFamily: 'monospace', fontSize: '0.72rem', color: 'var(--accent-yellow)', marginBottom: '12px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+            <div>🛰️ GATE INFLOW: 142/MIN</div>
+            <div>🏥 MEDICAL BAYS: NOMINAL</div>
+            <div>⚡ SOLAR INPUT: 1.4 MW</div>
+            <div>🚇 METRO WAIT: 120s HEADWAY</div>
+            <div>👮 STEWARDS DEPLOYED: 140</div>
+            <div>🚨 EMER EXITS: 100% CLEAR</div>
+          </div>
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '8px', maxHeight: '110px', overflowY: 'auto', paddingRight: '5px' }}>
             {logs.map((log, idx) => (
-              <div key={idx} style={{ background: 'rgba(0,0,0,0.2)', padding: '10px', borderRadius: '8px', borderLeft: `3px solid ${activeMeta.color}`, fontSize: '0.8rem', fontFamily: 'monospace', color: 'rgba(255,255,255,0.9)' }}>
+              <div key={idx} style={{ background: 'rgba(0,0,0,0.2)', padding: '6px 10px', borderRadius: '6px', borderLeft: `3px solid ${activeMeta.color}`, fontSize: '0.75rem', fontFamily: 'monospace', color: 'rgba(255,255,255,0.85)' }}>
                 {log}
               </div>
             ))}

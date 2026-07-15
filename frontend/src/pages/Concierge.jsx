@@ -226,6 +226,7 @@ const Concierge = () => {
             content: resp.prayer,
             hasAccessPrompt: true 
           }]);
+          handleSpeak(resp.prayer);
           setLoading(false);
         }, 1000);
         return;
@@ -237,6 +238,7 @@ const Concierge = () => {
             hasMap: false,
             hasFoodOrder: true
           }]);
+          handleSpeak(resp.food);
           setLoading(false);
         }, 1500);
         return;
@@ -247,6 +249,7 @@ const Concierge = () => {
             content: resp.merchandise,
             hasMap: true
           }]);
+          handleSpeak(resp.merchandise);
           setLoading(false);
         }, 1500);
         return;
@@ -256,6 +259,7 @@ const Concierge = () => {
             role: 'assistant',
             content: resp.lostFound,
           }]);
+          handleSpeak(resp.lostFound);
           setLoading(false);
         }, 1200);
         return;
@@ -272,13 +276,16 @@ const Concierge = () => {
             })
           });
           const data = await res.json();
+          const reply = data.reply || resp.fallback;
           setMessages([...newMessages, {
             role: 'assistant',
-            content: data.reply || resp.fallback
+            content: reply
           }]);
+          handleSpeak(reply);
         } catch {
           // Fallback if backend unreachable
           setMessages([...newMessages, { role: 'assistant', content: resp.fallback }]);
+          handleSpeak(resp.fallback);
         }
         setLoading(false);
       }, 200);

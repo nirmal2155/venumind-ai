@@ -208,9 +208,15 @@ Rules:
 
     const fullPrompt = `${systemPrompt}\n\nFan's message: "${message}"`;
 
+    const selectedModel = (req.body.model && typeof req.body.model === 'string') ? req.body.model : 'gemini-2.5-flash';
+    const selectedTemp = (req.body.temperature !== undefined) ? Number(req.body.temperature) : 0.7;
+
     const response = await aiClient.models.generateContent({
-      model: 'gemini-2.5-flash',
-      contents: fullPrompt
+      model: selectedModel,
+      contents: fullPrompt,
+      config: {
+        temperature: selectedTemp
+      }
     });
 
     res.json({ reply: response.text });

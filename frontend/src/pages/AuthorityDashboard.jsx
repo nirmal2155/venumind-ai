@@ -87,6 +87,8 @@ const AuthorityDashboard = ({ user, onLogout }) => {
 
   const [activeNodeAdvice, setActiveNodeAdvice] = useState(null);
   const [nodeLoading, setNodeLoading] = useState(null);
+  const [selectedGeminiModel, setSelectedGeminiModel] = useState('gemini-2.5-flash');
+  const [geminiTemperature, setGeminiTemperature] = useState(0.2);
 
   const getAgentNodeAdvice = async (agentName, promptText) => {
     setNodeLoading(agentName);
@@ -94,11 +96,15 @@ const AuthorityDashboard = ({ user, onLogout }) => {
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: promptText })
+        body: JSON.stringify({ 
+          message: promptText,
+          model: selectedGeminiModel,
+          temperature: geminiTemperature
+        })
       });
       const data = await res.json();
       setActiveNodeAdvice({ agent: agentName, advice: data.reply });
-      setLogs(prev => [`[CONSULTED] ${agentName} Agent Node. Strategy generated successfully.`, ...prev]);
+      setLogs(prev => [`[CONSULTED] ${agentName} Agent Node (Model: ${selectedGeminiModel}, Temp: ${geminiTemperature}). Strategy generated successfully.`, ...prev]);
     } catch {
       setActiveNodeAdvice({ agent: agentName, advice: `Failed to consult ${agentName} agent node.` });
     }
@@ -270,9 +276,54 @@ const AuthorityDashboard = ({ user, onLogout }) => {
         <h3 style={{ margin: '0 0 4px 0', fontSize: '1.2rem', color: '#fff', fontWeight: '900', letterSpacing: '-0.5px' }}>
           🌐 VenueMind GenAI Agent Matrix Hub
         </h3>
-        <p style={{ margin: '0 0 1.5rem 0', color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
+        <p style={{ margin: '0 0 1.25rem 0', color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
           Real-time diagnostics and consulting modules for 6 specialized AI Stadium Nodes.
         </p>
+
+        {/* Google Gemini Tuning Console */}
+        <div style={{
+          background: 'rgba(180, 142, 255, 0.05)',
+          border: '1px solid rgba(180, 142, 255, 0.25)',
+          borderRadius: '16px',
+          padding: '1rem 1.25rem',
+          marginBottom: '1.5rem',
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: '15px',
+          alignItems: 'center',
+          justifyContent: 'space-between'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <Cpu size={16} color="var(--accent-purple)" />
+            <span style={{ color: '#fff', fontSize: '0.8rem', fontWeight: 'bold', fontFamily: 'monospace' }}>Google Gemini Tuning Console</span>
+          </div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '15px', alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Model:</span>
+              <select 
+                value={selectedGeminiModel} 
+                onChange={(e) => setSelectedGeminiModel(e.target.value)}
+                style={{ background: '#0a0d14', border: '1px solid rgba(255,255,255,0.15)', color: '#fff', fontSize: '0.75rem', padding: '4px 8px', borderRadius: '6px', outline: 'none' }}
+              >
+                <option value="gemini-2.5-flash">gemini-2.5-flash (Speed)</option>
+                <option value="gemini-2.5-pro">gemini-2.5-pro (Reasoning)</option>
+              </select>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Temperature:</span>
+              <input 
+                type="range" 
+                min="0.0" 
+                max="1.0" 
+                step="0.1" 
+                value={geminiTemperature}
+                onChange={(e) => setGeminiTemperature(parseFloat(e.target.value))}
+                style={{ width: '80px', accentColor: 'var(--accent-purple)' }}
+              />
+              <span style={{ fontSize: '0.75rem', color: 'var(--accent-purple)', fontFamily: 'monospace', width: '25px' }}>{geminiTemperature}</span>
+            </div>
+          </div>
+        </div>
 
         {activeNodeAdvice && (
           <div style={{

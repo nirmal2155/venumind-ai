@@ -90,6 +90,54 @@ const AuthorityDashboard = ({ user, onLogout }) => {
   const [selectedGeminiModel, setSelectedGeminiModel] = useState('gemini-2.5-flash');
   const [geminiTemperature, setGeminiTemperature] = useState(0.2);
 
+  const [whatIfScenario, setWhatIfScenario] = useState("What if a power failure occurs at the Metro station during post-match egress?");
+  const [simulationResult, setSimulationResult] = useState(null);
+  const [simulating, setSimulating] = useState(false);
+
+  const runWhatIfSimulation = async () => {
+    if (!whatIfScenario.trim()) return;
+    setSimulating(true);
+    setSimulationResult(null);
+
+    const simulationPrompt = `Act as the VenueMind AI Simulation Engine. Run a 30-60 minutes predictive simulation for this scenario: "${whatIfScenario}".
+Telemetry environment details:
+- Outside Temp: 38°C
+- Stadium Occupancy: 95,400 (FIFA World Cup 2026)
+- Solar Output: 1.4MW
+- Active Gate B queue delay: 15m (Gate C is clear)
+
+Generate a response following this structure:
+### Scenario Description
+...
+### Chain of Events
+...
+### Risk Score (0-100) & Probability (%)
+...
+### Recommended AI Decision
+...
+### Safety Explanation
+...
+`;
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: simulationPrompt,
+          model: selectedGeminiModel,
+          temperature: geminiTemperature
+        })
+      });
+      const data = await res.json();
+      setSimulationResult(data.reply);
+      setLogs(prev => [`[SIMULATION RUN] Predicted future projection for "${whatIfScenario.slice(0, 30)}..."`, ...prev]);
+    } catch {
+      setSimulationResult("Failed to generate predictive simulation.");
+    }
+    setSimulating(false);
+  };
+
   const getAgentNodeAdvice = async (agentName, promptText) => {
     setNodeLoading(agentName);
     try {
@@ -459,6 +507,80 @@ const AuthorityDashboard = ({ user, onLogout }) => {
             </div>
           ))}
         </div>
+      </div>
+
+      {/* 🔮 VenueMind GenAI Predictive "What-If" Simulation Engine Sandbox */}
+      <div style={{ background: 'linear-gradient(135deg, #0e0b16 0%, #06040a 100%)', border: '1px solid rgba(180, 142, 255, 0.2)', borderRadius: '24px', padding: '1.5rem', marginBottom: '2rem' }}>
+        <h3 style={{ margin: '0 0 4px 0', fontSize: '1.2rem', color: '#fff', fontWeight: '900', letterSpacing: '-0.5px' }}>
+          🔮 GenAI Predictive "What-If" Simulation Engine
+        </h3>
+        <p style={{ margin: '0 0 1.5rem 0', color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
+          Run simulated 30-60 minutes forecasts for stadium hazards, egress blocks, or climate anomalies.
+        </p>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', marginBottom: '1.5rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+            <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Select Simulation Preset Scenario:</span>
+            <select
+              value={whatIfScenario}
+              onChange={(e) => setWhatIfScenario(e.target.value)}
+              style={{ background: '#0a0d14', border: '1px solid rgba(255,255,255,0.15)', color: '#fff', fontSize: '0.85rem', padding: '10px', borderRadius: '8px', outline: 'none' }}
+            >
+              <option value="What if a power failure occurs at the Metro station during post-match egress?">🔌 Metro Power Failure during Egress (Transport/Safety block)</option>
+              <option value="What if a ticketless crowd surge of 5,000 fans accumulates at the North Gate turnstiles?">🚨 Inbound Ticketless Crowd Surge (Perimeter Pressure block)</option>
+              <option value="What if external temperatures spike to 42°C with a failure in Sector 3 cooling loop?">🥵 42°C Extreme Heat & Cooling loop failure (Medical/Hydration alert)</option>
+              <option value="What if a fire alarm is triggered in the Concession 12 kitchen row?">🔥 Fire Alert at Concessions (Emergency Evacuation dispatch)</option>
+            </select>
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+            <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Or Enter Custom Scenario Description:</span>
+            <div style={{ display: 'flex', gap: '10px' }}>
+              <input 
+                type="text"
+                value={whatIfScenario}
+                onChange={(e) => setWhatIfScenario(e.target.value)}
+                placeholder="What if..."
+                style={{ flex: 1, background: '#0a0d14', border: '1px solid rgba(255,255,255,0.15)', color: '#fff', fontSize: '0.85rem', padding: '10px', borderRadius: '8px', outline: 'none' }}
+              />
+              <button
+                disabled={simulating}
+                onClick={runWhatIfSimulation}
+                style={{
+                  background: 'var(--accent-purple)',
+                  color: '#fff',
+                  border: 'none',
+                  padding: '10px 20px',
+                  borderRadius: '8px',
+                  fontWeight: 'bold',
+                  fontSize: '0.85rem',
+                  cursor: 'pointer',
+                  boxShadow: '0 5px 15px rgba(180,142,255,0.3)',
+                  transition: 'all 0.2s'
+                }}
+              >
+                {simulating ? 'Running Simulation...' : '🔮 Run Simulation'}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {simulationResult && (
+          <div style={{
+            background: 'rgba(180, 142, 255, 0.04)',
+            border: '1px solid rgba(180, 142, 255, 0.2)',
+            borderRadius: '16px',
+            padding: '1.25rem',
+            animation: 'fadeIn 0.3s ease-out'
+          }}>
+            <h4 style={{ margin: '0 0 10px 0', fontSize: '0.9rem', color: 'var(--accent-purple)', fontWeight: 'bold', fontFamily: 'monospace' }}>
+              🔍 Simulated Projections & Action Directives
+            </h4>
+            <p style={{ margin: 0, fontSize: '0.85rem', color: '#fff', lineHeight: '1.5', whiteSpace: 'pre-line', fontFamily: 'monospace' }}>
+              {simulationResult}
+            </p>
+          </div>
+        )}
       </div>
 
       {/* Heatmap & Alerts Double Panel */}

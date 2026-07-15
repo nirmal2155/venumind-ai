@@ -84,6 +84,26 @@ const AuthorityDashboard = ({ user, onLogout }) => {
     'CROWD_NODE: Gate B bypass turning active (stewards re-routed).',
     'ENERGY_GRID: Solar output peak reached: 1.4MW generated.'
   ]);
+
+  const [activeNodeAdvice, setActiveNodeAdvice] = useState(null);
+  const [nodeLoading, setNodeLoading] = useState(null);
+
+  const getAgentNodeAdvice = async (agentName, promptText) => {
+    setNodeLoading(agentName);
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: promptText })
+      });
+      const data = await res.json();
+      setActiveNodeAdvice({ agent: agentName, advice: data.reply });
+      setLogs(prev => [`[CONSULTED] ${agentName} Agent Node. Strategy generated successfully.`, ...prev]);
+    } catch {
+      setActiveNodeAdvice({ agent: agentName, advice: `Failed to consult ${agentName} agent node.` });
+    }
+    setNodeLoading(null);
+  };
   const [messages, setMessages] = useState([
     { sender: 'ai', text: 'Welcome, Officer. How can I assist you with stadium operations today?' }
   ]);
@@ -243,6 +263,151 @@ const AuthorityDashboard = ({ user, onLogout }) => {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* 📡 VenueMind GenAI Agent Matrix Hub (High Focus Security/Medical/Traffic/Weather/Energy/Collector AI) */}
+      <div style={{ background: 'linear-gradient(135deg, #090e17 0%, #05080e 100%)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '24px', padding: '1.5rem', marginBottom: '2rem' }}>
+        <h3 style={{ margin: '0 0 4px 0', fontSize: '1.2rem', color: '#fff', fontWeight: '900', letterSpacing: '-0.5px' }}>
+          🌐 VenueMind GenAI Agent Matrix Hub
+        </h3>
+        <p style={{ margin: '0 0 1.5rem 0', color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
+          Real-time diagnostics and consulting modules for 6 specialized AI Stadium Nodes.
+        </p>
+
+        {activeNodeAdvice && (
+          <div style={{
+            background: 'rgba(0, 200, 255, 0.05)',
+            border: '1px solid rgba(0, 200, 255, 0.25)',
+            borderRadius: '16px',
+            padding: '1.25rem',
+            marginBottom: '1.5rem',
+            animation: 'fadeIn 0.3s ease-out',
+            position: 'relative'
+          }}>
+            <button 
+              onClick={() => setActiveNodeAdvice(null)}
+              style={{ position: 'absolute', top: '12px', right: '15px', background: 'transparent', border: 'none', color: '#fff', cursor: 'pointer', fontSize: '1rem', fontWeight: 'bold' }}>
+              ✕
+            </button>
+            <h4 style={{ margin: '0 0 8px 0', fontSize: '0.9rem', color: 'var(--accent-blue)', fontWeight: 'bold', fontFamily: 'monospace' }}>
+              🤖 GenAI Advice from: {activeNodeAdvice.agent}
+            </h4>
+            <p style={{ margin: 0, fontSize: '0.85rem', color: '#fff', lineHeight: '1.45', whiteSpace: 'pre-line' }}>
+              {activeNodeAdvice.advice}
+            </p>
+          </div>
+        )}
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '15px' }}>
+          {[
+            {
+              id: 'security',
+              title: 'Security AI Agent',
+              icon: '🛡️',
+              badge: 'NODE_SEC_01',
+              status: '🟢 MONITORING',
+              prompt: 'Provide security breach containment plan for Sector 4 perimeter breach.',
+              telemetry: 'Perimeter: Secured. Drones: Active (04 & 08)'
+            },
+            {
+              id: 'medical',
+              title: 'Medical AI Agent',
+              icon: '🏥',
+              badge: 'NODE_MED_02',
+              status: '🟢 HYDRATION_ACTIVE',
+              prompt: 'Provide resource allocation advice for security stewards and medical volunteers.',
+              telemetry: 'Amb. ETA: 1.5 Min. Cooling zones: Active'
+            },
+            {
+              id: 'traffic',
+              title: 'Traffic AI Agent',
+              icon: '🚇',
+              badge: 'NODE_TRAF_03',
+              status: '🟢 DISPATCH_READY',
+              prompt: 'Give me real-time transport options from Lusail Stadium to Doha Downtown given the taxi loop delay is 35 minutes and Metro is active.',
+              telemetry: 'Metro Wait: 2m. Bus Line D: 8m'
+            },
+            {
+              id: 'weather',
+              title: 'Weather AI Agent',
+              icon: '🌤️',
+              badge: 'NODE_WEATH_04',
+              status: '🟢 FORECAST_ONLINE',
+              prompt: 'Forecast weather and peak climate congestion indices for matchday.',
+              telemetry: 'HVAC Temp: 21.5°C. Outside: 38°C'
+            },
+            {
+              id: 'energy',
+              title: 'Energy AI Agent',
+              icon: '⚡',
+              badge: 'NODE_ENG_05',
+              status: '🟢 GRID_OPTIMAL',
+              prompt: 'Eco grid solar power saving optimization directives.',
+              telemetry: 'Solar Output: 1.4MW. Efficiency: 87%'
+            },
+            {
+              id: 'collector',
+              title: 'Collector AI Agent',
+              icon: '👑',
+              badge: 'NODE_COLL_06',
+              status: '🟢 SYNTHESIS_ACTIVE',
+              prompt: 'Generate stadium operations summary report for FIFA organizers and district coordination.',
+              telemetry: 'Satisfaction: 96.5%. Efficiency: 94.2%'
+            }
+          ].map((node) => (
+            <div 
+              key={node.id} 
+              style={{
+                background: 'rgba(255,255,255,0.02)',
+                border: '1px solid rgba(255,255,255,0.06)',
+                borderRadius: '16px',
+                padding: '1.25rem',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                transition: 'all 0.25s',
+                boxShadow: activeNodeAdvice?.agent === node.title ? '0 0 15px rgba(0, 200, 255, 0.15)' : 'none'
+              }}
+            >
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                  <span style={{ fontSize: '1.5rem' }}>{node.icon}</span>
+                  <span style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.4)', fontFamily: 'monospace', border: '1px solid rgba(255,255,255,0.1)', padding: '2px 6px', borderRadius: '4px' }}>
+                    {node.badge}
+                  </span>
+                </div>
+                <h4 style={{ margin: '0 0 4px 0', fontSize: '0.95rem', fontWeight: 'bold', color: '#fff' }}>
+                  {node.title}
+                </h4>
+                <div style={{ fontSize: '0.65rem', color: 'var(--accent-green)', fontWeight: 'bold', marginBottom: '8px', fontFamily: 'monospace' }}>
+                  {node.status}
+                </div>
+                <div style={{ fontSize: '0.72rem', color: 'var(--text-secondary)', fontFamily: 'monospace', marginBottom: '12px', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '8px' }}>
+                  Telemetry: {node.telemetry}
+                </div>
+              </div>
+              
+              <button
+                disabled={nodeLoading === node.title}
+                onClick={() => getAgentNodeAdvice(node.title, node.prompt)}
+                style={{
+                  width: '100%',
+                  background: 'rgba(0, 200, 255, 0.1)',
+                  border: '1px solid rgba(0, 200, 255, 0.3)',
+                  color: 'var(--accent-blue)',
+                  padding: '8px',
+                  borderRadius: '8px',
+                  fontSize: '0.75rem',
+                  fontWeight: 'bold',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s'
+                }}
+              >
+                {nodeLoading === node.title ? 'Consulting Node...' : '⚡ Run GenAI Telemetry'}
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Heatmap & Alerts Double Panel */}

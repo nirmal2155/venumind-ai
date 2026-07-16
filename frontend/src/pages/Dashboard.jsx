@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Navigation, Users, Bot, CheckCircle2, Timer, AlertTriangle, Target, ShieldCheck, Accessibility as AccessibilityIcon, Cpu, CloudRain, Activity, Thermometer, Sun } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useMatchTimer } from '../hooks/useMatchTimer';
+import CrowdLidarSimulator from '../components/CrowdLidarSimulator';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -454,12 +455,9 @@ const Dashboard = () => {
           
           {/* Hologram visual simulation */}
           <div className="hologram-container" style={{ position: 'relative', height: '190px', borderRadius: '14px', overflow: 'hidden', marginBottom: '1.25rem', border: '1px solid rgba(255,255,255,0.08)' }}>
-            <img src="/images/stadium_isometric.png" alt="Stadium Map" style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.7 }} />
+            <CrowdLidarSimulator routeGate={routeGate} />
             
-            {/* Pulsing Lidar scanline */}
-            <div className="lidar-scanline"></div>
-            
-            <div className="hologram-overlay-card">
+            <div className="hologram-overlay-card" style={{ pointerEvents: 'none' }}>
               <div style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.5)', fontWeight: 'bold', marginBottom: '2px', fontFamily: 'monospace' }}>TARGET DEPT</div>
               <div style={{ fontSize: '1rem', fontWeight: '900', color: 'var(--accent-green)' }}>{routeGate}</div>
             </div>

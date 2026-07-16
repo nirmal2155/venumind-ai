@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Navigation, CheckCircle2, Timer, AlertTriangle, Target, Users, Bot, Info, Camera, Tv, Maximize2, Eye } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useMatchTimer } from '../hooks/useMatchTimer';
+import CrowdLidarSimulator from '../components/CrowdLidarSimulator';
 
 const Maps = () => {
   const navigate = useNavigate();
@@ -130,11 +131,8 @@ const Maps = () => {
             {routeGate === 'GATE C' && <span style={{ background: 'var(--accent-green)', color: '#000', fontSize: '0.65rem', padding: '2px 8px', borderRadius: '12px', fontWeight: 'bold', marginLeft: 'auto' }}>REROUTED</span>}
           </div>
           
-          <div style={{ position: 'relative', height: '180px', borderRadius: '12px', overflow: 'hidden', marginBottom: '1rem', background: '#0a0d14' }}>
-            <img src="/images/stadium_isometric.png" alt="Stadium Seating Isometric map navigation overview" style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.8 }} />
-            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', background: 'var(--accent-green)', color: '#000', padding: '8px 16px', borderRadius: '20px', fontSize: '0.8rem', fontWeight: 'bold', whiteSpace: 'nowrap', transition: 'all 0.5s' }}>
-              FASTEST ROUTE: {routeGate}
-            </div>
+          <div style={{ position: 'relative', height: '180px', borderRadius: '12px', overflow: 'hidden', marginBottom: '1rem', background: '#0a0d14', border: '1px solid rgba(0, 200, 255, 0.2)' }}>
+            <CrowdLidarSimulator routeGate={routeGate} />
           </div>
 
           <div className="flex-row justify-between" style={{ alignItems: 'center' }}>

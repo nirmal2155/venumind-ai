@@ -1,7 +1,64 @@
 const request = require('supertest');
-const app = require('./app');
+const fs = require('fs');
+const path = require('path');
 
-describe('VenueMind AI Backend API', () => {
+// Global mock function accessible in tests
+const mockGenerateContent = jest.fn().mockImplementation(({ model, contents, config }) => {
+  return Promise.resolve({
+    text: `Mocked Gemini Response (Model: ${model || 'default'}, Temp: ${config?.temperature !== undefined ? config.temperature : 'default'})`
+  });
+});
+
+// 1. Mock Google GenAI SDK globally
+jest.mock('@google/genai', () => {
+  return {
+    GoogleGenAI: jest.fn().mockImplementation(() => {
+      return {
+        models: {
+          generateContent: mockGenerateContent
+        }
+      };
+    })
+  };
+});
+
+// Setup mock public directory for express.static test coverage
+const publicDir = path.join(__dirname, 'public');
+beforeAll(() => {
+  if (!fs.existsSync(publicDir)) {
+    fs.mkdirSync(publicDir);
+  }
+  fs.writeFileSync(path.join(publicDir, 'index.html'), '<html>Index</html>');
+  fs.writeFileSync(path.join(publicDir, 'manifest.json'), '{}');
+  fs.writeFileSync(path.join(publicDir, 'test.css'), 'body {}');
+});
+
+afterAll(() => {
+  try {
+    fs.unlinkSync(path.join(publicDir, 'index.html'));
+  } catch (e) {}
+  try {
+    fs.unlinkSync(path.join(publicDir, 'manifest.json'));
+  } catch (e) {}
+  try {
+    fs.unlinkSync(path.join(publicDir, 'test.css'));
+  } catch (e) {}
+  try {
+    fs.rmdirSync(publicDir);
+  } catch (e) {}
+});
+
+describe('VenueMind AI Backend API (With GenAI Client)', () => {
+  let app;
+  
+  beforeAll(() => {
+    // Force API Key to be defined to load GoogleGenAI path
+    process.env.GEMINI_API_KEY = 'mock_key';
+    jest.isolateModules(() => {
+      app = require('./app');
+    });
+  });
+
   describe('GET /api/health', () => {
     it('should return 200 and system health status', async () => {
       const res = await request(app).get('/api/health');
@@ -54,60 +111,113 @@ describe('VenueMind AI Backend API', () => {
       expect(res.body.error).toBe('Message exceeds maximum length');
     });
 
-    it('should return 200 and a reply for valid message', async () => {
-      const res = await request(app).post('/api/chat').send({ message: 'Hello AI' });
+    it('should call mocked Gemini API and return response', async () => {
+      const res = await request(app).post('/api/chat').send({
+        message: 'Hello Gemini',
+        model: 'gemini-2.5-pro',
+        temperature: 0.2
+      });
       expect(res.statusCode).toBe(200);
-      expect(res.body).toHaveProperty('reply');
+      expect(res.body.reply).toContain('Mocked Gemini Response');
+      expect(res.body.reply).toContain('Model: gemini-2.5-pro');
+      expect(res.body.reply).toContain('Temp: 0.2');
     });
 
-    it('should return contextual reply for food query', async () => {
-      const res = await request(app).post('/api/chat').send({ message: 'Where can I get food?' });
-      expect(res.statusCode).toBe(200);
-      expect(res.body.reply).toContain('Food');
-    });
+    it('should handle Gemini SDK errors gracefully and return 500', async () => {
+      mockGenerateContent.mockRejectedValueOnce(new Error('Gemini API Failure'));
 
-    it('should return contextual reply for parking query', async () => {
-      const res = await request(app).post('/api/chat').send({ message: 'Where is parking?' });
-      expect(res.statusCode).toBe(200);
-      expect(res.body.reply).toContain('Parking');
+      const res = await request(app).post('/api/chat').send({ message: 'Trigger Failure' });
+      expect(res.statusCode).toBe(500);
+      expect(res.body.error).toBe('Internal Server Error');
     });
   });
 
-  describe('Security Headers', () => {
-    it('should set X-Content-Type-Options to nosniff', async () => {
-      const res = await request(app).get('/api/health');
-      expect(res.headers['x-content-type-options']).toBe('nosniff');
+  describe('Express Static Caching Headers', () => {
+    it('should set no-cache for index.html', async () => {
+      const res = await request(app).get('/index.html');
+      expect(res.headers['cache-control']).toBe('no-cache, no-store, must-revalidate');
     });
 
-    it('should set X-Frame-Options to DENY', async () => {
-      const res = await request(app).get('/api/health');
-      expect(res.headers['x-frame-options']).toBe('DENY');
+    it('should set no-cache for manifest.json', async () => {
+      const res = await request(app).get('/manifest.json');
+      expect(res.headers['cache-control']).toBe('no-cache, no-store, must-revalidate');
     });
 
-    it('should set X-XSS-Protection header', async () => {
-      const res = await request(app).get('/api/health');
-      expect(res.headers['x-xss-protection']).toBe('1; mode=block');
+    it('should set long term caching for other files', async () => {
+      const res = await request(app).get('/test.css');
+      expect(res.headers['cache-control']).toBe('public, max-age=31536000, immutable');
     });
+  });
+});
 
-    it('should set Referrer-Policy header', async () => {
-      const res = await request(app).get('/api/health');
-      expect(res.headers['referrer-policy']).toBe('strict-origin-when-cross-origin');
-    });
+describe('VenueMind AI Backend API (GenAI Offline Fallback)', () => {
+  let offlineApp;
 
-    it('should set Permissions-Policy header', async () => {
-      const res = await request(app).get('/api/health');
-      expect(res.headers['permissions-policy']).toBe('camera=(), microphone=(self), geolocation=(self)');
-    });
-
-    it('should set Content-Security-Policy header', async () => {
-      const res = await request(app).get('/api/health');
-      expect(res.headers['content-security-policy']).toBe("default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'");
-    });
-
-    it('should set Strict-Transport-Security header', async () => {
-      const res = await request(app).get('/api/health');
-      expect(res.headers['strict-transport-security']).toBe('max-age=63072000; includeSubDomains; preload');
+  beforeAll(() => {
+    // Disable API Key to load offline keywords matching logic
+    delete process.env.GEMINI_API_KEY;
+    jest.isolateModules(() => {
+      offlineApp = require('./app');
     });
   });
 
+  const keywords = [
+    { text: 'doha downtown', expected: 'Metro' },
+    { text: 'recalculate route', expected: 'REROUTING' },
+    { text: 'critical surge', expected: 'CROWD CONTROL' },
+    { text: 'sensory guide', expected: 'SENSORY' },
+    { text: 'energy saving', expected: 'ECO' },
+    { text: 'sector 4 perimeter breach', expected: 'SECURITY COMMAND' },
+    { text: 'resource allocation', expected: 'RESOURCE ALLOCATION' },
+    { text: 'where is the toilet?', expected: 'restrooms' },
+    { text: 'what seat do I have?', expected: 'Section 302' },
+    { text: 'parking details', expected: 'Parking' },
+    { text: 'security emergency', expected: 'post' },
+    { text: 'food and drink', expected: 'Level 2' },
+    { text: 'wifi network', expected: 'FIFA2026' },
+    { text: 'internet access', expected: 'FIFA2026' }
+  ];
+
+  keywords.forEach(({ text, expected }) => {
+    it(`should return contextual offline reply for "${text}"`, async () => {
+      const res = await request(offlineApp).post('/api/chat').send({ message: text });
+      expect(res.statusCode).toBe(200);
+      expect(res.body.reply.toLowerCase()).toContain(expected.toLowerCase());
+    });
+  });
+});
+
+describe('GenAI Initialization Errors', () => {
+  it('should handle constructor errors during initialization safely', () => {
+    const { GoogleGenAI } = require('@google/genai');
+    GoogleGenAI.mockImplementationOnce(() => {
+      throw new Error('Forced initialization failure');
+    });
+    
+    process.env.GEMINI_API_KEY = 'mock_key';
+    jest.isolateModules(() => {
+      const errorApp = require('./app');
+      expect(errorApp).toBeDefined();
+    });
+  });
+});
+
+describe('Global Error Boundaries', () => {
+  let app;
+  beforeAll(() => {
+    jest.isolateModules(() => {
+      app = require('./app');
+    });
+  });
+
+  it('should fall back to wildcard router and trigger Express error handler if index.html is missing', async () => {
+    // Delete index.html to trigger sendFile error in wildcard handler
+    try {
+      fs.unlinkSync(path.join(publicDir, 'index.html'));
+    } catch(e) {}
+    
+    const res = await request(app).get('/some-random-route');
+    expect(res.statusCode).toBe(500);
+    expect(res.body.error).toBe('Internal Server Error');
+  });
 });

@@ -33,7 +33,7 @@ describe('App Component Structure', () => {
     expect(navElement).toBeInTheDocument();
 
     // The "Hub" nav item should exist
-    expect(screen.getByText('Hub')).toBeInTheDocument();
+    expect(screen.getAllByText('Hub')[0]).toBeInTheDocument();
 
     vi.useRealTimers();
   });

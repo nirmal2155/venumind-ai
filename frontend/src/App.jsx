@@ -59,7 +59,7 @@ const BottomNav = React.memo(() => {
   ];
 
   return (
-    <nav style={{
+    <nav className="mobile-bottom-nav" style={{
       position: 'fixed',
       bottom: 0,
       left: '50%',
@@ -104,6 +104,60 @@ const BottomNav = React.memo(() => {
     </nav>
   );
 });
+
+// --- Desktop Sidebar Navigation Component ---
+const DesktopSidebar = () => {
+  const location = useLocation();
+  const navItems = [
+    { path: '/', icon: Home, label: 'Hub' },
+    { path: '/maps', icon: Map, label: 'Maps' },
+    { path: '/concierge', icon: Bot, label: 'AI Assistant' },
+    { path: '/ops', icon: RadioTower, label: 'Ops' },
+  ];
+
+  return (
+    <aside className="desktop-sidebar-nav" style={{
+      width: '260px',
+      background: 'rgba(10, 17, 32, 0.5)',
+      backdropFilter: 'blur(20px)',
+      borderRight: '1px solid var(--border-glass)',
+      display: 'flex',
+      flexDirection: 'column',
+      padding: '2rem 1.25rem',
+      gap: '8px',
+      zIndex: 90,
+      flexShrink: 0
+    }}>
+      <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', fontWeight: 'bold', letterSpacing: '2px', marginBottom: '1rem', fontFamily: 'monospace' }}>NAVIGATION DESK</div>
+      {navItems.map((item) => {
+        const Icon = item.icon;
+        const isActive = location.pathname === item.path;
+        return (
+          <Link 
+            key={item.path} 
+            to={item.path}
+            style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: '12px',
+              textDecoration: 'none',
+              color: isActive ? 'var(--accent-green)' : 'var(--text-secondary)',
+              background: isActive ? 'rgba(0, 255, 178, 0.06)' : 'transparent',
+              border: `1px solid ${isActive ? 'rgba(0, 255, 178, 0.15)' : 'transparent'}`,
+              borderRadius: '12px',
+              padding: '12px 16px',
+              transition: 'all 0.25s',
+              fontWeight: isActive ? 'bold' : 'normal'
+            }}
+          >
+            <Icon size={18} />
+            <span style={{ fontSize: '0.85rem' }}>{item.label}</span>
+          </Link>
+        )
+      })}
+    </aside>
+  );
+};
 
 // --- Live Clock Widget ---
 const LiveClock = () => {
@@ -399,19 +453,23 @@ const AppLayout = ({ currentUser, onLogout }) => {
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <Header onLogout={onLogout} currentUser={currentUser} />
       
-      <main style={{ flex: 1, display: 'flex', flexDirection: 'column', position: 'relative' }}>
-        {currentUser?.role !== 'fan' ? (
-          <React.Suspense fallback={
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '50vh', gap: '1rem' }}>
-              <div style={{ width: '40px', height: '40px', border: '3px solid rgba(43,255,136,0.1)', borderTopColor: 'var(--accent-green)', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
-            </div>
-          }>
-            <AuthorityDashboard user={currentUser} onLogout={onLogout} />
-          </React.Suspense>
-        ) : (
-          <AnimatedRoutes />
-        )}
-      </main>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'row', position: 'relative', width: '100%' }}>
+        {currentUser?.role === 'fan' && <DesktopSidebar />}
+        
+        <main style={{ flex: 1, display: 'flex', flexDirection: 'column', position: 'relative', minWidth: 0 }}>
+          {currentUser?.role !== 'fan' ? (
+            <React.Suspense fallback={
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '50vh', gap: '1rem' }}>
+                <div style={{ width: '40px', height: '40px', border: '3px solid rgba(43,255,136,0.1)', borderTopColor: 'var(--accent-green)', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
+              </div>
+            }>
+              <AuthorityDashboard user={currentUser} onLogout={onLogout} />
+            </React.Suspense>
+          ) : (
+            <AnimatedRoutes />
+          )}
+        </main>
+      </div>
 
       {currentUser?.role === 'fan' && <BottomNav />}
 

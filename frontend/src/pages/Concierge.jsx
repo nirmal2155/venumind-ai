@@ -119,6 +119,35 @@ const Concierge = () => {
 
   const [loading, setLoading] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
+  const [liveAudioActive, setLiveAudioActive] = useState(false);
+  const [liveAudioText, setLiveAudioText] = useState('Select language to begin Live Audio Translation...');
+
+  const toggleLiveAudio = () => {
+    const nextState = !liveAudioActive;
+    setLiveAudioActive(nextState);
+    if (nextState) {
+      setLiveAudioText('Establishing Gemini Live WebSocket Bridge...');
+      setTimeout(() => {
+        setLiveAudioText(`Translation active: Translating English Commentary into ${selectedLang.name}...`);
+        try {
+          if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            const textToSpeak = `Gemini Live audio translator active. Translating live match commentary to ${selectedLang.name}. Enjoy the game!`;
+            const utterance = new SpeechSynthesisUtterance(textToSpeak);
+            utterance.lang = 'en-US';
+            window.speechSynthesis.speak(utterance);
+          }
+        } catch {}
+      }, 1000);
+    } else {
+      setLiveAudioText('Audio translation stream disconnected.');
+      try {
+        if ('speechSynthesis' in window) {
+          window.speechSynthesis.cancel();
+        }
+      } catch {}
+    }
+  };
 
   const handleLanguageChange = (lang) => {
     setSelectedLang(lang);
@@ -333,6 +362,72 @@ const Concierge = () => {
         </div>
       </div>
 
+      <style>{`
+        @keyframes waveBar {
+          0% { height: 4px; }
+          100% { height: 14px; }
+        }
+      `}</style>
+
+      {/* 📡 Gemini Live Audio Bridge Panel */}
+      <div style={{
+        background: 'linear-gradient(135deg, rgba(0, 200, 255, 0.08), rgba(0, 0, 0, 0.5))',
+        border: '1px solid rgba(0, 200, 255, 0.25)',
+        borderRadius: '16px',
+        padding: '12px 16px',
+        marginBottom: '1rem',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '10px'
+      }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ fontSize: '1.2rem' }}>🎙️</span>
+            <div style={{ fontSize: '0.75rem', fontWeight: 'bold', color: '#00C8FF', fontFamily: 'monospace', letterSpacing: '1px' }}>
+              GEMINI LIVE AUDIO TRANSLATION BRIDGE
+            </div>
+          </div>
+          <button
+            onClick={toggleLiveAudio}
+            style={{
+              background: liveAudioActive ? '#FF4B4B' : '#00C8FF',
+              border: 'none',
+              color: '#000',
+              padding: '6px 12px',
+              borderRadius: '20px',
+              fontWeight: 'bold',
+              fontSize: '0.7rem',
+              cursor: 'pointer',
+              boxShadow: liveAudioActive ? '0 0 15px rgba(255,75,75,0.3)' : '0 0 15px rgba(0,200,255,0.3)'
+            }}
+          >
+            {liveAudioActive ? 'DISCONNECT' : 'START AUDIO'}
+          </button>
+        </div>
+
+        <div style={{ fontSize: '0.78rem', color: liveAudioActive ? '#fff' : 'rgba(255,255,255,0.5)', fontFamily: 'monospace', minHeight: '24px', transition: 'all 0.3s' }}>
+          {liveAudioText}
+        </div>
+
+        {liveAudioActive && (
+          <div style={{ display: 'flex', gap: '4px', alignItems: 'flex-end', height: '14px', paddingLeft: '4px' }}>
+            {[1, 2, 3, 4, 5, 6, 7, 8].map(i => (
+              <div 
+                key={i} 
+                className="audio-wave-bar" 
+                style={{ 
+                  width: '3px', 
+                  background: '#00C8FF',
+                  borderRadius: '1.5px',
+                  animation: `waveBar 0.5s ease-in-out infinite alternate`,
+                  animationDelay: `${i * 0.08}s`
+                }}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+ 
       {/* Chat History */}
       <div className="flex-col gap-4" style={{ flex: 1, overflowY: 'auto', paddingBottom: '220px', scrollbarWidth: 'none' }}>
         

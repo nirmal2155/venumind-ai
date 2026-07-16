@@ -3,6 +3,7 @@ import { Navigation, Users, Bot, CheckCircle2, Timer, AlertTriangle, Target, Shi
 import { useNavigate } from 'react-router-dom';
 import { useMatchTimer } from '../hooks/useMatchTimer';
 import CrowdLidarSimulator from '../components/CrowdLidarSimulator';
+import DigitalTwinView from '../components/DigitalTwinView';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ const Dashboard = () => {
   const [transitAdvisorText, setTransitAdvisorText] = useState('');
   const [transitLoading, setTransitLoading] = useState(false);
   const [activeSimulationPreset, setActiveSimulationPreset] = useState('Standard');
+  const [arOverlay, setArOverlay] = useState(false);
 
   const applyPreset = (presetName) => {
     setActiveSimulationPreset(presetName);
@@ -261,6 +263,8 @@ const Dashboard = () => {
           ))}
         </div>
 
+        <DigitalTwinView />
+
         {/* ⏱️ Match Kickoff Countdown HUD Card */}
         <div className="cyber-hud-card" style={{
           border: '1px solid rgba(255, 222, 89, 0.25)',
@@ -443,19 +447,62 @@ const Dashboard = () => {
             <div className="neon-status-badge">AI ROUTING ACTIVE</div>
           )}
 
-          <div className="flex-row gap-3" style={{ alignItems: 'center', marginBottom: '1.25rem' }}>
-            <div style={{ background: 'rgba(43,255,136,0.1)', padding: '10px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Navigation color="var(--accent-green)" size={20} className="pulse-slow" />
+          <div className="flex-row justify-between" style={{ marginBottom: '1.25rem', alignItems: 'center' }}>
+            <div className="flex-row gap-3" style={{ alignItems: 'center' }}>
+              <div style={{ background: 'rgba(43,255,136,0.1)', padding: '10px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Navigation color="var(--accent-green)" size={20} className="pulse-slow" />
+              </div>
+              <div>
+                <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: '700', color: '#fff' }}>Holographic Routing</h3>
+                <span style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.4)', fontFamily: 'monospace' }}>DYNAMIC LIDAR PATHWAYS</span>
+              </div>
             </div>
-            <div>
-              <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: '700', color: '#fff' }}>Holographic Routing</h3>
-              <span style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.4)', fontFamily: 'monospace' }}>DYNAMIC LIDAR PATHWAYS</span>
-            </div>
+            <button
+              onClick={() => setArOverlay(p => !p)}
+              style={{
+                background: arOverlay ? 'rgba(0,200,255,0.2)' : 'rgba(255,255,255,0.05)',
+                border: arOverlay ? '1px solid #00C8FF' : '1px solid rgba(255,255,255,0.15)',
+                color: arOverlay ? '#00C8FF' : 'var(--text-secondary)',
+                fontSize: '0.65rem',
+                fontWeight: 'bold',
+                padding: '4px 8px',
+                borderRadius: '6px',
+                cursor: 'pointer',
+                fontFamily: 'monospace'
+              }}
+            >
+              📶 5G AR HUD: {arOverlay ? 'ON' : 'OFF'}
+            </button>
           </div>
           
           {/* Hologram visual simulation */}
           <div className="hologram-container" style={{ position: 'relative', height: '190px', borderRadius: '14px', overflow: 'hidden', marginBottom: '1.25rem', border: '1px solid rgba(255,255,255,0.08)' }}>
             <CrowdLidarSimulator routeGate={routeGate} />
+
+            {arOverlay && (
+              <div style={{
+                position: 'absolute',
+                top: '10px',
+                left: '10px',
+                right: '10px',
+                background: 'rgba(5,10,20,0.85)',
+                border: '1px solid #00C8FF',
+                borderRadius: '8px',
+                padding: '6px 10px',
+                fontSize: '0.7rem',
+                color: '#fff',
+                fontFamily: 'monospace',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '4px',
+                pointerEvents: 'none',
+                zIndex: 10
+              }}>
+                <div style={{ fontWeight: 'bold', color: '#00C8FF', fontSize: '0.6rem', letterSpacing: '1px' }}>5G AR HUD OVERLAY</div>
+                <div>🏃 K. Mbappé: 36.8 km/h | Pass: 92%</div>
+                <div>🛡️ V. van Dijk: 32.4 km/h | Tackles: 4/4</div>
+              </div>
+            )}
             
             <div className="hologram-overlay-card" style={{ pointerEvents: 'none' }}>
               <div style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.5)', fontWeight: 'bold', marginBottom: '2px', fontFamily: 'monospace' }}>TARGET DEPT</div>

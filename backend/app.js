@@ -158,6 +158,27 @@ app.post('/api/chat', async (req, res) => {
       return res.status(400).json({ error: 'Message exceeds maximum length' });
     }
 
+    // Prompt Injection Guard
+    const lowerMessage = message.toLowerCase();
+    const injectionSignatures = [
+      'ignore previous instructions',
+      'system override',
+      'developer mode',
+      'bypass safety',
+      'you are now a'
+    ];
+    if (injectionSignatures.some(sig => lowerMessage.includes(sig))) {
+      return res.status(400).json({ error: 'Security violation: Prompt injection attempt detected.' });
+    }
+
+    // Bias & Discrimination Guard
+    const biasKeywords = [
+      'racist', 'sexist', 'discriminatory', 'hate speech'
+    ];
+    if (biasKeywords.some(keyword => lowerMessage.includes(keyword))) {
+      return res.status(400).json({ error: 'Policy violation: Unacceptable bias or discriminatory phrasing detected.' });
+    }
+
     if (!aiClient) {
       // Intelligent mock response based on keywords
       const lower = message.toLowerCase();

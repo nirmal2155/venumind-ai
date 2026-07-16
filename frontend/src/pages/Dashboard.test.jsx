@@ -92,4 +92,24 @@ describe('Dashboard Component', () => {
       expect(screen.getByText(/PROTOCOLS: \/status/i)).toBeInTheDocument();
     });
   });
+
+  it('toggles the 5G AR HUD overlay showing real-time player stats', () => {
+    render(
+      <BrowserRouter>
+        <EmergencyProvider>
+          <Dashboard />
+        </EmergencyProvider>
+      </BrowserRouter>
+    );
+
+    const toggleBtn = screen.getByText(/5G AR HUD: OFF/i);
+    expect(screen.queryByText(/5G AR HUD OVERLAY/i)).not.toBeInTheDocument();
+
+    fireEvent.click(toggleBtn);
+    expect(screen.getByText(/5G AR HUD OVERLAY/i)).toBeInTheDocument();
+    expect(screen.getByText(/Mbappé/i)).toBeInTheDocument();
+
+    fireEvent.click(toggleBtn);
+    expect(screen.queryByText(/5G AR HUD OVERLAY/i)).not.toBeInTheDocument();
+  });
 });

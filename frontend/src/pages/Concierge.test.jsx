@@ -54,4 +54,43 @@ describe('Concierge Component', () => {
     expect(global.fetch).toHaveBeenCalledWith('/api/chat', expect.any(Object));
     vi.useRealTimers();
   });
+
+  it('interacts with the Gemini Live Audio Bridge panel', () => {
+    vi.useFakeTimers();
+    render(
+      <BrowserRouter>
+        <EmergencyProvider>
+          <Concierge />
+        </EmergencyProvider>
+      </BrowserRouter>
+    );
+
+    // Verify initial text
+    expect(screen.getByText(/Select language to begin Live Audio Translation/i)).toBeInTheDocument();
+    
+    // Find and click start button
+    const startBtn = screen.getByText(/START AUDIO/i);
+    act(() => {
+      fireEvent.click(startBtn);
+    });
+
+    // Verify loading text
+    expect(screen.getByText(/Establishing Gemini Live WebSocket Bridge/i)).toBeInTheDocument();
+
+    // Advance time
+    act(() => {
+      vi.advanceTimersByTime(1200);
+    });
+
+    // Verify active translation text
+    expect(screen.getByText(/Translation active: Translating English Commentary into English/i)).toBeInTheDocument();
+    expect(screen.getByText(/DISCONNECT/i)).toBeInTheDocument();
+
+    // Disconnect
+    act(() => {
+      fireEvent.click(screen.getByText(/DISCONNECT/i));
+    });
+    expect(screen.getByText(/Audio translation stream disconnected/i)).toBeInTheDocument();
+    vi.useRealTimers();
+  });
 });

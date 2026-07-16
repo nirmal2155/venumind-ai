@@ -174,24 +174,22 @@ const Dashboard = () => {
 
       {/* Top AI HUD Active Bar */}
       <div style={{
-        background: 'rgba(8, 12, 22, 0.8)',
-        backdropFilter: 'blur(16px)',
+        background: 'var(--bg-secondary)',
         padding: '10px 1.5rem',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        borderBottom: '1px solid rgba(0,255,178,0.06)',
-        boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
+        borderBottom: '1px solid var(--border-glass)',
         position: 'sticky',
         top: '60px',
         zIndex: 90
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <Cpu size={16} className="pulse-neon-green" style={{ color: 'var(--accent-green)' }} />
-          <span style={{ color: 'var(--accent-green)', fontWeight: '800', fontSize: '0.7rem', letterSpacing: '2px' }}>Operations Dashboard</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <Cpu size={14} style={{ color: 'var(--accent-green)' }} />
+          <span style={{ color: 'var(--text-primary)', fontWeight: '600', fontSize: '0.75rem' }}>Operations Dashboard</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ color: '#00C8FF', fontSize: '0.65rem', fontWeight: 'bold', letterSpacing: '1px' }}>System Health: 98.4%</span>
+          <span style={{ color: 'var(--text-secondary)', fontSize: '0.7rem', fontWeight: '500' }}>System Health: 98.4%</span>
         </div>
       </div>
 
@@ -204,27 +202,25 @@ const Dashboard = () => {
               <span className="live-badge">LIVE</span>
               <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.7rem', fontWeight: 'bold', letterSpacing: '2px', margin: 0 }}>Lusail Stadium • Match Day 14</p>
             </div>
-            <h1 style={{ fontSize: '2.5rem', margin: '0', lineHeight: '1.05', fontWeight: '800', letterSpacing: '-0.5px', fontFamily: 'var(--font-display, Space Grotesk)', background: 'linear-gradient(135deg, #fff 40%, rgba(0,255,178,0.6) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-              VenueMind AI <span style={{ WebkitTextFillColor: 'var(--accent-yellow)', textShadow: '0 0 30px rgba(255,222,89,0.25)' }}>Portal</span>
+            <h1 style={{ fontSize: '2rem', margin: '0', fontWeight: '800', letterSpacing: '-0.02em', color: '#ffffff' }}>
+              VenueMind AI <span style={{ color: 'var(--accent-yellow)' }}>Portal</span>
             </h1>
           </div>
-          {/* AI Trigger button - designed like a scan target */}
           <button 
             onClick={simulateReroute} 
-            className="target-glow-btn"
             title="Simulate AI Flow Adjustment"
             style={{
-              background: 'rgba(255, 222, 89, 0.08)',
-              border: '1px solid var(--accent-yellow)',
-              padding: '12px',
+              background: 'rgba(255, 255, 255, 0.04)',
+              border: '1px solid var(--border-glass)',
+              padding: '10px',
               borderRadius: '50%',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              transition: 'all 0.3s'
+              transition: 'background 0.2s'
             }}>
-            <Target size={22} color="var(--accent-yellow)" />
+            <Target size={18} color="var(--accent-yellow)" />
           </button>
         </div>
 
@@ -246,16 +242,16 @@ const Dashboard = () => {
               key={preset.id}
               onClick={() => applyPreset(preset.id)}
               style={{
-                background: activeSimulationPreset === preset.id ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.02)',
-                border: `1px solid ${activeSimulationPreset === preset.id ? preset.color : 'rgba(255,255,255,0.08)'}`,
-                color: activeSimulationPreset === preset.id ? preset.color : 'var(--text-secondary)',
-                borderRadius: '12px',
-                padding: '8px 16px',
-                fontSize: '0.8rem',
-                fontWeight: 'bold',
+                background: activeSimulationPreset === preset.id ? 'var(--text-primary)' : 'rgba(255,255,255,0.03)',
+                border: '1px solid var(--border-glass)',
+                color: activeSimulationPreset === preset.id ? '#000000' : 'var(--text-secondary)',
+                borderRadius: '9999px',
+                padding: '6px 14px',
+                fontSize: '0.78rem',
+                fontWeight: '600',
                 cursor: 'pointer',
                 whiteSpace: 'nowrap',
-                transition: 'all 0.3s'
+                transition: 'all 0.15s ease'
               }}
             >
               {preset.label}
@@ -266,62 +262,49 @@ const Dashboard = () => {
         <DigitalTwinView />
 
         {/* ⏱️ Match Kickoff Countdown HUD Card */}
-        <div className="cyber-hud-card" style={{
-          border: '1px solid rgba(255, 222, 89, 0.25)',
-          borderRadius: '16px',
-          padding: '1.5rem',
-          marginBottom: '1.5rem',
-          background: 'linear-gradient(135deg, rgba(255, 222, 89, 0.03), rgba(0,0,0,0.4))',
-          boxShadow: '0 8px 32px rgba(255, 222, 89, 0.04)',
-          position: 'relative',
-          overflow: 'hidden'
+        <div className="glass-card" style={{
+          padding: '1.25rem 1.5rem',
+          marginBottom: '1.25rem'
         }}>
-          {/* Subtle tech lines decoration */}
-          <div className="tech-corner-top-right"></div>
-          
-          <div className="flex-row justify-between" style={{ marginBottom: '1.25rem', alignItems: 'center' }}>
+          <div className="flex-row justify-between" style={{ marginBottom: '1rem', alignItems: 'center' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Timer size={16} color="var(--accent-yellow)" />
-              <span style={{ color: 'var(--accent-yellow)', fontSize: '0.8rem', fontWeight: 'bold', letterSpacing: '2px' }}>Kickoff Countdown</span>
+              <Timer size={15} color="var(--accent-yellow)" />
+              <span style={{ color: 'var(--accent-yellow)', fontSize: '0.75rem', fontWeight: '600', letterSpacing: '1px' }}>Kickoff Countdown</span>
             </div>
             <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.7rem' }}>UTC+3</span>
           </div>
 
-          <div className="flex-row gap-6" style={{ alignItems: 'center' }}>
-            <div className="countdown-group">
-              <span className="countdown-time">{timerValues.hrs}</span>
-              <span className="countdown-label">HOURS</span>
+          <div className="flex-row gap-4" style={{ alignItems: 'center', justifyContent: 'center', marginTop: '0.5rem' }}>
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: '1.8rem', fontWeight: '800', color: '#fff' }}>{timerValues.hrs}</div>
+              <span style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.4)', fontWeight: 'bold' }}>HRS</span>
             </div>
-            <span className="countdown-separator">:</span>
-            <div className="countdown-group">
-              <span className="countdown-time">{timerValues.mins}</span>
-              <span className="countdown-label">MINUTES</span>
+            <div style={{ fontSize: '1.5rem', color: 'rgba(255,255,255,0.2)', marginTop: '-15px' }}>:</div>
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: '1.8rem', fontWeight: '800', color: '#fff' }}>{timerValues.mins}</div>
+              <span style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.4)', fontWeight: 'bold' }}>MIN</span>
             </div>
-            <span className="countdown-separator">:</span>
-            <div className="countdown-group">
-              <span className="countdown-time-active">{timerValues.secs}</span>
-              <span className="countdown-label">SECONDS</span>
+            <div style={{ fontSize: '1.5rem', color: 'rgba(255,255,255,0.2)', marginTop: '-15px' }}>:</div>
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: '1.8rem', fontWeight: '800', color: 'var(--accent-yellow)' }}>{timerValues.secs}</div>
+              <span style={{ fontSize: '0.6rem', color: 'var(--accent-yellow)', fontWeight: 'bold' }}>SEC</span>
             </div>
           </div>
         </div>
 
         {/* 🌡️ Live Weather & Heat Alert HUD (Extreme Heat mitigation design) */}
-        <div className="cyber-hud-card" style={{
-          border: '1px solid rgba(255, 107, 53, 0.35)',
-          borderRadius: '20px',
+        <div className="glass-card" style={{
           padding: '1.5rem',
-          marginBottom: '1.5rem',
-          background: 'linear-gradient(135deg, rgba(255, 107, 53, 0.06), rgba(0,0,0,0.55))',
-          boxShadow: '0 8px 32px rgba(255, 107, 53, 0.05)'
+          marginBottom: '1.25rem'
         }}>
           <div className="flex-row justify-between" style={{ marginBottom: '1.25rem', alignItems: 'center' }}>
             <div className="flex-row gap-3" style={{ alignItems: 'center' }}>
-              <div style={{ width: '42px', height: '42px', background: 'rgba(255, 107, 53, 0.1)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Thermometer size={22} color="#FF6B35" />
+              <div style={{ width: '36px', height: '36px', background: 'rgba(255, 107, 53, 0.08)', border: '1px solid rgba(255, 107, 53, 0.12)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Thermometer size={18} color="#FF6B35" />
               </div>
               <div>
-                <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: '700', color: '#fff' }}>Atmosphere Metric</h3>
-                <span style={{ fontSize: '0.65rem', color: '#FF6B35', letterSpacing: '1px' }}>Climate Control Active</span>
+                <h3 style={{ margin: 0, fontSize: '0.95rem', fontWeight: '600', color: '#fff' }}>Atmosphere Metric</h3>
+                <span style={{ fontSize: '0.62rem', color: '#FF6B35' }}>Climate Control Active</span>
               </div>
             </div>
             <div style={{ textAlign: 'right' }}>
@@ -350,16 +333,16 @@ const Dashboard = () => {
           </div>
 
           <div style={{
-            background: 'rgba(255, 107, 53, 0.08)',
-            borderRadius: '12px',
-            padding: '12px',
+            background: 'rgba(255, 107, 53, 0.03)',
+            borderRadius: '8px',
+            padding: '10px 12px',
             display: 'flex',
             alignItems: 'flex-start',
-            gap: '10px',
-            border: '1px solid rgba(255,107,53,0.15)'
+            gap: '8px',
+            border: '1px solid rgba(255,107,53,0.1)'
           }}>
-            <span style={{ fontSize: '1.2rem', marginTop: '-2px' }}>💧</span>
-            <p style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.85)', margin: 0, lineHeight: '1.45' }}>
+            <span style={{ fontSize: '1.1rem', marginTop: '-2px' }}>💧</span>
+            <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', margin: 0, lineHeight: '1.4' }}>
               <strong style={{ color: '#FF6B35' }}>HYDRATION ALERT:</strong> Extreme climate matrix detected. Rehydration mandatory every 20 minutes. Shaded zones deployed at Gates A & D.
             </p>
           </div>

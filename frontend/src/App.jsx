@@ -118,21 +118,16 @@ const DesktopSidebar = () => {
   return (
     <aside className="desktop-sidebar-nav" style={{
       width: '260px',
-      background: 'rgba(8, 12, 22, 0.7)',
-      backdropFilter: 'blur(24px)',
-      WebkitBackdropFilter: 'blur(24px)',
-      borderRight: '1px solid rgba(0,255,178,0.06)',
+      background: 'var(--bg-secondary)',
+      borderRight: '1px solid var(--border-glass)',
       display: 'flex',
       flexDirection: 'column',
       padding: '1.5rem 1rem',
       gap: '4px',
       zIndex: 90,
       flexShrink: 0,
-      position: 'relative',
-      overflow: 'hidden'
+      position: 'relative'
     }}>
-      {/* Gradient accent line */}
-      <div style={{ position: 'absolute', top: 0, right: 0, width: '1px', height: '100%', background: 'linear-gradient(180deg, rgba(0,255,178,0.2), transparent 30%, transparent 70%, rgba(0,200,255,0.15))' }} />
 
       {/* Venue Info */}
       <div style={{ padding: '0.75rem', marginBottom: '0.75rem', borderRadius: '12px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.04)' }}>
@@ -209,12 +204,10 @@ const Header = ({ onLogout, currentUser }) => {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        background: isEmergency ? 'rgba(255, 0, 0, 0.8)' : 'rgba(8, 12, 22, 0.9)',
-        backdropFilter: 'blur(24px)',
-        WebkitBackdropFilter: 'blur(24px)',
-        borderBottom: isEmergency ? '1px solid rgba(255,0,0,0.5)' : '1px solid rgba(0,255,178,0.06)',
+        background: isEmergency ? 'rgba(255, 0, 0, 0.8)' : 'var(--bg-secondary)',
+        borderBottom: isEmergency ? '1px solid rgba(255,0,0,0.5)' : '1px solid var(--border-glass)',
         transition: 'background 0.5s',
-        boxShadow: '0 4px 30px rgba(0,0,0,0.3)'
+        boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
       }}>
         <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
           <div className="flex-row gap-2" style={{ alignItems: 'center' }}>
@@ -459,29 +452,28 @@ const SplashSequence = ({ onComplete }) => {
   return (
     <div style={{
       position: 'fixed', inset: 0, zIndex: 999999,
-      background: 'radial-gradient(ellipse at 30% 20%, rgba(0,255,178,0.06) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(0,200,255,0.04) 0%, transparent 50%), #030710',
+      background: 'var(--bg-primary)',
       display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '2rem'
     }}>
-      {/* Gradient Ring Spinner */}
-      <div style={{ position: 'relative', width: '100px', height: '100px', marginBottom: '2.5rem' }}>
+      {/* Minimal clean Spinner */}
+      <div style={{ position: 'relative', width: '80px', height: '80px', marginBottom: '2rem' }}>
         <div style={{
-          position: 'absolute', inset: '-4px',
-          borderRadius: '20px',
-          background: 'conic-gradient(from 0deg, transparent, rgba(0,255,178,0.6), rgba(0,200,255,0.4), transparent)',
-          animation: 'spin 2s linear infinite',
-          filter: 'blur(2px)'
+          position: 'absolute', inset: 0,
+          borderRadius: '50%',
+          border: '2px solid rgba(255, 255, 255, 0.05)',
+          borderTopColor: '#fff',
+          animation: 'spin 0.8s linear infinite'
         }} />
-        <div style={{ position: 'absolute', inset: '2px', borderRadius: '18px', background: '#030710' }} />
         <img src="/logo.jpg" alt="VenueMind Logo" style={{
           position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
-          width: '60px', height: '60px', borderRadius: '14px', zIndex: 1
+          width: '46px', height: '46px', borderRadius: '10px', zIndex: 1
         }} />
       </div>
-      <div style={{ fontFamily: 'var(--font-display, Space Grotesk)', fontSize: '1.4rem', fontWeight: '700', marginBottom: '0.5rem', color: '#fff', letterSpacing: '1px' }}>
-        VENUE<span style={{ color: 'var(--accent-yellow, #FFD60A)' }}>MIND AI</span>
+      <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', fontWeight: '700', marginBottom: '0.25rem', color: '#fff' }}>
+        VENUE<span style={{ color: 'var(--accent-yellow)' }}>MIND AI</span>
       </div>
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', color: 'var(--text-muted, #3D4F6E)', letterSpacing: '3px', marginBottom: '2rem' }}>FIFA WORLD CUP 2026</div>
-      <div style={{ width: '100%', maxWidth: '420px', fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--accent-green, #00FFB2)', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+      <div style={{ fontSize: '0.6rem', color: 'var(--text-muted)', letterSpacing: '2px', marginBottom: '2rem' }}>FIFA WORLD CUP 2026</div>
+      <div style={{ width: '100%', maxWidth: '360px', fontSize: '0.7rem', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '6px' }}>
         {logs.map((log, i) => (
           <div key={i} style={{ animation: 'slideUp 0.2s ease-out', opacity: 0.8 }}>&gt; {log}</div>
         ))}

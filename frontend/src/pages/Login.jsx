@@ -65,7 +65,7 @@ const Login = ({ onLoginSuccess }) => {
       justifyContent: 'center',
       alignItems: 'center',
       padding: '2rem',
-      background: 'radial-gradient(ellipse 80% 50% at 20% 20%, rgba(0,255,178,0.06) 0%, transparent 50%), radial-gradient(ellipse 60% 40% at 80% 80%, rgba(0,200,255,0.05) 0%, transparent 45%), radial-gradient(ellipse at 50% 50%, rgba(180,142,255,0.03) 0%, transparent 50%), #030710',
+      background: 'var(--bg-primary)',
       position: 'relative',
       overflow: 'hidden'
     }}>
@@ -73,37 +73,25 @@ const Login = ({ onLoginSuccess }) => {
       <div className="grid-bg" style={{ opacity: 0.1 }}></div>
 
       <div style={{
-        maxWidth: '420px',
+        maxWidth: '400px',
         width: '100%',
-        background: 'linear-gradient(135deg, rgba(10,14,26,0.9), rgba(5,8,16,0.95))',
-        border: '1px solid rgba(0, 255, 178, 0.1)',
-        borderRadius: '24px',
+        background: 'var(--bg-secondary)',
+        border: '1px solid var(--border-glass)',
+        borderRadius: 'var(--radius-lg)',
         padding: '2.5rem 2rem',
-        boxShadow: '0 25px 60px rgba(0,0,0,0.5), 0 0 40px rgba(0,255,178,0.04)',
+        boxShadow: '0 20px 40px rgba(0,0,0,0.4)',
         zIndex: 10,
-        backdropFilter: 'blur(20px)',
-        position: 'relative',
-        overflow: 'hidden'
+        position: 'relative'
       }}>
-        {/* Gradient accent line at top */}
-        <div style={{ position: 'absolute', top: 0, left: '10%', right: '10%', height: '1px', background: 'linear-gradient(90deg, transparent, rgba(0,255,178,0.3), rgba(0,200,255,0.2), transparent)' }} />
         {/* Title */}
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
           {/* Logo with gradient ring */}
           <div style={{ position: 'relative', display: 'inline-block', marginBottom: '1.25rem' }}>
             <div style={{
-              position: 'absolute', inset: '-3px',
-              borderRadius: '18px',
-              background: 'conic-gradient(from 0deg, rgba(0,255,178,0.4), rgba(0,200,255,0.3), rgba(180,142,255,0.2), rgba(0,255,178,0.4))',
-              animation: 'spin 4s linear infinite',
-              filter: 'blur(1px)'
-            }} />
-            <div style={{
-              position: 'relative',
               width: '64px', height: '64px',
-              borderRadius: '16px',
+              borderRadius: 'var(--radius-md)',
               overflow: 'hidden',
-              border: '2px solid rgba(0,0,0,0.5)'
+              border: '1px solid var(--border-glass)'
             }}>
               <img src="/logo.jpg" alt="VenueMind Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>

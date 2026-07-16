@@ -96,8 +96,8 @@ body {
 }
 .glass-card:hover {
   background: var(--bg-card-hover);
-  border-color: rgba(255,255,255,0.12);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  border-color: rgba(0,255,178,0.2);
+  box-shadow: 0 8px 32px rgba(0,255,178,0.08);
 }
 .glass-card.highlight-green {
   border-color: var(--border-green);
@@ -321,11 +321,17 @@ body {
   position: fixed;
   inset: 0;
   background-image:
-    linear-gradient(rgba(0,255,178,0.018) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,255,178,0.018) 1px, transparent 1px);
-  background-size: 40px 40px;
+    linear-gradient(rgba(0,255,178,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,255,178,0.02) 1px, transparent 1px);
+  background-size: 50px 50px;
   pointer-events: none;
   z-index: 0;
+  animation: gridScroll 120s linear infinite;
+}
+
+@keyframes gridScroll {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 1000px; }
 }
 
 /* ============================================================

@@ -118,17 +118,36 @@ const DesktopSidebar = () => {
   return (
     <aside className="desktop-sidebar-nav" style={{
       width: '260px',
-      background: 'rgba(10, 17, 32, 0.5)',
-      backdropFilter: 'blur(20px)',
-      borderRight: '1px solid var(--border-glass)',
+      background: 'rgba(8, 12, 22, 0.7)',
+      backdropFilter: 'blur(24px)',
+      WebkitBackdropFilter: 'blur(24px)',
+      borderRight: '1px solid rgba(0,255,178,0.06)',
       display: 'flex',
       flexDirection: 'column',
-      padding: '2rem 1.25rem',
-      gap: '8px',
+      padding: '1.5rem 1rem',
+      gap: '4px',
       zIndex: 90,
-      flexShrink: 0
+      flexShrink: 0,
+      position: 'relative',
+      overflow: 'hidden'
     }}>
-      <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', fontWeight: 'bold', letterSpacing: '2px', marginBottom: '1rem', fontFamily: 'monospace' }}>NAVIGATION DESK</div>
+      {/* Gradient accent line */}
+      <div style={{ position: 'absolute', top: 0, right: 0, width: '1px', height: '100%', background: 'linear-gradient(180deg, rgba(0,255,178,0.2), transparent 30%, transparent 70%, rgba(0,200,255,0.15))' }} />
+
+      {/* Environment Status */}
+      <div style={{ padding: '0.75rem', marginBottom: '0.75rem', borderRadius: '12px', background: 'rgba(0,255,178,0.03)', border: '1px solid rgba(0,255,178,0.08)' }}>
+        <div style={{ fontSize: '0.6rem', color: 'var(--accent-green)', fontWeight: '700', letterSpacing: '2.5px', fontFamily: 'var(--font-mono)', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: 'var(--accent-green)', boxShadow: '0 0 8px var(--accent-green)', animation: 'livePulse 1.8s infinite' }} />
+          SYSTEM ONLINE
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px' }}>
+          <div style={{ fontSize: '0.6rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>VENUE<br /><span style={{ color: 'var(--text-secondary)', fontWeight: '600' }}>LUSAIL</span></div>
+          <div style={{ fontSize: '0.6rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>UPTIME<br /><span style={{ color: 'var(--text-secondary)', fontWeight: '600' }}>98.4%</span></div>
+        </div>
+      </div>
+
+      <div style={{ fontSize: '0.6rem', color: 'var(--text-muted)', fontWeight: '600', letterSpacing: '2.5px', padding: '0 0.75rem', marginBottom: '6px', fontFamily: 'var(--font-mono)' }}>NAVIGATION</div>
+
       {navItems.map((item) => {
         const Icon = item.icon;
         const isActive = location.pathname === item.path;
@@ -143,18 +162,26 @@ const DesktopSidebar = () => {
               textDecoration: 'none',
               color: isActive ? 'var(--accent-green)' : 'var(--text-secondary)',
               background: isActive ? 'rgba(0, 255, 178, 0.06)' : 'transparent',
-              border: `1px solid ${isActive ? 'rgba(0, 255, 178, 0.15)' : 'transparent'}`,
+              border: `1px solid ${isActive ? 'rgba(0, 255, 178, 0.12)' : 'transparent'}`,
               borderRadius: '12px',
-              padding: '12px 16px',
-              transition: 'all 0.25s',
-              fontWeight: isActive ? 'bold' : 'normal'
+              padding: '11px 14px',
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              fontWeight: isActive ? '600' : '400',
+              fontSize: '0.85rem',
+              position: 'relative'
             }}
           >
+            {isActive && <div style={{ position: 'absolute', left: 0, top: '50%', transform: 'translateY(-50%)', width: '3px', height: '20px', borderRadius: '0 3px 3px 0', background: 'var(--accent-green)', boxShadow: '0 0 8px var(--accent-green)' }} />}
             <Icon size={18} />
-            <span style={{ fontSize: '0.85rem' }}>{item.label}</span>
+            <span>{item.label}</span>
           </Link>
         )
       })}
+
+      {/* Footer info */}
+      <div style={{ marginTop: 'auto', padding: '0.75rem', borderTop: '1px solid rgba(255,255,255,0.04)', fontSize: '0.55rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)', letterSpacing: '1px' }}>
+        VENUEMIND AI v2.0<br />FIFA WORLD CUP 2026
+      </div>
     </aside>
   );
 };
@@ -184,14 +211,16 @@ const Header = ({ onLogout, currentUser }) => {
   return (
     <div style={{ position: 'sticky', top: 0, zIndex: 100, display: 'flex', flexDirection: 'column', width: '100%' }}>
       <header style={{
-        padding: '1rem 1.5rem',
+        padding: '0.85rem 1.5rem',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        background: isEmergency ? 'rgba(255, 0, 0, 0.8)' : 'var(--bg-glass)',
-        backdropFilter: 'blur(20px)',
-        borderBottom: '1px solid var(--border-glass)',
-        transition: 'background 0.5s'
+        background: isEmergency ? 'rgba(255, 0, 0, 0.8)' : 'rgba(8, 12, 22, 0.9)',
+        backdropFilter: 'blur(24px)',
+        WebkitBackdropFilter: 'blur(24px)',
+        borderBottom: isEmergency ? '1px solid rgba(255,0,0,0.5)' : '1px solid rgba(0,255,178,0.06)',
+        transition: 'background 0.5s',
+        boxShadow: '0 4px 30px rgba(0,0,0,0.3)'
       }}>
         <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
           <div className="flex-row gap-2" style={{ alignItems: 'center' }}>
@@ -434,11 +463,33 @@ const SplashSequence = ({ onComplete }) => {
   }, [onComplete]);
 
   return (
-    <div style={{ position: 'fixed', inset: 0, zIndex: 999999, background: '#050A14', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '2rem' }}>
-      <img src="/logo.jpg" alt="VenueMind Logo" style={{ width: '80px', height: '80px', borderRadius: '16px', border: '2px solid rgba(0, 200, 255, 0.3)', animation: 'pulse 1.5s infinite', marginBottom: '2rem', boxShadow: '0 0 20px rgba(0, 200, 255, 0.4)' }} />
-      <div style={{ width: '100%', maxWidth: '400px', fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--accent-green)', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+    <div style={{
+      position: 'fixed', inset: 0, zIndex: 999999,
+      background: 'radial-gradient(ellipse at 30% 20%, rgba(0,255,178,0.06) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(0,200,255,0.04) 0%, transparent 50%), #030710',
+      display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '2rem'
+    }}>
+      {/* Gradient Ring Spinner */}
+      <div style={{ position: 'relative', width: '100px', height: '100px', marginBottom: '2.5rem' }}>
+        <div style={{
+          position: 'absolute', inset: '-4px',
+          borderRadius: '20px',
+          background: 'conic-gradient(from 0deg, transparent, rgba(0,255,178,0.6), rgba(0,200,255,0.4), transparent)',
+          animation: 'spin 2s linear infinite',
+          filter: 'blur(2px)'
+        }} />
+        <div style={{ position: 'absolute', inset: '2px', borderRadius: '18px', background: '#030710' }} />
+        <img src="/logo.jpg" alt="VenueMind Logo" style={{
+          position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
+          width: '60px', height: '60px', borderRadius: '14px', zIndex: 1
+        }} />
+      </div>
+      <div style={{ fontFamily: 'var(--font-display, Space Grotesk)', fontSize: '1.4rem', fontWeight: '700', marginBottom: '0.5rem', color: '#fff', letterSpacing: '1px' }}>
+        VENUE<span style={{ color: 'var(--accent-yellow, #FFD60A)' }}>MIND AI</span>
+      </div>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', color: 'var(--text-muted, #3D4F6E)', letterSpacing: '3px', marginBottom: '2rem' }}>FIFA WORLD CUP 2026</div>
+      <div style={{ width: '100%', maxWidth: '420px', fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--accent-green, #00FFB2)', display: 'flex', flexDirection: 'column', gap: '6px' }}>
         {logs.map((log, i) => (
-          <div key={i} style={{ animation: 'slideUp 0.2s ease-out' }}>&gt; {log}</div>
+          <div key={i} style={{ animation: 'slideUp 0.2s ease-out', opacity: 0.8 }}>&gt; {log}</div>
         ))}
         {logs.length < 5 && <div style={{ animation: 'pulse 0.5s infinite' }}>_</div>}
       </div>
@@ -561,6 +612,9 @@ function MainApp() {
           !booting && (
             <Router>
               <div className="grid-bg"></div>
+              <div className="ambient-orb ambient-orb-1"></div>
+              <div className="ambient-orb ambient-orb-2"></div>
+              <div className="ambient-orb ambient-orb-3"></div>
               <EmergencyOverlay />
               <AppLayout currentUser={currentUser} onLogout={handleLogout} />
             </Router>

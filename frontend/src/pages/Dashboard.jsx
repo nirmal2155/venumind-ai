@@ -143,7 +143,7 @@ const Dashboard = () => {
   const { timerValues } = useMatchTimer();
   
   return (
-    <div style={{ padding: '0', paddingBottom: '120px', zIndex: 1, position: 'relative', background: '#030712', minHeight: '100vh', color: '#fff' }}>
+    <div style={{ padding: '0', paddingBottom: '120px', zIndex: 1, position: 'relative', background: 'transparent', minHeight: '100vh', color: '#fff' }}>
       
       {/* Global Reroute Notification Overlay */}
       {notification && (
@@ -174,15 +174,16 @@ const Dashboard = () => {
 
       {/* Top AI HUD Active Bar */}
       <div style={{
-        background: 'linear-gradient(90deg, #09101d, #050b14)',
-        padding: '12px 1.5rem',
+        background: 'rgba(8, 12, 22, 0.8)',
+        backdropFilter: 'blur(16px)',
+        padding: '10px 1.5rem',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        borderBottom: '1px solid rgba(0, 200, 255, 0.15)',
-        boxShadow: '0 4px 15px rgba(0,0,0,0.4)',
+        borderBottom: '1px solid rgba(0,255,178,0.06)',
+        boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
         position: 'sticky',
-        top: '68px',
+        top: '60px',
         zIndex: 90
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -204,8 +205,8 @@ const Dashboard = () => {
               <span className="live-badge">LIVE</span>
               <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.7rem', fontWeight: 'bold', letterSpacing: '2px', margin: 0, fontFamily: 'monospace' }}>LUSAIL STADIUM | DAY 14</p>
             </div>
-            <h1 style={{ fontSize: '2.8rem', margin: '0', lineHeight: '1.05', fontWeight: '800', letterSpacing: '-0.5px', background: 'linear-gradient(135deg, #fff 60%, rgba(255,255,255,0.3))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-              VenueMind AI <span style={{ color: 'var(--accent-yellow)', textShadow: '0 0 25px rgba(255,222,89,0.3)' }}>Portal</span>
+            <h1 style={{ fontSize: '2.5rem', margin: '0', lineHeight: '1.05', fontWeight: '800', letterSpacing: '-0.5px', fontFamily: 'var(--font-display, Space Grotesk)', background: 'linear-gradient(135deg, #fff 40%, rgba(0,255,178,0.6) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+              VenueMind AI <span style={{ WebkitTextFillColor: 'var(--accent-yellow)', textShadow: '0 0 30px rgba(255,222,89,0.25)' }}>Portal</span>
             </h1>
           </div>
           {/* AI Trigger button - designed like a scan target */}
@@ -398,7 +399,7 @@ const Dashboard = () => {
               className="cyber-action-btn"
               style={{
                 flex: 1,
-                background: 'var(--accent-yellow)',
+                background: 'linear-gradient(135deg, var(--accent-yellow), #FF9D00)',
                 border: 'none',
                 color: '#000',
                 padding: '12px',
@@ -407,7 +408,8 @@ const Dashboard = () => {
                 fontSize: '0.85rem',
                 cursor: 'pointer',
                 textAlign: 'center',
-                boxShadow: '0 5px 15px rgba(255,222,89,0.1)'
+                boxShadow: '0 5px 20px rgba(255,222,89,0.15)',
+                transition: 'all 0.25s'
               }}>
               LAUNCH CHAT
             </button>

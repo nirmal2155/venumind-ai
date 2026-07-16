@@ -514,30 +514,33 @@ const AppLayout = ({ currentUser, onLogout }) => {
       {currentUser?.role === 'fan' && (
         <button 
           onClick={() => navigate('/concierge')}
-          className="cyber-floating-assistant"
           style={{
             position: 'fixed',
-            bottom: '100px',
+            bottom: '90px',
             right: '20px',
-            height: '60px',
-            padding: '0 24px',
-            background: 'var(--accent-yellow)',
-            borderRadius: '30px',
-            border: 'none',
+            width: '50px',
+            height: '50px',
+            background: 'var(--bg-elevated)',
+            border: '1px solid var(--border-glass)',
+            borderRadius: '50%',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: '10px',
-            boxShadow: '0 10px 30px rgba(255,222,89,0.35)',
+            boxShadow: '0 8px 24px rgba(0,0,0,0.3)',
             cursor: 'pointer',
-            zIndex: 99999, // Floating on top of everything
-            fontWeight: '900',
-            fontSize: '1rem',
-            letterSpacing: '1px',
-            color: '#000'
-          }}>
-          <Bot color="#000" size={24} className="pulse-fast" />
-          <span>AI ASSISTANT</span>
+            zIndex: 99999,
+            transition: 'transform 0.2s ease, border-color 0.2s ease'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'scale(1.05)';
+            e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'scale(1)';
+            e.currentTarget.style.borderColor = 'var(--border-glass)';
+          }}
+        >
+          <Bot color="var(--text-primary)" size={20} />
         </button>
       )}
     </div>

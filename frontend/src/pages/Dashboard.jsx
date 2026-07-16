@@ -349,21 +349,13 @@ const Dashboard = () => {
         </div>
 
         {/* 🤖 Multilingual AI Concierge Quick Panel */}
-        <div className="cyber-hud-card" style={{
-          background: 'linear-gradient(135deg, #131a26, #0c1017)',
-          border: '1px solid rgba(255,222,89,0.2)',
-          borderRadius: '20px',
-          padding: '1.5rem',
-          marginBottom: '1.5rem',
-          position: 'relative',
-          overflow: 'hidden'
+        <div className="glass-card" style={{
+          marginBottom: '1.25rem'
         }}>
-          {/* Cyber decoration line */}
-          <div style={{ position: 'absolute', top: 0, left: 0, height: '4px', width: '60px', background: 'var(--accent-yellow)' }}></div>
 
           <div className="flex-row gap-4" style={{ alignItems: 'flex-start', marginBottom: '1rem' }}>
-            <div style={{ background: 'var(--accent-yellow)', padding: '12px', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 5px 20px rgba(255,222,89,0.2)' }}>
-              <Bot color="#000" size={24} />
+            <div style={{ background: 'rgba(255, 214, 10, 0.08)', border: '1px solid rgba(255, 214, 10, 0.12)', padding: '10px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Bot color="var(--accent-yellow)" size={20} />
             </div>
             <div style={{ flex: 1 }}>
               <h3 style={{ margin: '0 0 4px 0', fontSize: '1.1rem', fontWeight: '700', color: '#fff' }}>Multilingual AI Assistant</h3>
@@ -378,35 +370,21 @@ const Dashboard = () => {
           <div style={{ display: 'flex', gap: '8px' }}>
             <button 
               onClick={() => navigate('/concierge')}
-              className="cyber-action-btn"
+              className="btn-yellow"
               style={{
                 flex: 1,
-                background: 'linear-gradient(135deg, var(--accent-yellow), #FF9D00)',
-                border: 'none',
-                color: '#000',
-                padding: '12px',
-                borderRadius: '12px',
-                fontWeight: 'bold',
-                fontSize: '0.85rem',
-                cursor: 'pointer',
-                textAlign: 'center',
-                boxShadow: '0 5px 20px rgba(255,222,89,0.15)',
-                transition: 'all 0.25s'
+                padding: '10px 14px',
+                fontSize: '0.82rem'
               }}>
               LAUNCH CHAT
             </button>
             <button 
               onClick={() => navigate('/concierge')}
+              className="btn-ghost"
               style={{
-                background: 'rgba(255,255,255,0.05)',
-                border: '1px solid rgba(255,255,255,0.1)',
-                color: '#fff',
-                padding: '12px',
-                borderRadius: '12px',
-                fontWeight: 'bold',
-                fontSize: '0.85rem',
-                cursor: 'pointer',
-                width: '50px',
+                padding: '10px 14px',
+                fontSize: '0.82rem',
+                width: '46px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center'
@@ -417,24 +395,14 @@ const Dashboard = () => {
         </div>
 
         {/* 🗺️ Interactive Holographic Navigation Card */}
-        <div className="cyber-hud-card" style={{
-          background: 'linear-gradient(135deg, #0f172a, #0b0f19)',
-          border: '1px solid rgba(43,255,136,0.25)',
-          borderRadius: '20px',
-          padding: '1.5rem',
-          marginBottom: '1.5rem',
-          position: 'relative',
-          transition: 'all 0.5s',
-          boxShadow: routeGate === 'GATE C' ? '0 0 30px rgba(43,255,136,0.15)' : 'none'
+        <div className="glass-card" style={{
+          marginBottom: '1.25rem'
         }}>
-          {routeGate === 'GATE C' && (
-            <div className="neon-status-badge">AI ROUTING ACTIVE</div>
-          )}
 
           <div className="flex-row justify-between" style={{ marginBottom: '1.25rem', alignItems: 'center' }}>
             <div className="flex-row gap-3" style={{ alignItems: 'center' }}>
-              <div style={{ background: 'rgba(43,255,136,0.1)', padding: '10px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Navigation color="var(--accent-green)" size={20} className="pulse-slow" />
+              <div style={{ background: 'rgba(16, 185, 129, 0.08)', border: '1px solid rgba(16, 185, 129, 0.12)', padding: '8px', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Navigation color="var(--accent-green)" size={16} />
               </div>
               <div>
                 <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: '700', color: '#fff' }}>Holographic Routing</h3>
@@ -504,18 +472,10 @@ const Dashboard = () => {
             </div>
             <button 
               onClick={() => setIsLiveNavigating(true)}
-              className="cyber-glow-btn"
+              className="btn-primary"
               style={{
-                background: 'var(--accent-green)',
-                border: 'none',
-                color: '#000',
-                padding: '14px 24px',
-                borderRadius: '12px',
-                fontWeight: '900',
-                fontSize: '0.85rem',
-                letterSpacing: '1px',
-                cursor: 'pointer',
-                boxShadow: '0 8px 25px rgba(43,255,136,0.25)'
+                padding: '10px 18px',
+                fontSize: '0.82rem'
               }}>
               LAUNCH HUD
             </button>
@@ -523,13 +483,8 @@ const Dashboard = () => {
         </div>
 
         {/* 📡 Live System Telemetry Logs Feed (New CTO component to look alive) */}
-        <div className="cyber-hud-card" style={{
-          background: '#070b13',
-          border: '1px solid rgba(0,200,255,0.2)',
-          borderRadius: '16px',
-          padding: '1.25rem',
-          marginBottom: '1.5rem',
-          padding: '1.25rem',
+        <div className="glass-card" style={{
+          marginBottom: '1.25rem'
         }}>
           <div className="flex-row justify-between" style={{ marginBottom: '10px', alignItems: 'center' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -558,27 +513,24 @@ const Dashboard = () => {
         </div>
 
         {/* Gate Status Card */}
-        <div className="cyber-hud-card" style={{
-          background: 'linear-gradient(135deg, #111827, #0b0f19)',
-          borderRadius: '16px',
-          padding: '1.25rem',
-          marginBottom: '1.5rem',
+        <div className="glass-card" style={{
+          marginBottom: '1.25rem',
           display: 'flex',
           alignItems: 'center',
-          gap: '1.25rem',
-          border: routeGate === 'GATE C' ? '1px solid rgba(255,75,75,0.25)' : '1px solid rgba(43,255,136,0.2)'
+          gap: '1.25rem'
         }}>
           <div style={{
-            width: '42px',
-            height: '42px',
-            background: routeGate === 'GATE C' ? 'rgba(255, 75, 75, 0.15)' : 'rgba(43,255,136,0.12)',
-            borderRadius: '10px',
+            width: '36px',
+            height: '36px',
+            background: routeGate === 'GATE C' ? 'rgba(239, 68, 68, 0.08)' : 'rgba(16, 185, 129, 0.08)',
+            border: routeGate === 'GATE C' ? '1px solid rgba(239, 68, 68, 0.12)' : '1px solid rgba(16, 185, 129, 0.12)',
+            borderRadius: '8px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             flexShrink: 0
           }}>
-            {routeGate === 'GATE C' ? <AlertTriangle color="#FF4B4B" size={22} className="pulse-fast" /> : <CheckCircle2 color="var(--accent-green)" size={22} />}
+            {routeGate === 'GATE C' ? <AlertTriangle color="#ef4444" size={18} /> : <CheckCircle2 color="var(--accent-green)" size={18} />}
           </div>
           <div>
             <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.7rem', fontWeight: 'bold', letterSpacing: '1px' }}>Gate B Status</span>
@@ -597,30 +549,29 @@ const Dashboard = () => {
           <div className="section-label" style={{ color: 'rgba(255,255,255,0.4)', letterSpacing: '2px', fontSize: '0.75rem', marginBottom: '10px' }}>Quick Access</div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px' }}>
             {[
-              { icon: Users, label: 'Crowd AI', path: '/crowd', color: '#B48EFF', bg: 'rgba(180,142,255,0.06)', border: 'rgba(180,142,255,0.15)' },
-              { icon: ShieldCheck, label: 'Staff Hub', path: '/staff', color: '#FFDE59', bg: 'rgba(255,222,89,0.06)', border: 'rgba(255,222,89,0.15)' },
-              { icon: AccessibilityIcon, label: 'Accessibility', path: '/access', color: '#00C8FF', bg: 'rgba(0,200,255,0.06)', border: 'rgba(0,200,255,0.15)' },
+              { icon: Users, label: 'Crowd AI', path: '/crowd', color: 'var(--accent-purple)', bg: 'rgba(139, 92, 246, 0.03)', border: 'rgba(139, 92, 246, 0.08)' },
+              { icon: ShieldCheck, label: 'Staff Hub', path: '/staff', color: 'var(--accent-yellow)', bg: 'rgba(245, 158, 11, 0.03)', border: 'rgba(245, 158, 11, 0.08)' },
+              { icon: AccessibilityIcon, label: 'Accessibility', path: '/access', color: 'var(--accent-blue)', bg: 'rgba(59, 130, 246, 0.03)', border: 'rgba(59, 130, 246, 0.08)' },
             ].map(mod => {
               const Icon = mod.icon;
               return (
                 <div 
                   key={mod.label} 
                   onClick={() => navigate(mod.path)} 
-                  className="cyber-grid-btn"
                   style={{
                     background: mod.bg,
                     border: `1px solid ${mod.border}`,
-                    borderRadius: '14px',
-                    padding: '1.2rem 8px',
+                    borderRadius: '10px',
+                    padding: '1rem 8px',
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
-                    gap: '10px',
+                    gap: '8px',
                     cursor: 'pointer',
-                    transition: 'all 0.3s'
+                    transition: 'all 0.15s ease'
                   }}>
-                  <Icon size={24} color={mod.color} />
-                  <span style={{ fontWeight: '700', fontSize: '0.8rem', color: '#fff' }}>{mod.label}</span>
+                  <Icon size={20} color={mod.color} />
+                  <span style={{ fontWeight: '600', fontSize: '0.78rem', color: '#fff' }}>{mod.label}</span>
                 </div>
               );
             })}
@@ -628,15 +579,15 @@ const Dashboard = () => {
         </div>
 
         {/* Live Heatmap Card */}
-        <div className="cyber-hud-card" style={{ background: 'linear-gradient(135deg, #111625, #080b12)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '20px', padding: '1.5rem', marginBottom: '1.5rem' }}>
+        <div className="glass-card" style={{ marginBottom: '1.25rem' }}>
           <div className="flex-row justify-between" style={{ alignItems: 'center', marginBottom: '1.25rem' }}>
             <div className="flex-row gap-3" style={{ alignItems: 'center' }}>
-              <div style={{ background: 'rgba(255,255,255,0.04)', padding: '10px', borderRadius: '10px' }}>
-                <Users color="#fff" size={20} />
+              <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border-glass)', padding: '8px', borderRadius: '8px' }}>
+                <Users color="#fff" size={16} />
               </div>
               <div>
-                <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: '700', color: '#fff' }}>Thermal Crowd Density</h3>
-                <span style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.4)' }}>Real-time Density</span>
+                <h3 style={{ margin: 0, fontSize: '0.95rem', fontWeight: '600', color: '#fff' }}>Thermal Crowd Density</h3>
+                <span style={{ fontSize: '0.62rem', color: 'var(--text-secondary)' }}>Real-time Density</span>
               </div>
             </div>
             <span className="telemetry-live-tag">LIVE STREAMS</span>
@@ -676,18 +627,18 @@ const Dashboard = () => {
         </div>
 
         {/* Smart Transportation Card */}
-        <div className="cyber-hud-card" style={{ background: 'linear-gradient(135deg, #0a1120, #060b14)', border: '1px solid rgba(0, 200, 255, 0.25)', borderRadius: '20px', padding: '1.5rem', marginBottom: '1.5rem' }}>
-          <div className="flex-row justify-between" style={{ marginBottom: '1.25rem', alignItems: 'center' }}>
+        <div className="glass-card" style={{ marginBottom: '1.25rem' }}>
+          <div className="flex-row justify-between" style={{ marginBottom: '1rem', alignItems: 'center' }}>
             <div className="flex-row gap-3" style={{ alignItems: 'center' }}>
-              <div style={{ background: 'rgba(0, 200, 255, 0.1)', padding: '10px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00C8FF" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="3" width="16" height="16" rx="2"/><path d="M4 11h16"/><path d="M12 3v16"/><path d="M8 19v2"/><path d="M16 19v2"/></svg>
+              <div style={{ background: 'rgba(59, 130, 246, 0.08)', border: '1px solid rgba(59, 130, 246, 0.12)', padding: '8px', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent-blue)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="3" width="16" height="16" rx="2"/><path d="M4 11h16"/><path d="M12 3v16"/><path d="M8 19v2"/><path d="M16 19v2"/></svg>
               </div>
               <div>
-                <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: '700', color: '#fff' }}>Transit Dispatch</h3>
-                <span style={{ fontSize: '0.65rem', color: '#00C8FF' }}>Smart Transit</span>
+                <h3 style={{ margin: 0, fontSize: '0.95rem', fontWeight: '600', color: '#fff' }}>Transit Dispatch</h3>
+                <span style={{ fontSize: '0.62rem', color: 'var(--accent-blue)' }}>Smart Transit</span>
               </div>
             </div>
-            <span style={{ color: '#00C8FF', fontWeight: 'bold', fontSize: '0.65rem', letterSpacing: '1.5px' }}>Recommended</span>
+            <span style={{ color: 'var(--accent-blue)', fontWeight: '600', fontSize: '0.65rem' }}>Recommended</span>
           </div>
 
           <p style={{ fontSize: '0.9rem', color: 'rgba(255, 255, 255, 0.82)', margin: '0 0 1.25rem 0', lineHeight: '1.55' }}>
@@ -707,21 +658,16 @@ const Dashboard = () => {
           <button 
             onClick={consultTransitAdvisor} 
             disabled={transitLoading}
+            className="btn-ghost"
             style={{
               width: '100%',
               marginTop: '15px',
-              background: 'rgba(0, 200, 255, 0.1)',
-              border: '1px solid rgba(0, 200, 255, 0.3)',
-              color: '#00C8FF',
               padding: '10px',
-              borderRadius: '10px',
-              fontWeight: 'bold',
-              cursor: 'pointer',
-              fontSize: '0.85rem',
+              fontSize: '0.82rem',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: '8px'
+              gap: '6px'
             }}
           >
             {transitLoading ? 'Analyzing Options...' : '🤖 Consult GenAI Transit Advisor'}

@@ -114,7 +114,7 @@ const Crowd = () => {
       </div>
 
       {/* GenAI Dispersion Strategy Advisor */}
-      <div style={{ background: 'linear-gradient(135deg, rgba(180,142,255,0.06), rgba(0,0,0,0.4))', border: '1px solid rgba(180,142,255,0.2)', borderRadius: '16px', padding: '1.25rem', marginBottom: '2rem' }}>
+      <div className="glass-card" style={{ marginBottom: '1.5rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
           <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#B48EFF', boxShadow: '0 0 8px #B48EFF' }}></div>
           <span style={{ fontSize: '0.7rem', color: '#B48EFF', fontWeight: 'bold', letterSpacing: '1.5px', fontFamily: 'monospace' }}>GENAI DISPERSION STRATEGY</span>

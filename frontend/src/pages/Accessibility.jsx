@@ -226,7 +226,7 @@ const Accessibility = () => {
       </div>
 
       {/* GenAI Sensory rest & Calm path advisor */}
-      <div style={{ background: 'linear-gradient(135deg, rgba(0,200,255,0.06), rgba(0,0,0,0.4))', border: '1px solid rgba(0,200,255,0.2)', borderRadius: '16px', padding: '1.25rem', marginBottom: '1.5rem' }}>
+      <div className="glass-card" style={{ marginBottom: '1.5rem' }}>
         <h3 style={{ margin: '0 0 10px 0', fontSize: '0.8rem', letterSpacing: '2px', color: '#00C8FF', display: 'flex', alignItems: 'center', gap: '6px' }}>
           🧘 AI SENSORY GUIDE COORDINATOR
         </h3>

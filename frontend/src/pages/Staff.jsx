@@ -174,7 +174,7 @@ const Staff = () => {
         </div>
 
         {/* GenAI Resource Allocation Advisor */}
-        <div style={{ background: 'linear-gradient(135deg, rgba(255,222,89,0.06), rgba(0,0,0,0.4))', border: '1px solid rgba(255,222,89,0.2)', borderRadius: '16px', padding: '1.25rem', marginTop: '2rem' }}>
+        <div className="glass-card" style={{ marginTop: '2rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
             <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--accent-yellow)', boxShadow: '0 0 8px var(--accent-yellow)' }}></div>
             <span style={{ fontSize: '0.7rem', color: 'var(--accent-yellow)', fontWeight: 'bold', letterSpacing: '1.5px', fontFamily: 'monospace' }}>GENAI STAFF ALLOCATION COORDINATOR</span>

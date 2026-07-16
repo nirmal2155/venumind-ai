@@ -20,6 +20,29 @@ const Accessibility = () => {
   const [highContrast, setHighContrast] = useState(false);
   const [largeText, setLargeText] = useState(false);
   const [audioGuide, setAudioGuide] = useState(false);
+
+  const handleToggleAudioGuide = () => {
+    const nextState = !audioGuide;
+    setAudioGuide(nextState);
+    if (nextState) {
+      try {
+        if ('speechSynthesis' in window) {
+          window.speechSynthesis.cancel();
+          const utterance = new SpeechSynthesisUtterance("Audio Guide enabled. Calming route directions and priority access notifications will be read aloud. You are currently near Gate A Wheelchair Entry.");
+          utterance.lang = 'en-US';
+          window.speechSynthesis.speak(utterance);
+        }
+      } catch {
+        console.warn("Speech synthesis not supported or blocked.");
+      }
+    } else {
+      try {
+        if ('speechSynthesis' in window) {
+          window.speechSynthesis.cancel();
+        }
+      } catch {}
+    }
+  };
   const [sosTriggered, setSosTriggered] = useState(false);
   const [sosLoading, setSosLoading] = useState(false);
   const [sosDetails, setSosDetails] = useState(null);
@@ -188,7 +211,7 @@ const Accessibility = () => {
         {[
           { label: '🔳 High Contrast Mode', desc: 'Black background for better visibility', state: highContrast, toggle: () => setHighContrast(p => !p) },
           { label: '🔤 Large Text Mode', desc: 'Bigger font size throughout the app', state: largeText, toggle: () => setLargeText(p => !p) },
-          { label: '🔊 Audio Guide (EN)', desc: 'AI reads out directions & info aloud', state: audioGuide, toggle: () => setAudioGuide(p => !p) },
+          { label: '🔊 Audio Guide (EN)', desc: 'AI reads out directions & info aloud', state: audioGuide, toggle: handleToggleAudioGuide },
         ].map(item => (
           <div key={item.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
             <div>

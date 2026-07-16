@@ -244,7 +244,7 @@ const Login = ({ onLoginSuccess }) => {
 
       {/* Info footer */}
       <div style={{ marginTop: '2rem', textAlign: 'center', zIndex: 10 }}>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', fontFamily: 'monospace' }}>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '0.75rem' }}>
           SECURE PROTOCOL v2.4.0 — AES 256 ENCRYPTED GATEWAY
         </p>
       </div>

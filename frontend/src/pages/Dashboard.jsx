@@ -188,11 +188,10 @@ const Dashboard = () => {
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <Cpu size={16} className="pulse-neon-green" style={{ color: 'var(--accent-green)' }} />
-          <span style={{ color: 'var(--accent-green)', fontWeight: '800', fontSize: '0.7rem', letterSpacing: '2px', fontFamily: 'monospace' }}>AI AGENT: MONIT_FLOW_ACTIVE</span>
+          <span style={{ color: 'var(--accent-green)', fontWeight: '800', fontSize: '0.7rem', letterSpacing: '2px' }}>Operations Dashboard</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ color: '#00C8FF', fontSize: '0.65rem', fontWeight: 'bold', fontFamily: 'monospace', letterSpacing: '1px' }}>SYS_CONF: 98.4%</span>
-          <div className="telemetry-ping"></div>
+          <span style={{ color: '#00C8FF', fontSize: '0.65rem', fontWeight: 'bold', letterSpacing: '1px' }}>System Health: 98.4%</span>
         </div>
       </div>
 
@@ -203,7 +202,7 @@ const Dashboard = () => {
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px' }}>
               <span className="live-badge">LIVE</span>
-              <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.7rem', fontWeight: 'bold', letterSpacing: '2px', margin: 0, fontFamily: 'monospace' }}>LUSAIL STADIUM | DAY 14</p>
+              <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.7rem', fontWeight: 'bold', letterSpacing: '2px', margin: 0 }}>Lusail Stadium • Match Day 14</p>
             </div>
             <h1 style={{ fontSize: '2.5rem', margin: '0', lineHeight: '1.05', fontWeight: '800', letterSpacing: '-0.5px', fontFamily: 'var(--font-display, Space Grotesk)', background: 'linear-gradient(135deg, #fff 40%, rgba(0,255,178,0.6) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
               VenueMind AI <span style={{ WebkitTextFillColor: 'var(--accent-yellow)', textShadow: '0 0 30px rgba(255,222,89,0.25)' }}>Portal</span>
@@ -283,9 +282,9 @@ const Dashboard = () => {
           <div className="flex-row justify-between" style={{ marginBottom: '1.25rem', alignItems: 'center' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <Timer size={16} color="var(--accent-yellow)" />
-              <span style={{ color: 'var(--accent-yellow)', fontSize: '0.8rem', fontWeight: 'bold', letterSpacing: '2px', fontFamily: 'monospace' }}>KICKOFF COUNTDOWN</span>
+              <span style={{ color: 'var(--accent-yellow)', fontSize: '0.8rem', fontWeight: 'bold', letterSpacing: '2px' }}>Kickoff Countdown</span>
             </div>
-            <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.7rem', fontFamily: 'monospace' }}>UTC+3</span>
+            <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.7rem' }}>UTC+3</span>
           </div>
 
           <div className="flex-row gap-6" style={{ alignItems: 'center' }}>
@@ -322,12 +321,12 @@ const Dashboard = () => {
               </div>
               <div>
                 <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: '700', color: '#fff' }}>Atmosphere Metric</h3>
-                <span style={{ fontSize: '0.65rem', color: '#FF6B35', fontFamily: 'monospace', letterSpacing: '1px' }}>AI HVAC MITIGATION ON</span>
+                <span style={{ fontSize: '0.65rem', color: '#FF6B35', letterSpacing: '1px' }}>Climate Control Active</span>
               </div>
             </div>
             <div style={{ textAlign: 'right' }}>
-              <div style={{ fontSize: '2.2rem', fontWeight: '900', color: '#FF6B35', lineHeight: '1', fontFamily: 'monospace' }}>39°C</div>
-              <span style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.4)', fontFamily: 'monospace' }}>OUTDOOR AIR</span>
+              <div style={{ fontSize: '2.2rem', fontWeight: '900', color: '#FF6B35', lineHeight: '1' }}>39°C</div>
+              <span style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.4)' }}>OUTDOOR AIR</span>
             </div>
           </div>
 
@@ -344,7 +343,7 @@ const Dashboard = () => {
                     <WIcon size={12} color="rgba(255,255,255,0.5)" />
                     <span style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.4)', fontWeight: 'bold' }}>{w.label}</span>
                   </div>
-                  <div style={{ fontSize: '0.95rem', fontWeight: '900', color: w.color, fontFamily: 'monospace' }}>{w.value}</div>
+                  <div style={{ fontSize: '0.95rem', fontWeight: '900', color: w.color }}>{w.value}</div>
                 </div>
               );
             })}
@@ -385,7 +384,7 @@ const Dashboard = () => {
             </div>
             <div style={{ flex: 1 }}>
               <h3 style={{ margin: '0 0 4px 0', fontSize: '1.1rem', fontWeight: '700', color: '#fff' }}>Multilingual AI Assistant</h3>
-              <span style={{ fontSize: '0.65rem', color: 'var(--accent-yellow)', fontFamily: 'monospace', letterSpacing: '1px', fontWeight: 'bold' }}>8 LANGUAGES AVAILABLE</span>
+              <span style={{ fontSize: '0.65rem', color: 'var(--accent-yellow)', letterSpacing: '1px', fontWeight: 'bold' }}>8 Languages</span>
             </div>
           </div>
           
@@ -456,7 +455,7 @@ const Dashboard = () => {
               </div>
               <div>
                 <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: '700', color: '#fff' }}>Holographic Routing</h3>
-                <span style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.4)', fontFamily: 'monospace' }}>DYNAMIC LIDAR PATHWAYS</span>
+                <span style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.4)' }}>Smart Navigation</span>
               </div>
             </div>
             <button
@@ -470,7 +469,7 @@ const Dashboard = () => {
                 padding: '4px 8px',
                 borderRadius: '6px',
                 cursor: 'pointer',
-                fontFamily: 'monospace'
+                fontSize: '0.65rem',
               }}
             >
               📶 5G AR HUD: {arOverlay ? 'ON' : 'OFF'}
@@ -493,7 +492,7 @@ const Dashboard = () => {
                 padding: '6px 10px',
                 fontSize: '0.7rem',
                 color: '#fff',
-                fontFamily: 'monospace',
+                fontSize: '0.7rem',
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '4px',
@@ -507,15 +506,15 @@ const Dashboard = () => {
             )}
             
             <div className="hologram-overlay-card" style={{ pointerEvents: 'none' }}>
-              <div style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.5)', fontWeight: 'bold', marginBottom: '2px', fontFamily: 'monospace' }}>TARGET DEPT</div>
+              <div style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.5)', fontWeight: 'bold', marginBottom: '2px' }}>TARGET DEPT</div>
               <div style={{ fontSize: '1rem', fontWeight: '900', color: 'var(--accent-green)' }}>{routeGate}</div>
             </div>
           </div>
 
           <div className="flex-row justify-between" style={{ alignItems: 'center' }}>
             <div className="flex-col">
-              <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.7rem', fontWeight: 'bold', letterSpacing: '1px', marginBottom: '4px', fontFamily: 'monospace' }}>EST. TRAVEL TIME</span>
-              <span style={{ color: 'var(--accent-green)', fontSize: '1.3rem', fontWeight: '900', lineHeight: '1.2', fontFamily: 'monospace' }}>
+              <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.7rem', fontWeight: 'bold', letterSpacing: '1px', marginBottom: '4px' }}>EST. TRAVEL TIME</span>
+              <span style={{ color: 'var(--accent-green)', fontSize: '1.3rem', fontWeight: '900', lineHeight: '1.2' }}>
                 {routeGate === 'GATE C' ? '7 MIN' : '8 MIN'}<br/>
                 <span style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.5)' }}>TO SECTOR 204</span>
               </span>
@@ -547,12 +546,12 @@ const Dashboard = () => {
           borderRadius: '16px',
           padding: '1.25rem',
           marginBottom: '1.5rem',
-          fontFamily: 'monospace'
+          padding: '1.25rem',
         }}>
           <div className="flex-row justify-between" style={{ marginBottom: '10px', alignItems: 'center' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
               <Activity size={14} color="#00C8FF" className="pulse-fast" />
-              <span style={{ color: '#00C8FF', fontSize: '0.75rem', fontWeight: 'bold', letterSpacing: '1px' }}>LIVE TELEMETRY TICKER</span>
+              <span style={{ color: '#00C8FF', fontSize: '0.75rem', fontWeight: 'bold', letterSpacing: '1px' }}>Activity Feed</span>
             </div>
             <span style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.65rem' }}>SYNC: ONLINE</span>
           </div>
@@ -599,7 +598,7 @@ const Dashboard = () => {
             {routeGate === 'GATE C' ? <AlertTriangle color="#FF4B4B" size={22} className="pulse-fast" /> : <CheckCircle2 color="var(--accent-green)" size={22} />}
           </div>
           <div>
-            <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.7rem', fontWeight: 'bold', letterSpacing: '1px', fontFamily: 'monospace' }}>GATE B CAPACITY INDEX</span>
+            <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.7rem', fontWeight: 'bold', letterSpacing: '1px' }}>Gate B Status</span>
             <div style={{ color: '#fff', fontSize: '1rem', fontWeight: '600', marginTop: '2px' }}>
               {routeGate === 'GATE C' ? (
                 <span style={{ color: '#FF4B4B' }}>SPIKE: Severe Overload (15m delay)</span>
@@ -612,7 +611,7 @@ const Dashboard = () => {
 
         {/* System Modules Grid */}
         <div style={{ marginBottom: '1.5rem' }}>
-          <div className="section-label" style={{ color: 'rgba(255,255,255,0.4)', fontFamily: 'monospace', letterSpacing: '2px', fontSize: '0.75rem', marginBottom: '10px' }}>SYSTEM CHANNELS</div>
+          <div className="section-label" style={{ color: 'rgba(255,255,255,0.4)', letterSpacing: '2px', fontSize: '0.75rem', marginBottom: '10px' }}>Quick Access</div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px' }}>
             {[
               { icon: Users, label: 'Crowd AI', path: '/crowd', color: '#B48EFF', bg: 'rgba(180,142,255,0.06)', border: 'rgba(180,142,255,0.15)' },
@@ -654,7 +653,7 @@ const Dashboard = () => {
               </div>
               <div>
                 <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: '700', color: '#fff' }}>Thermal Crowd Density</h3>
-                <span style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.4)', fontFamily: 'monospace' }}>CCTV INTELLIGENCE GRIDS</span>
+                <span style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.4)' }}>Real-time Density</span>
               </div>
             </div>
             <span className="telemetry-live-tag">LIVE STREAMS</span>
@@ -668,12 +667,12 @@ const Dashboard = () => {
 
             {/* Overlay Labels */}
             <div style={{ position: 'absolute', top: '10px', right: '10px', background: 'rgba(10,13,20,0.9)', padding: '8px 12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)' }}>
-               <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.62rem', fontWeight: 'bold', marginBottom: '2px', fontFamily: 'monospace' }}>ZONE A: CONCOURSE</div>
-               <div style={{ color: '#FF4B4B', fontSize: '0.85rem', fontWeight: '900', fontFamily: 'monospace' }}>CROWDED (92%)</div>
+               <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.62rem', fontWeight: 'bold', marginBottom: '2px' }}>Zone A: Concourse</div>
+               <div style={{ color: '#FF4B4B', fontSize: '0.85rem', fontWeight: '900' }}>Crowded (92%)</div>
             </div>
             <div style={{ position: 'absolute', bottom: '10px', right: '10px', background: 'rgba(10,13,20,0.9)', padding: '8px 12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)' }}>
-               <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.62rem', fontWeight: 'bold', marginBottom: '2px', fontFamily: 'monospace' }}>ZONE B: ENTRANCE</div>
-               <div style={{ color: routeGate === 'GATE C' ? '#FF4B4B' : 'var(--accent-green)', fontSize: '0.85rem', fontWeight: '900', fontFamily: 'monospace', transition: 'all 0.5s' }}>
+               <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.62rem', fontWeight: 'bold', marginBottom: '2px' }}>Zone B: Entrance</div>
+               <div style={{ color: routeGate === 'GATE C' ? '#FF4B4B' : 'var(--accent-green)', fontSize: '0.85rem', fontWeight: '900', transition: 'all 0.5s' }}>
                  {routeGate === 'GATE C' ? 'ALERT (85%)' : 'CLEAR (14%)'}
                </div>
             </div>
@@ -681,14 +680,14 @@ const Dashboard = () => {
 
           <div className="flex-row gap-3">
             <div style={{ flex: 1, background: 'rgba(255,255,255,0.03)', padding: '12px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.05)', transition: 'all 0.5s' }}>
-              <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.65rem', fontWeight: 'bold', marginBottom: '4px', fontFamily: 'monospace' }}>GATE B LOAD</div>
-              <div style={{ color: routeGate === 'GATE C' ? '#FF4B4B' : 'var(--accent-green)', fontSize: '0.95rem', fontWeight: 'bold', fontFamily: 'monospace' }}>
+              <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.65rem', fontWeight: 'bold', marginBottom: '4px' }}>GATE B LOAD</div>
+              <div style={{ color: routeGate === 'GATE C' ? '#FF4B4B' : 'var(--accent-green)', fontSize: '0.95rem', fontWeight: 'bold' }}>
                 {routeGate === 'GATE C' ? 'CRITICAL' : 'OPTIMAL'}
               </div>
             </div>
             <div style={{ flex: 1, background: 'rgba(255,255,255,0.03)', padding: '12px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.05)' }}>
-              <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.65rem', fontWeight: 'bold', marginBottom: '4px', fontFamily: 'monospace' }}>CONCESSION 12</div>
-              <div style={{ color: 'var(--accent-yellow)', fontSize: '0.95rem', fontWeight: 'bold', fontFamily: 'monospace' }}>MODERATE</div>
+              <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.65rem', fontWeight: 'bold', marginBottom: '4px' }}>CONCESSION 12</div>
+              <div style={{ color: 'var(--accent-yellow)', fontSize: '0.95rem', fontWeight: 'bold' }}>MODERATE</div>
             </div>
           </div>
         </div>
@@ -702,10 +701,10 @@ const Dashboard = () => {
               </div>
               <div>
                 <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: '700', color: '#fff' }}>Transit Dispatch</h3>
-                <span style={{ fontSize: '0.65rem', color: '#00C8FF', fontFamily: 'monospace' }}>METROPOLITAN MOBILITY ROUTING</span>
+                <span style={{ fontSize: '0.65rem', color: '#00C8FF' }}>Smart Transit</span>
               </div>
             </div>
-            <span style={{ color: '#00C8FF', fontWeight: 'bold', fontSize: '0.65rem', letterSpacing: '1.5px', fontFamily: 'monospace' }}>AI RECOMMENDED</span>
+            <span style={{ color: '#00C8FF', fontWeight: 'bold', fontSize: '0.65rem', letterSpacing: '1.5px' }}>Recommended</span>
           </div>
 
           <p style={{ fontSize: '0.9rem', color: 'rgba(255, 255, 255, 0.82)', margin: '0 0 1.25rem 0', lineHeight: '1.55' }}>
@@ -714,12 +713,12 @@ const Dashboard = () => {
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
             <div style={{ background: 'rgba(0, 200, 255, 0.04)', padding: '12px', borderRadius: '10px', border: '1px solid rgba(0, 200, 255, 0.15)' }}>
-              <div style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.5)', fontFamily: 'monospace', marginBottom: '2px' }}>LUSAIL METRO</div>
-              <div style={{ fontSize: '0.95rem', color: 'var(--accent-green)', fontWeight: 'bold', fontFamily: 'monospace' }}>2m Wait (Clear)</div>
+              <div style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.5)', marginBottom: '2px' }}>LUSAIL METRO</div>
+              <div style={{ fontSize: '0.95rem', color: 'var(--accent-green)', fontWeight: 'bold' }}>2m Wait (Clear)</div>
             </div>
             <div style={{ background: 'rgba(255,255,255,0.03)', padding: '12px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.05)' }}>
-              <div style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.5)', fontFamily: 'monospace', marginBottom: '2px' }}>SHUTTLE BUS D</div>
-              <div style={{ fontSize: '0.95rem', color: 'var(--accent-yellow)', fontWeight: 'bold', fontFamily: 'monospace' }}>8m Wait (Normal)</div>
+              <div style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.5)', marginBottom: '2px' }}>SHUTTLE BUS D</div>
+              <div style={{ fontSize: '0.95rem', color: 'var(--accent-yellow)', fontWeight: 'bold' }}>8m Wait (Normal)</div>
             </div>
           </div>
           <button 
@@ -753,8 +752,7 @@ const Dashboard = () => {
               borderRadius: '10px',
               fontSize: '0.85rem',
               color: '#fff',
-              lineHeight: '1.4',
-              fontFamily: 'monospace'
+              lineHeight: '1.4'
             }}>
               {transitAdvisorText}
             </div>
@@ -811,8 +809,8 @@ const Dashboard = () => {
           <div style={{ position: 'absolute', bottom: '0', left: '0', right: '0', padding: '2rem 1.5rem', background: 'linear-gradient(transparent, #030712 40%)', zIndex: 2010 }}>
             <div className="flex-row justify-between" style={{ background: 'rgba(10,17,32,0.95)', border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(15px)', padding: '1.25rem', borderRadius: '20px', alignItems: 'center', boxShadow: '0 15px 40px rgba(0,0,0,0.6)' }}>
               <div className="flex-col">
-                <span style={{ fontSize: '1.4rem', fontWeight: '900', color: 'var(--accent-yellow)', fontFamily: 'monospace' }}>4 MIN</span>
-                <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.8rem', fontWeight: 'bold', fontFamily: 'monospace' }}>340M • TARGET: {routeGate}</span>
+                <span style={{ fontSize: '1.4rem', fontWeight: '900', color: 'var(--accent-yellow)' }}>4 MIN</span>
+                <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.8rem', fontWeight: 'bold' }}>340M • TARGET: {routeGate}</span>
               </div>
               <button 
                 onClick={() => setIsLiveNavigating(false)}
@@ -872,7 +870,6 @@ const Dashboard = () => {
           font-weight: 900;
           line-height: 1;
           color: #fff;
-          font-family: monospace;
           text-shadow: 0 0 10px rgba(255,255,255,0.1);
         }
 
@@ -881,7 +878,6 @@ const Dashboard = () => {
           font-weight: 900;
           line-height: 1;
           color: var(--accent-yellow);
-          font-family: monospace;
           text-shadow: 0 0 20px rgba(255,222,89,0.5);
           animation: heartBeat 1s infinite;
         }
@@ -891,7 +887,6 @@ const Dashboard = () => {
           color: rgba(255,255,255,0.45);
           letter-spacing: 2px;
           font-weight: bold;
-          font-family: monospace;
         }
 
         .countdown-separator {
@@ -900,7 +895,6 @@ const Dashboard = () => {
           color: rgba(255,255,255,0.25);
           line-height: 1;
           margin-top: -12px;
-          animation: pulse 1s infinite;
         }
 
         /* Card custom structures */
@@ -921,15 +915,13 @@ const Dashboard = () => {
         }
 
         .live-badge {
-          background: #FF1E1E;
-          color: #fff;
+          background: rgba(0,255,178,0.1);
+          color: var(--accent-green);
           font-size: 0.6rem;
           font-weight: 900;
           padding: 2px 6px;
           border-radius: 4px;
           letter-spacing: 1px;
-          box-shadow: 0 0 10px rgba(255,30,30,0.5);
-          font-family: monospace;
         }
 
         .neon-status-badge {
@@ -944,7 +936,6 @@ const Dashboard = () => {
           font-weight: bold;
           letter-spacing: 1px;
           border: 1px solid rgba(43,255,136,0.3);
-          font-family: monospace;
         }
 
         .telemetry-live-tag {
@@ -952,7 +943,6 @@ const Dashboard = () => {
           font-weight: 900;
           font-size: 0.65rem;
           letter-spacing: 1.5px;
-          font-family: monospace;
           background: rgba(43,255,136,0.08);
           padding: 3px 8px;
           border-radius: 6px;

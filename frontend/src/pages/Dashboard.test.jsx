@@ -19,10 +19,10 @@ describe('Dashboard Component', () => {
       </BrowserRouter>
     );
 
-    expect(screen.getByText(/LUSAIL STADIUM/i)).toBeInTheDocument();
-    expect(screen.getByText(/GATE B CAPACITY INDEX/i)).toBeInTheDocument();
-    expect(screen.getByText(/KICKOFF COUNTDOWN/i)).toBeInTheDocument();
-    expect(screen.getByText(/AI AGENT: MONIT_FLOW_ACTIVE/i)).toBeInTheDocument();
+    expect(screen.getByText(/Lusail Stadium/i)).toBeInTheDocument();
+    expect(screen.getByText(/Gate B Status/i)).toBeInTheDocument();
+    expect(screen.getByText(/Kickoff Countdown/i)).toBeInTheDocument();
+    expect(screen.getByText(/Operations Dashboard/i)).toBeInTheDocument();
   });
 
   it('applies simulation presets correctly', () => {

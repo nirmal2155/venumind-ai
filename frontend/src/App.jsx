@@ -134,19 +134,13 @@ const DesktopSidebar = () => {
       {/* Gradient accent line */}
       <div style={{ position: 'absolute', top: 0, right: 0, width: '1px', height: '100%', background: 'linear-gradient(180deg, rgba(0,255,178,0.2), transparent 30%, transparent 70%, rgba(0,200,255,0.15))' }} />
 
-      {/* Environment Status */}
-      <div style={{ padding: '0.75rem', marginBottom: '0.75rem', borderRadius: '12px', background: 'rgba(0,255,178,0.03)', border: '1px solid rgba(0,255,178,0.08)' }}>
-        <div style={{ fontSize: '0.6rem', color: 'var(--accent-green)', fontWeight: '700', letterSpacing: '2.5px', fontFamily: 'var(--font-mono)', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: 'var(--accent-green)', boxShadow: '0 0 8px var(--accent-green)', animation: 'livePulse 1.8s infinite' }} />
-          SYSTEM ONLINE
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px' }}>
-          <div style={{ fontSize: '0.6rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>VENUE<br /><span style={{ color: 'var(--text-secondary)', fontWeight: '600' }}>LUSAIL</span></div>
-          <div style={{ fontSize: '0.6rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>UPTIME<br /><span style={{ color: 'var(--text-secondary)', fontWeight: '600' }}>98.4%</span></div>
-        </div>
+      {/* Venue Info */}
+      <div style={{ padding: '0.75rem', marginBottom: '0.75rem', borderRadius: '12px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.04)' }}>
+        <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', fontWeight: '600', marginBottom: '2px' }}>Lusail Stadium</div>
+        <div style={{ fontSize: '0.6rem', color: 'var(--text-muted)' }}>FIFA World Cup 2026</div>
       </div>
 
-      <div style={{ fontSize: '0.6rem', color: 'var(--text-muted)', fontWeight: '600', letterSpacing: '2.5px', padding: '0 0.75rem', marginBottom: '6px', fontFamily: 'var(--font-mono)' }}>NAVIGATION</div>
+      <div style={{ fontSize: '0.6rem', color: 'var(--text-muted)', fontWeight: '600', letterSpacing: '1.5px', padding: '0 0.75rem', marginBottom: '6px' }}>NAVIGATION</div>
 
       {navItems.map((item) => {
         const Icon = item.icon;
@@ -179,8 +173,8 @@ const DesktopSidebar = () => {
       })}
 
       {/* Footer info */}
-      <div style={{ marginTop: 'auto', padding: '0.75rem', borderTop: '1px solid rgba(255,255,255,0.04)', fontSize: '0.55rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)', letterSpacing: '1px' }}>
-        VENUEMIND AI v2.0<br />FIFA WORLD CUP 2026
+      <div style={{ marginTop: 'auto', padding: '0.75rem', borderTop: '1px solid rgba(255,255,255,0.04)', fontSize: '0.6rem', color: 'var(--text-muted)' }}>
+        VenueMind AI v2.0
       </div>
     </aside>
   );
@@ -379,7 +373,7 @@ const Custom404 = () => {
   const navigate = useNavigate();
   return (
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '60vh', padding: '2rem', textAlign: 'center' }}>
-      <h1 style={{ fontSize: '6rem', margin: 0, color: 'var(--accent-yellow)', fontWeight: '900', fontFamily: 'monospace' }}>404</h1>
+      <h1 style={{ fontSize: '6rem', margin: 0, color: 'var(--accent-yellow)', fontWeight: '900' }}>404</h1>
       <h2 style={{ fontSize: '1.5rem', color: '#fff', margin: '10px 0' }}>🛰️ Page Lost in Stadium Orbit</h2>
       <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.9rem', maxWidth: '400px', marginBottom: '2rem' }}>
         The section or operational terminal you are looking for has been re-routed or is temporarily offline.
@@ -419,7 +413,7 @@ const AnimatedRoutes = () => {
       <React.Suspense fallback={
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '50vh', gap: '1rem' }}>
           <div style={{ width: '40px', height: '40px', border: '3px solid rgba(43,255,136,0.1)', borderTopColor: 'var(--accent-green)', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
-          <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontFamily: 'monospace', letterSpacing: '1px' }}>INITIALIZING NODE...</span>
+          <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', letterSpacing: '1px' }}>INITIALIZING NODE...</span>
         </div>
       }>
         <Routes location={location}>
@@ -612,9 +606,7 @@ function MainApp() {
           !booting && (
             <Router>
               <div className="grid-bg"></div>
-              <div className="ambient-orb ambient-orb-1"></div>
-              <div className="ambient-orb ambient-orb-2"></div>
-              <div className="ambient-orb ambient-orb-3"></div>
+
               <EmergencyOverlay />
               <AppLayout currentUser={currentUser} onLogout={handleLogout} />
             </Router>

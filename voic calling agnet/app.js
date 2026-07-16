@@ -792,7 +792,7 @@ function handleMuteToggle() {
     if (state.recognition && !state.isSpeechSpeaking) {
       try {
         state.recognition.start();
-      } catch (e) {}
+      } catch {}
     }
   }
 }
@@ -878,7 +878,7 @@ async function startBrowserMode() {
       if (state.isConnected && !state.isMuted && !state.isSpeechSpeaking) {
         try {
           state.recognition.start();
-        } catch (e) {}
+        } catch {}
       }
     };
     
@@ -939,7 +939,7 @@ async function queryLocalLLM(promptText) {
     if (state.recognition && !state.isMuted) {
       try {
         state.recognition.start();
-      } catch (e) {}
+      } catch {}
     }
   }
 }
@@ -968,7 +968,7 @@ function speakLocalTTS(text) {
     if (state.recognition && !state.isMuted && state.isConnected) {
       try {
         state.recognition.start();
-      } catch (e) {}
+      } catch {}
     }
   };
   
@@ -979,7 +979,7 @@ function speakLocalTTS(text) {
     if (state.recognition && !state.isMuted && state.isConnected) {
       try {
         state.recognition.start();
-      } catch (e) {}
+      } catch {}
     }
   };
   

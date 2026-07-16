@@ -97,7 +97,7 @@ try {
   if (process.env.GEMINI_API_KEY) {
     aiClient = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
   }
-} catch (e) {
+} catch {
   console.warn("Could not initialize GenAI client.");
 }
 
@@ -259,7 +259,7 @@ app.use((req, res) => {
 });
 
 // Global Express Error Boundary
-app.use((err, req, res, next) => {
+app.use((err, req, res, _next) => {
   console.error('Unhandled Express Error:', err);
   res.status(500).json({ error: 'Internal Server Error' });
 });

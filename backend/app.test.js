@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Global mock function accessible in tests
-const mockGenerateContent = jest.fn().mockImplementation(({ model, contents, config }) => {
+const mockGenerateContent = jest.fn().mockImplementation(({ model, config }) => {
   return Promise.resolve({
     text: `Mocked Gemini Response (Model: ${model || 'default'}, Temp: ${config?.temperature !== undefined ? config.temperature : 'default'})`
   });
@@ -36,16 +36,16 @@ beforeAll(() => {
 afterAll(() => {
   try {
     fs.unlinkSync(path.join(publicDir, 'index.html'));
-  } catch (e) {}
+  } catch {}
   try {
     fs.unlinkSync(path.join(publicDir, 'manifest.json'));
-  } catch (e) {}
+  } catch {}
   try {
     fs.unlinkSync(path.join(publicDir, 'test.css'));
-  } catch (e) {}
+  } catch {}
   try {
     fs.rmdirSync(publicDir);
-  } catch (e) {}
+  } catch {}
 });
 
 describe('VenueMind AI Backend API (With GenAI Client)', () => {
@@ -214,7 +214,7 @@ describe('Global Error Boundaries', () => {
     // Delete index.html to trigger sendFile error in wildcard handler
     try {
       fs.unlinkSync(path.join(publicDir, 'index.html'));
-    } catch(e) {}
+    } catch {}
     
     const res = await request(app).get('/some-random-route');
     expect(res.statusCode).toBe(500);

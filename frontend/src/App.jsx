@@ -33,7 +33,7 @@ class ErrorBoundary extends React.Component {
   render() {
     if (this.state.hasError) {
       return (
-        <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: '#0a0a0a', color: '#fff', textAlign: 'center' }}>
+        <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: '#0a0a0a', color: 'var(--text-primary)', textAlign: 'center' }}>
           <AlertOctagon size={64} color="var(--accent-red)" style={{ marginBottom: '1rem' }} />
           <h2>System Offline</h2>
           <p style={{ color: 'var(--text-secondary)' }}>Our AI systems are currently rebooting. Please standby.</p>
@@ -311,7 +311,7 @@ const EmergencyOverlay = () => {
       <div style={{ padding: '2rem 1.5rem', background: '#FF1E1E', display: 'flex', alignItems: 'center', gap: '1rem' }}>
         <AlertOctagon size={40} color="#FFF" style={{ animation: 'pulse 1s infinite' }} />
         <div>
-          <h1 style={{ margin: 0, color: '#FFF', fontSize: '1.8rem', fontWeight: '900', textTransform: 'uppercase' }}>Evacuate Now</h1>
+          <h1 style={{ margin: 0, color: 'var(--text-primary)', fontSize: '1.8rem', fontWeight: '900', textTransform: 'uppercase' }}>Evacuate Now</h1>
           <p style={{ margin: 0, color: 'rgba(255,255,255,0.9)', fontWeight: 'bold' }}>Emergency declared in Sector 4.</p>
         </div>
       </div>
@@ -336,7 +336,7 @@ const EmergencyOverlay = () => {
         <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', background: 'rgba(0,0,0,0.8)', padding: '1.5rem', borderRadius: '16px', border: '2px solid #FF1E1E', textAlign: 'center', minWidth: '80%' }}>
            <h2 style={{ color: '#2BFF88', margin: '0 0 10px 0', fontSize: '2rem', fontWeight: '900' }}>NEAREST SAFE EXIT</h2>
            <div className="flex-row justify-center gap-2" style={{ alignItems: 'center' }}>
-             <span style={{ color: '#FFF', fontSize: '1.5rem', fontWeight: 'bold' }}>GATE D (SOUTH)</span>
+             <span style={{ color: 'var(--text-primary)', fontSize: '1.5rem', fontWeight: 'bold' }}>GATE D (SOUTH)</span>
              <ArrowRight color="#2BFF88" size={30} />
            </div>
            <p style={{ color: 'rgba(255,255,255,0.7)', marginTop: '10px', fontSize: '0.9rem' }}>Follow the green path on your screen immediately.</p>
@@ -348,7 +348,7 @@ const EmergencyOverlay = () => {
           if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
           setEmergency(false);
         }} 
-        style={{ position: 'absolute', bottom: '20px', left: '50%', transform: 'translateX(-50%)', background: 'transparent', border: '1px solid rgba(255,255,255,0.3)', color: '#FFF', padding: '10px 20px', borderRadius: '20px', fontSize: '0.8rem' }}>
+        style={{ position: 'absolute', bottom: '20px', left: '50%', transform: 'translateX(-50%)', background: 'transparent', border: '1px solid rgba(255,255,255,0.3)', color: 'var(--text-primary)', padding: '10px 20px', borderRadius: '20px', fontSize: '0.8rem' }}>
         Cancel Demo
       </button>
 
@@ -367,7 +367,7 @@ const Custom404 = () => {
   return (
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '60vh', padding: '2rem', textAlign: 'center' }}>
       <h1 style={{ fontSize: '6rem', margin: 0, color: 'var(--accent-yellow)', fontWeight: '900' }}>404</h1>
-      <h2 style={{ fontSize: '1.5rem', color: '#fff', margin: '10px 0' }}>🛰️ Page Lost in Stadium Orbit</h2>
+      <h2 style={{ fontSize: '1.5rem', color: 'var(--text-primary)', margin: '10px 0' }}>🛰️ Page Lost in Stadium Orbit</h2>
       <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.9rem', maxWidth: '400px', marginBottom: '2rem' }}>
         The section or operational terminal you are looking for has been re-routed or is temporarily offline.
       </p>
@@ -461,7 +461,7 @@ const SplashSequence = ({ onComplete }) => {
           position: 'absolute', inset: 0,
           borderRadius: '50%',
           border: '2px solid rgba(255, 255, 255, 0.05)',
-          borderTopColor: '#fff',
+          borderTopcolor: 'var(--text-primary)',
           animation: 'spin 0.8s linear infinite'
         }} />
         <img src="/logo.jpg" alt="VenueMind Logo" style={{
@@ -469,7 +469,7 @@ const SplashSequence = ({ onComplete }) => {
           width: '46px', height: '46px', borderRadius: '10px', zIndex: 1
         }} />
       </div>
-      <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', fontWeight: '700', marginBottom: '0.25rem', color: '#fff' }}>
+      <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', fontWeight: '700', marginBottom: '0.25rem', color: 'var(--text-primary)' }}>
         VENUE<span style={{ color: 'var(--accent-yellow)' }}>MIND AI</span>
       </div>
       <div style={{ fontSize: '0.6rem', color: 'var(--text-muted)', letterSpacing: '2px', marginBottom: '2rem' }}>FIFA WORLD CUP 2026</div>

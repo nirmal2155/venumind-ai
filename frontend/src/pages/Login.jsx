@@ -161,7 +161,7 @@ const Login = ({ onLoginSuccess }) => {
                   placeholder="e.g. COLL-2026, POLICE-2026..."
                   value={authorityId}
                   onChange={(e) => setAuthorityId(e.target.value)}
-                  style={{ background: 'transparent', border: 'none', color: '#fff', outline: 'none', width: '100%', fontSize: '0.9rem' }}
+                  style={{ background: 'transparent', border: 'none', color: 'var(--text-primary)', outline: 'none', width: '100%', fontSize: '0.9rem' }}
                 />
               </div>
             </div>
@@ -178,7 +178,7 @@ const Login = ({ onLoginSuccess }) => {
                     placeholder="authority@stadium.org"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    style={{ background: 'transparent', border: 'none', color: '#fff', outline: 'none', width: '100%', fontSize: '0.9rem' }}
+                    style={{ background: 'transparent', border: 'none', color: 'var(--text-primary)', outline: 'none', width: '100%', fontSize: '0.9rem' }}
                   />
                 </div>
               </div>
@@ -192,7 +192,7 @@ const Login = ({ onLoginSuccess }) => {
                     placeholder="••••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    style={{ background: 'transparent', border: 'none', color: '#fff', outline: 'none', width: '100%', fontSize: '0.9rem' }}
+                    style={{ background: 'transparent', border: 'none', color: 'var(--text-primary)', outline: 'none', width: '100%', fontSize: '0.9rem' }}
                   />
                 </div>
               </div>

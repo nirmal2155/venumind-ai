@@ -143,7 +143,7 @@ const Dashboard = () => {
   const { timerValues } = useMatchTimer();
   
   return (
-    <div style={{ padding: '0', paddingBottom: '120px', zIndex: 1, position: 'relative', background: 'transparent', minHeight: '100vh', color: '#fff' }}>
+    <div style={{ padding: '0', paddingBottom: '120px', zIndex: 1, position: 'relative', background: 'transparent', minHeight: '100vh', color: 'var(--text-primary)' }}>
       
       {/* Global Reroute Notification Overlay */}
       {notification && (
@@ -202,7 +202,7 @@ const Dashboard = () => {
               <span className="live-badge">LIVE</span>
               <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.7rem', fontWeight: 'bold', letterSpacing: '2px', margin: 0 }}>Lusail Stadium • Match Day 14</p>
             </div>
-            <h1 style={{ fontSize: '2rem', margin: '0', fontWeight: '800', letterSpacing: '-0.02em', color: '#ffffff' }}>
+            <h1 style={{ fontSize: '2rem', margin: '0', fontWeight: '800', letterSpacing: '-0.02em', color: 'var(--text-primary)' }}>
               VenueMind AI <span style={{ color: 'var(--accent-yellow)' }}>Portal</span>
             </h1>
           </div>
@@ -276,12 +276,12 @@ const Dashboard = () => {
 
           <div className="flex-row gap-4" style={{ alignItems: 'center', justifyContent: 'center', marginTop: '0.5rem' }}>
             <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '1.8rem', fontWeight: '800', color: '#fff' }}>{timerValues.hrs}</div>
+              <div style={{ fontSize: '1.8rem', fontWeight: '800', color: 'var(--text-primary)' }}>{timerValues.hrs}</div>
               <span style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.4)', fontWeight: 'bold' }}>HRS</span>
             </div>
             <div style={{ fontSize: '1.5rem', color: 'rgba(255,255,255,0.2)', marginTop: '-15px' }}>:</div>
             <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '1.8rem', fontWeight: '800', color: '#fff' }}>{timerValues.mins}</div>
+              <div style={{ fontSize: '1.8rem', fontWeight: '800', color: 'var(--text-primary)' }}>{timerValues.mins}</div>
               <span style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.4)', fontWeight: 'bold' }}>MIN</span>
             </div>
             <div style={{ fontSize: '1.5rem', color: 'rgba(255,255,255,0.2)', marginTop: '-15px' }}>:</div>
@@ -303,7 +303,7 @@ const Dashboard = () => {
                 <Thermometer size={18} color="#FF6B35" />
               </div>
               <div>
-                <h3 style={{ margin: 0, fontSize: '0.95rem', fontWeight: '600', color: '#fff' }}>Atmosphere Metric</h3>
+                <h3 style={{ margin: 0, fontSize: '0.95rem', fontWeight: '600', color: 'var(--text-primary)' }}>Atmosphere Metric</h3>
                 <span style={{ fontSize: '0.62rem', color: '#FF6B35' }}>Climate Control Active</span>
               </div>
             </div>
@@ -358,7 +358,7 @@ const Dashboard = () => {
               <Bot color="var(--accent-yellow)" size={20} />
             </div>
             <div style={{ flex: 1 }}>
-              <h3 style={{ margin: '0 0 4px 0', fontSize: '1.1rem', fontWeight: '700', color: '#fff' }}>Multilingual AI Assistant</h3>
+              <h3 style={{ margin: '0 0 4px 0', fontSize: '1.1rem', fontWeight: '700', color: 'var(--text-primary)' }}>Multilingual AI Assistant</h3>
               <span style={{ fontSize: '0.65rem', color: 'var(--accent-yellow)', letterSpacing: '1px', fontWeight: 'bold' }}>8 Languages</span>
             </div>
           </div>
@@ -405,7 +405,7 @@ const Dashboard = () => {
                 <Navigation color="var(--accent-green)" size={16} />
               </div>
               <div>
-                <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: '700', color: '#fff' }}>Holographic Routing</h3>
+                <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: '700', color: 'var(--text-primary)' }}>Holographic Routing</h3>
                 <span style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.4)' }}>Smart Navigation</span>
               </div>
             </div>
@@ -442,7 +442,7 @@ const Dashboard = () => {
                 borderRadius: '8px',
                 padding: '6px 10px',
                 fontSize: '0.7rem',
-                color: '#fff',
+                color: 'var(--text-primary)',
                 fontSize: '0.7rem',
                 display: 'flex',
                 flexDirection: 'column',
@@ -534,7 +534,7 @@ const Dashboard = () => {
           </div>
           <div>
             <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.7rem', fontWeight: 'bold', letterSpacing: '1px' }}>Gate B Status</span>
-            <div style={{ color: '#fff', fontSize: '1rem', fontWeight: '600', marginTop: '2px' }}>
+            <div style={{ color: 'var(--text-primary)', fontSize: '1rem', fontWeight: '600', marginTop: '2px' }}>
               {routeGate === 'GATE C' ? (
                 <span style={{ color: '#FF4B4B' }}>SPIKE: Severe Overload (15m delay)</span>
               ) : (
@@ -571,7 +571,7 @@ const Dashboard = () => {
                     transition: 'all 0.15s ease'
                   }}>
                   <Icon size={20} color={mod.color} />
-                  <span style={{ fontWeight: '600', fontSize: '0.78rem', color: '#fff' }}>{mod.label}</span>
+                  <span style={{ fontWeight: '600', fontSize: '0.78rem', color: 'var(--text-primary)' }}>{mod.label}</span>
                 </div>
               );
             })}
@@ -586,7 +586,7 @@ const Dashboard = () => {
                 <Users color="#fff" size={16} />
               </div>
               <div>
-                <h3 style={{ margin: 0, fontSize: '0.95rem', fontWeight: '600', color: '#fff' }}>Thermal Crowd Density</h3>
+                <h3 style={{ margin: 0, fontSize: '0.95rem', fontWeight: '600', color: 'var(--text-primary)' }}>Thermal Crowd Density</h3>
                 <span style={{ fontSize: '0.62rem', color: 'var(--text-secondary)' }}>Real-time Density</span>
               </div>
             </div>
@@ -634,7 +634,7 @@ const Dashboard = () => {
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent-blue)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="3" width="16" height="16" rx="2"/><path d="M4 11h16"/><path d="M12 3v16"/><path d="M8 19v2"/><path d="M16 19v2"/></svg>
               </div>
               <div>
-                <h3 style={{ margin: 0, fontSize: '0.95rem', fontWeight: '600', color: '#fff' }}>Transit Dispatch</h3>
+                <h3 style={{ margin: 0, fontSize: '0.95rem', fontWeight: '600', color: 'var(--text-primary)' }}>Transit Dispatch</h3>
                 <span style={{ fontSize: '0.62rem', color: 'var(--accent-blue)' }}>Smart Transit</span>
               </div>
             </div>
@@ -680,7 +680,7 @@ const Dashboard = () => {
               padding: '12px',
               borderRadius: '10px',
               fontSize: '0.85rem',
-              color: '#fff',
+              color: 'var(--text-primary)',
               lineHeight: '1.4'
             }}>
               {transitAdvisorText}
@@ -746,7 +746,7 @@ const Dashboard = () => {
                 className="exit-hud-btn"
                 style={{
                   background: '#FF4B4B',
-                  color: '#fff',
+                  color: 'var(--text-primary)',
                   border: 'none',
                   padding: '12px 28px',
                   borderRadius: '24px',

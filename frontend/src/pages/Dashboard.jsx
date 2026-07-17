@@ -348,50 +348,29 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* 🤖 Multilingual AI Concierge Quick Panel */}
-        <div className="glass-card" style={{
-          marginBottom: '1.25rem'
-        }}>
-
-          <div className="flex-row gap-4" style={{ alignItems: 'flex-start', marginBottom: '1rem' }}>
-            <div style={{ background: 'rgba(255, 214, 10, 0.08)', border: '1px solid rgba(255, 214, 10, 0.12)', padding: '10px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Bot color="var(--accent-yellow)" size={20} />
+        {/* 🤖 Ask VenuMind AI Card Link */}
+        <div 
+          onClick={() => navigate('/concierge')}
+          className="glass-card" 
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginBottom: '1.25rem',
+            cursor: 'pointer',
+            transition: 'background 0.2s, border-color 0.2s',
+          }}
+        >
+          <div className="flex-row gap-4" style={{ alignItems: 'center' }}>
+            <div style={{ width: '40px', height: '40px', background: 'var(--accent-blue-dim)', border: '1px solid rgba(59, 130, 246, 0.15)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Bot color="var(--accent-blue)" size={20} />
             </div>
-            <div style={{ flex: 1 }}>
-              <h3 style={{ margin: '0 0 4px 0', fontSize: '1.1rem', fontWeight: '700', color: 'var(--text-primary)' }}>Multilingual AI Assistant</h3>
-              <span style={{ fontSize: '0.65rem', color: 'var(--accent-yellow)', letterSpacing: '1px', fontWeight: 'bold' }}>8 Languages</span>
+            <div style={{ textAlign: 'left' }}>
+              <h4 style={{ margin: 0, fontSize: '0.88rem', fontWeight: '600', color: 'var(--text-primary)' }}>Ask VenuMind AI</h4>
+              <p style={{ margin: 0, fontSize: '0.72rem', color: 'var(--text-secondary)' }}>Ask about specific nodes or traffic spikes</p>
             </div>
           </div>
-          
-          <p style={{ fontSize: '0.9rem', color: 'rgba(255, 255, 255, 0.75)', margin: '0 0 1.25rem 0', lineHeight: '1.5', fontStyle: 'italic', paddingLeft: '8px', borderLeft: '2px solid rgba(255,222,89,0.3)' }}>
-            "Where is the nearest official merchandise stand with the Brazil jersey?"
-          </p>
-
-          <div style={{ display: 'flex', gap: '8px' }}>
-            <button 
-              onClick={() => navigate('/concierge')}
-              className="btn-yellow"
-              style={{
-                flex: 1,
-                padding: '10px 14px',
-                fontSize: '0.82rem'
-              }}>
-              LAUNCH CHAT
-            </button>
-            <button 
-              onClick={() => navigate('/concierge')}
-              className="btn-ghost"
-              style={{
-                padding: '10px 14px',
-                fontSize: '0.82rem',
-                width: '46px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}>
-              🔍
-            </button>
-          </div>
+          <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>➜</span>
         </div>
 
         {/* 🗺️ Interactive Holographic Navigation Card */}

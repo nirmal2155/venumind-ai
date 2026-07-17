@@ -14,6 +14,7 @@ const Staff = React.lazy(() => import('./pages/Staff'));
 const AccessibilityPage = React.lazy(() => import('./pages/Accessibility'));
 const Login = React.lazy(() => import('./pages/Login'));
 const AuthorityDashboard = React.lazy(() => import('./pages/AuthorityDashboard'));
+const Settings = React.lazy(() => import('./pages/Settings'));
 
 // --- Error Boundary Component (Reliability Check) ---
 class ErrorBoundary extends React.Component {
@@ -238,22 +239,25 @@ const Header = ({ onLogout, currentUser }) => {
               LOGOUT
             </button>
           )}
-          <div style={{
+          <Link to="/settings" style={{
             width: '36px',
             height: '36px',
             borderRadius: '50%',
-            background: 'var(--bg-card)',
             border: '1px solid var(--border-glass)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            overflow: 'hidden'
-          }}>
-            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-              <circle cx="14" cy="11" r="5" fill={currentUser?.role !== 'fan' ? 'var(--accent-yellow)' : 'var(--accent-green)'} opacity="0.8"/>
-              <ellipse cx="14" cy="22" rx="8" ry="5" fill={currentUser?.role !== 'fan' ? 'var(--accent-yellow)' : 'var(--accent-green)'} opacity="0.5"/>
-            </svg>
-          </div>
+            overflow: 'hidden',
+            cursor: 'pointer'
+          }}
+            title="Profile & Settings"
+          >
+            <img 
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfsDSiSOGyhjoSKPOaHRFJt4XhDQky9aeY3wPSViF_4_sb-oKVJipWQkfDNPFNCjnzWMVxZyQEoCiRTUpxOvYiH1IGyZCimHrSbeFFCGo2gpHiE5y7pErNgJZQEkPVHeSHQ6ZZ-i0Df7c370ExAb4A2NeJjxMOb9qVfLiIq3Qm763rnDhX5RNe1MpaTtT9dAu2qunoYeDGDnolbEYIRgY3sp3dFkgdSazJmgqcknc3AMYkD9HHzme7U8nJLh0zXUUeOFFD8M7H-Zg"
+              alt="Alex Thorne"
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
+          </Link>
         </div>
       </header>
 
@@ -391,7 +395,7 @@ const Custom404 = () => {
 };
 
 // --- Animated Routes Component ---
-const AnimatedRoutes = () => {
+const AnimatedRoutes = ({ currentUser, onLogout }) => {
   const location = useLocation();
   const [fadeClass, setFadeClass] = useState('page-enter');
 
@@ -417,6 +421,7 @@ const AnimatedRoutes = () => {
           <Route path="/staff" element={<Staff />} />
           <Route path="/access" element={<AccessibilityPage />} />
           <Route path="/ops" element={<Ops />} />
+          <Route path="/settings" element={<Settings currentUser={currentUser} onLogout={onLogout} />} />
           <Route path="*" element={<Custom404 />} />
         </Routes>
       </React.Suspense>
@@ -503,7 +508,7 @@ const AppLayout = ({ currentUser, onLogout }) => {
               <AuthorityDashboard user={currentUser} onLogout={onLogout} />
             </React.Suspense>
           ) : (
-            <AnimatedRoutes />
+            <AnimatedRoutes currentUser={currentUser} onLogout={onLogout} />
           )}
         </main>
       </div>

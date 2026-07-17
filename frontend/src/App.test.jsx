@@ -21,10 +21,12 @@ describe('App Component Structure', () => {
       return null;
     });
 
-    render(<App />);
+    await act(async () => {
+      render(<App />);
+    });
 
     // Fast-forward boot splash screen timers
-    act(() => {
+    await act(async () => {
       vi.advanceTimersByTime(3000);
     });
 

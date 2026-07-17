@@ -65,10 +65,10 @@ const Maps = () => {
           width: '90%',
           maxWidth: '400px',
           background: notification.type === 'danger' ? 'rgba(255, 75, 75, 0.95)' : 'rgba(43, 255, 136, 0.95)',
-          color: notification.type === 'danger' ? '#fff' : '#000',
+          color: notification.type === 'danger' ? 'var(--text-primary)' : '#000',
           padding: '1rem',
           borderRadius: '12px',
-          boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
+          boxShadow: '0 10px 30px rgba(30, 64, 175, 0.08)',
           zIndex: 9999,
           display: 'flex',
           alignItems: 'center',
@@ -81,12 +81,12 @@ const Maps = () => {
       )}
 
       {/* Top AI Agent Banner */}
-      <div style={{ background: '#0a101d', padding: '10px 1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+      <div style={{ background: 'var(--bg-card)', padding: '10px 1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--border-glass)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <div style={{ width: '12px', height: '12px', background: 'var(--accent-green)', borderRadius: '50%', boxShadow: '0 0 10px var(--accent-green)' }}></div>
           <span style={{ color: 'var(--accent-green)', fontWeight: '800', fontSize: '0.65rem', letterSpacing: '1px', fontFamily: 'monospace' }}>AI AGENT ACTIVE: OPTIMIZING CROWD FLOW</span>
         </div>
-        <span style={{ color: '#fff', fontSize: '0.65rem', fontWeight: 'bold', fontFamily: 'monospace' }}>CONFIDENCE: 98.4%</span>
+        <span style={{ color: 'var(--text-primary)', fontSize: '0.65rem', fontWeight: 'bold', fontFamily: 'monospace' }}>CONFIDENCE: 98.4%</span>
       </div>
 
       <div style={{ padding: '1.5rem' }}>
@@ -94,17 +94,17 @@ const Maps = () => {
         <div style={{ marginBottom: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
           <div>
             <p style={{ color: 'var(--accent-green)', fontSize: '0.7rem', fontWeight: 'bold', letterSpacing: '1px', marginBottom: '8px' }}>DOHA, QATAR | MATCHDAY 14</p>
-            <h1 style={{ fontSize: '2.5rem', margin: '0', lineHeight: '1.1', fontWeight: '400', color: '#fff' }}>
+            <h1 style={{ fontSize: '2.5rem', margin: '0', lineHeight: '1.1', fontWeight: '400', color: 'var(--text-primary)' }}>
               Welcome to <span style={{ color: 'var(--accent-yellow)', fontWeight: 'bold' }}>Lusail<br/>Stadium</span>
             </h1>
           </div>
           {/* Hidden Demo Trigger */}
-          <button onClick={simulateReroute} aria-label="Trigger AI route optimization recalculation" style={{ background: 'rgba(255,255,255,0.1)', border: 'none', padding: '8px', borderRadius: '50%', cursor: 'pointer' }}>
+          <button onClick={simulateReroute} aria-label="Trigger AI route optimization recalculation" style={{ background: 'rgba(30, 64, 175, 0.06)', border: 'none', padding: '8px', borderRadius: '50%', cursor: 'pointer' }}>
             <Target size={20} color="var(--accent-yellow)" />
           </button>
         </div>
         
-        <p style={{ color: 'rgba(255,255,255,0.7)', marginTop: '0', marginBottom: '1.5rem', fontSize: '1rem', lineHeight: '1.5' }}>
+        <p style={{ color: 'var(--text-secondary)', marginTop: '0', marginBottom: '1.5rem', fontSize: '1rem', lineHeight: '1.5' }}>
           Experience the FIFA World Cup 2026 through the lens of artificial intelligence. Your journey to Section 204 starts here.
         </p>
 
@@ -115,29 +115,29 @@ const Maps = () => {
             <Timer size={18} color="var(--accent-yellow)" />
           </div>
           <div className="flex-row gap-4">
-            <div className="flex-col gap-1"><span style={{ fontSize: '2.2rem', fontWeight: '800', lineHeight: '1'}}>{timerValues.hrs}</span><span style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.7)', letterSpacing: '1px' }}>HRS</span></div>
-            <div className="flex-col gap-1"><span style={{ fontSize: '2.2rem', fontWeight: '800', lineHeight: '1'}}>{timerValues.mins}</span><span style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.7)', letterSpacing: '1px' }}>MIN</span></div>
-            <div className="flex-col gap-1"><span style={{ fontSize: '2.2rem', fontWeight: '800', lineHeight: '1'}}>{timerValues.secs}</span><span style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.7)', letterSpacing: '1px' }}>SEC</span></div>
+            <div className="flex-col gap-1"><span style={{ fontSize: '2.2rem', fontWeight: '800', lineHeight: '1'}}>{timerValues.hrs}</span><span style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', letterSpacing: '1px' }}>HRS</span></div>
+            <div className="flex-col gap-1"><span style={{ fontSize: '2.2rem', fontWeight: '800', lineHeight: '1'}}>{timerValues.mins}</span><span style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', letterSpacing: '1px' }}>MIN</span></div>
+            <div className="flex-col gap-1"><span style={{ fontSize: '2.2rem', fontWeight: '800', lineHeight: '1'}}>{timerValues.secs}</span><span style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', letterSpacing: '1px' }}>SEC</span></div>
           </div>
         </div>
 
         {/* Smart Navigation Card */}
-        <div style={{ background: '#121621', border: '1px solid rgba(43,255,136,0.2)', borderRadius: '16px', padding: '1.25rem', marginBottom: '1.5rem', transition: 'all 0.5s', boxShadow: routeGate === 'GATE C' ? '0 0 20px rgba(43,255,136,0.2)' : 'none' }}>
+        <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border-glass)' }}>
           <div className="flex-row gap-3" style={{ alignItems: 'center', marginBottom: '1.25rem' }}>
-            <div style={{ background: 'rgba(43,255,136,0.1)', padding: '8px', borderRadius: '8px' }}>
+            <div style={{ background: 'rgba(30, 64, 175,0.1)', padding: '8px', borderRadius: '8px' }}>
               <Navigation color="var(--accent-green)" size={20} />
             </div>
             <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: '600' }}>Smart Navigation</h3>
             {routeGate === 'GATE C' && <span style={{ background: 'var(--accent-green)', color: '#000', fontSize: '0.65rem', padding: '2px 8px', borderRadius: '12px', fontWeight: 'bold', marginLeft: 'auto' }}>REROUTED</span>}
           </div>
           
-          <div style={{ position: 'relative', height: '180px', borderRadius: '12px', overflow: 'hidden', marginBottom: '1rem', background: '#0a0d14', border: '1px solid rgba(0, 200, 255, 0.2)' }}>
+          <div style={{ position: 'relative', height: '180px', borderRadius: '12px', overflow: 'hidden', marginBottom: '1rem', background: 'var(--bg-card)', border: '1px solid rgba(0, 200, 255, 0.2)' }}>
             <CrowdLidarSimulator routeGate={routeGate} />
           </div>
 
           <div className="flex-row justify-between" style={{ alignItems: 'center' }}>
             <div className="flex-col">
-              <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.7rem', fontWeight: 'bold', letterSpacing: '1px', marginBottom: '4px' }}>ESTIMATED TIME</span>
+              <span style={{ color: 'var(--text-secondary)', fontSize: '0.7rem', fontWeight: 'bold', letterSpacing: '1px', marginBottom: '4px' }}>ESTIMATED TIME</span>
               <span style={{ color: 'var(--accent-green)', fontSize: '1.2rem', fontWeight: '800', lineHeight: '1.1' }}>{routeGate === 'GATE C' ? '7 MINS TO' : '8 MINS TO'}<br/>SEAT</span>
             </div>
             <button 
@@ -176,7 +176,7 @@ const Maps = () => {
               padding: '12px',
               borderRadius: '10px',
               fontSize: '0.85rem',
-              color: '#fff',
+              color: 'var(--text-primary)',
               lineHeight: '1.4',
               fontFamily: 'monospace'
             }}>
@@ -186,27 +186,27 @@ const Maps = () => {
         </div>
 
         {/* Live Heatmap Card */}
-        <div style={{ background: '#121621', borderRadius: '16px', padding: '1.25rem', marginBottom: '1.5rem' }}>
+        <div style={{ background: 'var(--bg-card)', borderRadius: '16px', padding: '1.25rem', marginBottom: '1.5rem' }}>
           <div className="flex-row justify-between" style={{ alignItems: 'center', marginBottom: '1.25rem' }}>
             <div className="flex-row gap-3" style={{ alignItems: 'center' }}>
-              <div style={{ background: 'rgba(255,255,255,0.05)', padding: '8px', borderRadius: '8px' }}>
-                <Users color="#fff" size={20} />
+              <div style={{ background: 'rgba(30, 64, 175, 0.05)', padding: '8px', borderRadius: '8px' }}>
+                <Users color="var(--text-primary)" size={20} />
               </div>
               <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: '600' }}>Live Heatmap</h3>
             </div>
             <span style={{ color: 'var(--accent-green)', fontWeight: 'bold', fontSize: '0.7rem', letterSpacing: '1px' }}>LIVE 1:1</span>
           </div>
 
-          <div style={{ position: 'relative', height: '160px', borderRadius: '12px', overflow: 'hidden', marginBottom: '1rem', background: '#000' }}>
+          <div style={{ position: 'relative', height: '160px', borderRadius: '12px', overflow: 'hidden', marginBottom: '1rem', background: 'var(--bg-card)' }}>
             <img src="/images/stadium_heatmap.png" alt="Live Crowd Occupancy Heatmap of Sector A and B" style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.9 }} />
             
             {/* Overlay Labels */}
-            <div style={{ position: 'absolute', top: '10px', right: '10px', background: 'rgba(10,13,20,0.85)', padding: '8px 12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)' }}>
-               <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.65rem', fontWeight: 'bold', marginBottom: '2px' }}>ZONE A (FAN ZONE)</div>
+            <div style={{ position: 'absolute', top: '10px', right: '10px', background: 'rgba(255, 255, 255, 0.95)', padding: '8px 12px', borderRadius: '8px', border: '1px solid var(--border-glass)' }}>
+               <div style={{ color: 'var(--text-secondary)', fontSize: '0.65rem', fontWeight: 'bold', marginBottom: '2px' }}>ZONE A (FAN ZONE)</div>
                <div style={{ color: '#FF4B4B', fontSize: '0.9rem', fontWeight: 'bold' }}>CROWDED (92%)</div>
             </div>
-            <div style={{ position: 'absolute', bottom: '10px', right: '10px', background: 'rgba(10,13,20,0.85)', padding: '8px 12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)' }}>
-               <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.65rem', fontWeight: 'bold', marginBottom: '2px' }}>ZONE B (ENTRY)</div>
+            <div style={{ position: 'absolute', bottom: '10px', right: '10px', background: 'rgba(255, 255, 255, 0.95)', padding: '8px 12px', borderRadius: '8px', border: '1px solid var(--border-glass)' }}>
+               <div style={{ color: 'var(--text-secondary)', fontSize: '0.65rem', fontWeight: 'bold', marginBottom: '2px' }}>ZONE B (ENTRY)</div>
                <div style={{ color: routeGate === 'GATE C' ? '#FF4B4B' : 'var(--accent-green)', fontSize: '0.9rem', fontWeight: 'bold', transition: 'all 0.5s' }}>
                  {routeGate === 'GATE C' ? 'SPIKE (85%)' : 'CLEAR (14%)'}
                </div>
@@ -214,29 +214,29 @@ const Maps = () => {
           </div>
 
           <div className="flex-row gap-3">
-            <div style={{ flex: 1, background: 'rgba(255,255,255,0.05)', padding: '12px', borderRadius: '8px', transition: 'all 0.5s' }}>
-              <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.65rem', fontWeight: 'bold', marginBottom: '4px' }}>GATE B TRAFFIC</div>
+            <div style={{ flex: 1, background: 'rgba(30, 64, 175, 0.05)', padding: '12px', borderRadius: '8px', transition: 'all 0.5s' }}>
+              <div style={{ color: 'var(--text-secondary)', fontSize: '0.65rem', fontWeight: 'bold', marginBottom: '4px' }}>GATE B TRAFFIC</div>
               <div style={{ color: routeGate === 'GATE C' ? '#FF4B4B' : 'var(--accent-green)', fontSize: '0.9rem', fontWeight: 'bold' }}>
                 {routeGate === 'GATE C' ? 'SEVERE' : 'LOW'}
               </div>
             </div>
-            <div style={{ flex: 1, background: 'rgba(255,255,255,0.05)', padding: '12px', borderRadius: '8px' }}>
-              <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.65rem', fontWeight: 'bold', marginBottom: '4px' }}>CONCESSION 12</div>
+            <div style={{ flex: 1, background: 'rgba(30, 64, 175, 0.05)', padding: '12px', borderRadius: '8px' }}>
+              <div style={{ color: 'var(--text-secondary)', fontSize: '0.65rem', fontWeight: 'bold', marginBottom: '4px' }}>CONCESSION 12</div>
               <div style={{ color: 'var(--accent-yellow)', fontSize: '0.9rem', fontWeight: 'bold' }}>MODERATE</div>
             </div>
           </div>
         </div>
 
         {/* 🏟️ Interactive AI Seat Angle Previewer */}
-        <div style={{ background: '#121621', borderRadius: '16px', padding: '1.25rem', marginBottom: '1.5rem', border: '1px solid rgba(0, 200, 255, 0.15)' }}>
+        <div style={{ background: 'var(--bg-card)', borderRadius: '16px', padding: '1.25rem', marginBottom: '1.5rem', border: '1px solid rgba(0, 200, 255, 0.15)' }}>
           <div className="flex-row justify-between" style={{ alignItems: 'center', marginBottom: '1.25rem' }}>
             <div className="flex-row gap-3" style={{ alignItems: 'center' }}>
               <div style={{ background: 'rgba(0, 200, 255, 0.1)', padding: '8px', borderRadius: '8px' }}>
-                <Camera color="#00C8FF" size={20} />
+                <Camera color="var(--accent-blue)" size={20} />
               </div>
               <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: '600' }}>AI Seat Angle Preview</h3>
             </div>
-            <span style={{ color: '#00C8FF', fontWeight: 'bold', fontSize: '0.7rem', letterSpacing: '1px' }}>3D TACTICAL VIEW</span>
+            <span style={{ color: 'var(--accent-blue)', fontWeight: 'bold', fontSize: '0.7rem', letterSpacing: '1px' }}>3D TACTICAL VIEW</span>
           </div>
 
           <p style={{ fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.8)', margin: '0 0 1.25rem 0', lineHeight: '1.4' }}>
@@ -255,9 +255,9 @@ const Maps = () => {
                 key={s.id}
                 onClick={() => setSelectedSector(s.id)}
                 style={{
-                  background: selectedSector === s.id ? '#00C8FF' : 'rgba(255,255,255,0.03)',
-                  border: `1px solid ${selectedSector === s.id ? '#00C8FF' : 'rgba(255,255,255,0.1)'}`,
-                  color: selectedSector === s.id ? '#000' : '#fff',
+                  background: selectedSector === s.id ? 'var(--accent-blue)' : 'rgba(30, 64, 175, 0.03)',
+                  border: `1px solid ${selectedSector === s.id ? 'var(--accent-blue)' : 'rgba(255,255,255,0.1)'}`,
+                  color: selectedSector === s.id ? '#000' : 'var(--text-primary)',
                   padding: '8px',
                   borderRadius: '8px',
                   fontSize: '0.75rem',
@@ -285,26 +285,26 @@ const Maps = () => {
               <div style={{
                 position: 'relative',
                 height: '240px',
-                background: '#04070c',
+                background: 'var(--bg-card)',
                 borderRadius: '12px',
                 border: '1px solid rgba(0, 200, 255, 0.2)',
                 overflow: 'hidden',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                boxShadow: 'inset 0 0 30px rgba(0,0,0,0.8)',
+                boxShadow: 'inset 0 0 30px rgba(30, 64, 175, 0.05)',
                 marginBottom: '1rem'
               }}>
                 {/* HUD Info Overlay */}
                 <div style={{ position: 'absolute', top: '10px', left: '10px', zIndex: 10, display: 'flex', flexDirection: 'column', gap: '2px', background: 'rgba(5, 10, 20, 0.8)', padding: '6px 10px', borderRadius: '6px', border: '1px solid rgba(0, 200, 255, 0.2)' }}>
-                  <span style={{ fontSize: '0.6rem', color: '#00C8FF', fontFamily: 'monospace', fontWeight: 'bold' }}>CAM ANGLE: {selectedSector === 'vip' ? '35.4°' : selectedSector === 'east' ? '18.2°' : selectedSector === 'west' ? '42.1°' : '55.0°'}</span>
-                  <span style={{ fontSize: '0.6rem', color: '#00C8FF', fontFamily: 'monospace', fontWeight: 'bold' }}>DISTANCE: {selectedSector === 'vip' ? '68m' : selectedSector === 'east' ? '45m' : selectedSector === 'west' ? '92m' : '110m'}</span>
+                  <span style={{ fontSize: '0.6rem', color: 'var(--accent-blue)', fontFamily: 'monospace', fontWeight: 'bold' }}>CAM ANGLE: {selectedSector === 'vip' ? '35.4°' : selectedSector === 'east' ? '18.2°' : selectedSector === 'west' ? '42.1°' : '55.0°'}</span>
+                  <span style={{ fontSize: '0.6rem', color: 'var(--accent-blue)', fontFamily: 'monospace', fontWeight: 'bold' }}>DISTANCE: {selectedSector === 'vip' ? '68m' : selectedSector === 'east' ? '45m' : selectedSector === 'west' ? '92m' : '110m'}</span>
                 </div>
 
                 {/* View Zoom Control Overlay */}
                 <div style={{ position: 'absolute', bottom: '10px', right: '10px', zIndex: 10, display: 'flex', gap: '6px' }}>
-                  <button onClick={() => setZoomLevel(prev => Math.min(prev + 0.1, 1.5))} aria-label="Zoom In Seating View" style={{ background: 'rgba(0,0,0,0.8)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', width: '28px', height: '28px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold', fontSize: '0.8rem' }}>+</button>
-                  <button onClick={() => setZoomLevel(prev => Math.max(prev - 0.1, 0.8))} aria-label="Zoom Out Seating View" style={{ background: 'rgba(0,0,0,0.8)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', width: '28px', height: '28px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold', fontSize: '0.8rem' }}>-</button>
+                  <button onClick={() => setZoomLevel(prev => Math.min(prev + 0.1, 1.5))} aria-label="Zoom In Seating View" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-glass)', color: 'var(--text-primary)', width: '28px', height: '28px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold', fontSize: '0.8rem' }}>+</button>
+                  <button onClick={() => setZoomLevel(prev => Math.max(prev - 0.1, 0.8))} aria-label="Zoom Out Seating View" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-glass)', color: 'var(--text-primary)', width: '28px', height: '28px', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold', fontSize: '0.8rem' }}>-</button>
                 </div>
 
                 {/* 3D Perspective Pitch Container */}
@@ -313,23 +313,23 @@ const Maps = () => {
                   height: '180px',
                   background: activeOverlay === 'thermal' ? 'radial-gradient(circle, #3a0000 20%, #150000 70%)' : 'linear-gradient(135deg, #1b4d22 0%, #143518 100%)',
                   border: '3px solid rgba(255,255,255,0.4)',
-                  boxShadow: '0 10px 40px rgba(0,0,0,0.6)',
+                  boxShadow: '0 10px 40px rgba(30, 64, 175, 0.08)',
                   transform: fieldTransform,
                   transition: 'transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1)',
                   position: 'relative'
                 }}>
                   {/* Field Markings */}
-                  <div style={{ position: 'absolute', top: 0, bottom: 0, left: '50%', width: '2px', background: 'rgba(255,255,255,0.4)', transform: 'translateX(-50%)' }} />
+                  <div style={{ position: 'absolute', top: 0, bottom: 0, left: '50%', width: '2px', background: 'var(--text-muted)', transform: 'translateX(-50%)' }} />
                   <div style={{ position: 'absolute', top: '50%', left: '50%', width: '50px', height: '50px', border: '2px solid rgba(255,255,255,0.4)', borderRadius: '50%', transform: 'translate(-50%, -50%)' }} />
                   <div style={{ position: 'absolute', left: 0, top: '25%', bottom: '25%', width: '40px', border: '2px solid rgba(255,255,255,0.4)', borderLeft: 'none' }} />
                   <div style={{ position: 'absolute', right: 0, top: '25%', bottom: '25%', width: '40px', border: '2px solid rgba(255,255,255,0.4)', borderRight: 'none' }} />
 
                   {/* Tactical Players dots overlay */}
                   <div style={{ position: 'absolute', inset: 0 }}>
-                    <div style={{ position: 'absolute', left: '20%', top: '50%', width: '8px', height: '8px', background: '#00C8FF', borderRadius: '50%', boxShadow: '0 0 8px #00C8FF' }} />
-                    <div style={{ position: 'absolute', left: '40%', top: '30%', width: '8px', height: '8px', background: '#00C8FF', borderRadius: '50%', boxShadow: '0 0 8px #00C8FF' }} />
-                    <div style={{ position: 'absolute', left: '40%', top: '70%', width: '8px', height: '8px', background: '#00C8FF', borderRadius: '50%', boxShadow: '0 0 8px #00C8FF' }} />
-                    <div style={{ position: 'absolute', left: '60%', top: '45%', width: '8px', height: '8px', background: '#00C8FF', borderRadius: '50%', boxShadow: '0 0 8px #00C8FF' }} />
+                    <div style={{ position: 'absolute', left: '20%', top: '50%', width: '8px', height: '8px', background: 'var(--accent-blue)', borderRadius: '50%', boxShadow: '0 0 8px var(--accent-blue)' }} />
+                    <div style={{ position: 'absolute', left: '40%', top: '30%', width: '8px', height: '8px', background: 'var(--accent-blue)', borderRadius: '50%', boxShadow: '0 0 8px var(--accent-blue)' }} />
+                    <div style={{ position: 'absolute', left: '40%', top: '70%', width: '8px', height: '8px', background: 'var(--accent-blue)', borderRadius: '50%', boxShadow: '0 0 8px var(--accent-blue)' }} />
+                    <div style={{ position: 'absolute', left: '60%', top: '45%', width: '8px', height: '8px', background: 'var(--accent-blue)', borderRadius: '50%', boxShadow: '0 0 8px var(--accent-blue)' }} />
 
                     <div style={{ position: 'absolute', right: '20%', top: '50%', width: '8px', height: '8px', background: '#FF4B4B', borderRadius: '50%', boxShadow: '0 0 8px #FF4B4B' }} />
                     <div style={{ position: 'absolute', right: '40%', top: '25%', width: '8px', height: '8px', background: '#FF4B4B', borderRadius: '50%', boxShadow: '0 0 8px #FF4B4B' }} />
@@ -374,8 +374,8 @@ const Maps = () => {
                   style={{
                     flex: 1,
                     background: activeOverlay === o.id ? 'rgba(0, 200, 255, 0.1)' : 'transparent',
-                    border: `1px solid ${activeOverlay === o.id ? '#00C8FF' : 'rgba(255,255,255,0.1)'}`,
-                    color: activeOverlay === o.id ? '#00C8FF' : '#fff',
+                    border: `1px solid ${activeOverlay === o.id ? 'var(--accent-blue)' : 'rgba(255,255,255,0.1)'}`,
+                    color: activeOverlay === o.id ? 'var(--accent-blue)' : 'var(--text-primary)',
                     padding: '8px',
                     borderRadius: '8px',
                     fontSize: '0.7rem',
@@ -396,14 +396,14 @@ const Maps = () => {
         </div>
 
         {/* AI Concierge Card */}
-        <div style={{ background: '#121621', borderRadius: '16px', padding: '1.25rem', marginBottom: '1.5rem', borderLeft: '4px solid var(--accent-yellow)' }}>
+        <div style={{ background: 'var(--bg-card)', borderRadius: '16px', padding: '1.25rem', marginBottom: '1.5rem', borderLeft: '4px solid var(--accent-yellow)' }}>
           <div className="flex-row gap-3" style={{ alignItems: 'flex-start' }}>
             <div style={{ background: 'var(--accent-yellow)', padding: '12px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Bot color="#000" size={24} />
             </div>
             <div className="flex-col" style={{ flex: 1 }}>
               <h3 style={{ margin: '0 0 8px 0', fontSize: '1rem', fontWeight: '600' }}>AI Assistant</h3>
-              <p style={{ margin: '0 0 16px 0', fontSize: '0.9rem', color: 'rgba(255,255,255,0.8)', lineHeight: '1.4' }}>
+              <p style={{ margin: '0 0 16px 0', fontSize: '0.9rem', color: 'var(--text-primary)', lineHeight: '1.4' }}>
                 "Where is the nearest official merchandise stand with the Brazil jersey?"
               </p>
               <button 
@@ -416,28 +416,28 @@ const Maps = () => {
         </div>
 
         {/* Gate Status Card */}
-        <div style={{ background: '#121621', borderRadius: '16px', padding: '1.25rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '1rem', transition: 'all 0.5s' }}>
-          <div style={{ width: '40px', height: '40px', background: routeGate === 'GATE C' ? 'rgba(255, 75, 75, 0.15)' : 'rgba(43,255,136,0.15)', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ background: 'var(--bg-card)', borderRadius: '16px', padding: '1.25rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '1rem', transition: 'all 0.5s' }}>
+          <div style={{ width: '40px', height: '40px', background: routeGate === 'GATE C' ? 'rgba(255, 75, 75, 0.15)' : 'rgba(5, 150, 105,0.15)', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             {routeGate === 'GATE C' ? <AlertTriangle color="#FF4B4B" size={20} /> : <CheckCircle2 color="var(--accent-green)" size={20} />}
           </div>
           <div>
-            <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.7rem', fontWeight: 'bold', letterSpacing: '1px', marginBottom: '4px' }}>GATE B STATUS</div>
-            <div style={{ color: '#fff', fontSize: '0.95rem' }}>
+            <div style={{ color: 'var(--text-secondary)', fontSize: '0.7rem', fontWeight: 'bold', letterSpacing: '1px', marginBottom: '4px' }}>GATE B STATUS</div>
+            <div style={{ color: 'var(--text-primary)', fontSize: '0.95rem' }}>
               {routeGate === 'GATE C' ? 'High Traffic - 15m wait' : 'Low Traffic - 2m wait'}
             </div>
           </div>
         </div>
 
         {/* Smart Transportation Card */}
-        <div style={{ background: '#121621', border: '1px solid rgba(0, 200, 255, 0.2)', borderRadius: '16px', padding: '1.25rem', marginBottom: '1.5rem' }}>
+        <div style={{ background: 'var(--bg-card)', border: '1px solid rgba(0, 200, 255, 0.2)', borderRadius: '16px', padding: '1.25rem', marginBottom: '1.5rem' }}>
           <div className="flex-row justify-between" style={{ marginBottom: '1rem', alignItems: 'center' }}>
             <div className="flex-row gap-3" style={{ alignItems: 'center' }}>
               <div style={{ background: 'rgba(0, 200, 255, 0.1)', padding: '8px', borderRadius: '8px' }}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00C8FF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="3" width="16" height="16" rx="2"/><path d="M4 11h16"/><path d="M12 3v16"/><path d="M8 19v2"/><path d="M16 19v2"/></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-blue)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="3" width="16" height="16" rx="2"/><path d="M4 11h16"/><path d="M12 3v16"/><path d="M8 19v2"/><path d="M16 19v2"/></svg>
               </div>
               <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: '600' }}>AI Transit Dispatch</h3>
             </div>
-            <span style={{ color: '#00C8FF', fontWeight: 'bold', fontSize: '0.7rem', letterSpacing: '1px' }}>AI RECOMMENDED</span>
+            <span style={{ color: 'var(--accent-blue)', fontWeight: 'bold', fontSize: '0.7rem', letterSpacing: '1px' }}>AI RECOMMENDED</span>
           </div>
 
           <p style={{ fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.8)', margin: '0 0 1rem 0', lineHeight: '1.4' }}>
@@ -445,11 +445,11 @@ const Maps = () => {
           </p>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-            <div style={{ background: 'rgba(255,255,255,0.03)', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.05)' }}>
+            <div style={{ background: 'rgba(30, 64, 175, 0.03)', padding: '10px', borderRadius: '8px', border: '1px solid var(--border-glass)' }}>
               <div style={{ fontSize: '0.65rem', color: 'var(--text-secondary)' }}>LUSAIL METRO</div>
               <div style={{ fontSize: '0.9rem', color: 'var(--accent-green)', fontWeight: 'bold' }}>2m Wait (Clear)</div>
             </div>
-            <div style={{ background: 'rgba(255,255,255,0.03)', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.05)' }}>
+            <div style={{ background: 'rgba(30, 64, 175, 0.03)', padding: '10px', borderRadius: '8px', border: '1px solid var(--border-glass)' }}>
               <div style={{ fontSize: '0.65rem', color: 'var(--text-secondary)' }}>SHUTTLE BUS D</div>
               <div style={{ fontSize: '0.9rem', color: 'var(--accent-yellow)', fontWeight: 'bold' }}>8m Wait (Normal)</div>
             </div>
@@ -457,7 +457,7 @@ const Maps = () => {
         </div>
 
         {/* Smart Parking Intelligence Card */}
-        <div style={{ background: '#121621', border: '1px solid rgba(255,222,89,0.2)', borderRadius: '16px', padding: '1.25rem', marginBottom: '1.5rem' }}>
+        <div style={{ background: 'var(--bg-card)', border: '1px solid rgba(255,222,89,0.2)', borderRadius: '16px', padding: '1.25rem', marginBottom: '1.5rem' }}>
           <div className="flex-row justify-between" style={{ marginBottom: '1rem', alignItems: 'center' }}>
             <div className="flex-row gap-3" style={{ alignItems: 'center' }}>
               <div style={{ background: 'rgba(255,222,89,0.1)', padding: '8px', borderRadius: '8px' }}>
@@ -475,20 +475,20 @@ const Maps = () => {
               { zone: 'P3 — South ★', pct: 23, color: 'var(--accent-green)', status: 'CLEAR' },
               { zone: 'P4 — VIP', pct: 45, color: 'var(--accent-green)', status: 'OPEN' },
             ].map(p => (
-              <div key={p.zone} style={{ background: 'rgba(255,255,255,0.03)', padding: '10px', borderRadius: '8px', border: `1px solid ${p.color}33` }}>
+              <div key={p.zone} style={{ background: 'rgba(30, 64, 175, 0.03)', padding: '10px', borderRadius: '8px', border: `1px solid ${p.color}33` }}>
                 <div style={{ fontSize: '0.65rem', color: 'var(--text-secondary)', marginBottom: '4px' }}>{p.zone}</div>
                 <div style={{ fontSize: '0.85rem', fontWeight: 'bold', color: p.color, marginBottom: '6px' }}>{p.pct}% Full</div>
-                <div style={{ width: '100%', height: '4px', background: 'rgba(255,255,255,0.1)', borderRadius: '2px' }}>
+                <div style={{ width: '100%', height: '4px', background: 'rgba(30, 64, 175, 0.06)', borderRadius: '2px' }}>
                   <div style={{ width: `${p.pct}%`, height: '100%', background: p.color, borderRadius: '2px', transition: 'width 1s ease' }} />
                 </div>
               </div>
             ))}
           </div>
 
-          <div style={{ background: 'rgba(43,255,136,0.08)', border: '1px solid var(--border-green)', borderRadius: '10px', padding: '10px 14px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{ background: 'rgba(30, 64, 175,0.08)', border: '1px solid var(--border-green)', borderRadius: '10px', padding: '10px 14px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <div>
               <div style={{ fontSize: '0.65rem', color: 'var(--accent-green)', fontWeight: 'bold', letterSpacing: '1px' }}>🤖 AI RECOMMENDATION</div>
-              <div style={{ fontSize: '0.85rem', color: '#fff', marginTop: '2px' }}>Use <strong>P3 South</strong> — 8 min shuttle to Gate A</div>
+              <div style={{ fontSize: '0.85rem', color: 'var(--text-primary)', marginTop: '2px' }}>Use <strong>P3 South</strong> — 8 min shuttle to Gate A</div>
             </div>
             <button style={{ background: 'var(--accent-green)', border: 'none', color: '#000', padding: '8px 14px', borderRadius: '8px', fontWeight: 'bold', fontSize: '0.75rem', cursor: 'pointer', whiteSpace: 'nowrap' }}>
               Book Shuttle
@@ -497,13 +497,13 @@ const Maps = () => {
         </div>
 
         {/* Seating Alert Card */}
-        <div style={{ background: '#121621', borderRadius: '16px', padding: '1.25rem', marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+        <div style={{ background: 'var(--bg-card)', borderRadius: '16px', padding: '1.25rem', marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
           <div style={{ width: '40px', height: '40px', background: 'rgba(255,222,89,0.15)', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Info color="var(--accent-yellow)" size={20} />
           </div>
           <div>
-            <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.7rem', fontWeight: 'bold', letterSpacing: '1px', marginBottom: '4px' }}>SEATING ALERT</div>
-            <div style={{ color: '#fff', fontSize: '0.95rem' }}>Section 204 - Escalator Active</div>
+            <div style={{ color: 'var(--text-secondary)', fontSize: '0.7rem', fontWeight: 'bold', letterSpacing: '1px', marginBottom: '4px' }}>SEATING ALERT</div>
+            <div style={{ color: 'var(--text-primary)', fontSize: '0.95rem' }}>Section 204 - Escalator Active</div>
           </div>
         </div>
 
@@ -519,11 +519,11 @@ const Maps = () => {
 
       {/* Live Navigation Popup Overlay */}
       {isLiveNavigating && (
-        <div style={{ position: 'fixed', inset: 0, zIndex: 2000, background: '#050A14', display: 'flex', flexDirection: 'column' }}>
+        <div style={{ position: 'fixed', inset: 0, zIndex: 2000, background: 'var(--bg-primary)', display: 'flex', flexDirection: 'column' }}>
           
           {/* Turn-by-Turn Header */}
-          <div style={{ background: 'var(--accent-green)', padding: '2rem 1.5rem 1.5rem 1.5rem', borderBottomLeftRadius: '24px', borderBottomRightRadius: '24px', display: 'flex', alignItems: 'center', gap: '1rem', boxShadow: '0 10px 30px rgba(43,255,136,0.2)', zIndex: 2010 }}>
-            <div style={{ width: '50px', height: '50px', background: '#000', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ background: 'var(--accent-green)', padding: '2rem 1.5rem 1.5rem 1.5rem', border: '1px solid var(--border-blue)', zIndex: 2010 }}>
+            <div style={{ width: '50px', height: '50px', background: 'var(--bg-card)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-green)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M12 19V5M12 5L5 12M12 5l7 7"/></svg>
             </div>
             <div>
@@ -551,21 +551,21 @@ const Maps = () => {
             </svg>
 
             {/* Current Location Dot */}
-            <div style={{ position: 'absolute', top: '70%', left: '30%', width: '30px', height: '30px', background: '#00C8FF', borderRadius: '50%', border: '4px solid #fff', boxShadow: '0 0 20px #00C8FF', zIndex: 2, transform: 'translate(-50%, -50%)' }}>
-              <div style={{ position: 'absolute', inset: '-20px', borderRadius: '50%', border: '2px solid #00C8FF', animation: 'pulse 2s infinite' }}></div>
+            <div style={{ position: 'absolute', top: '70%', left: '30%', width: '30px', height: '30px', background: 'var(--accent-blue)', borderRadius: '50%', border: '4px solid var(--bg-secondary)', boxShadow: '0 0 20px var(--accent-blue)', zIndex: 2, transform: 'translate(-50%, -50%)' }}>
+              <div style={{ position: 'absolute', inset: '-20px', borderRadius: '50%', border: '2px solid var(--accent-blue)', animation: 'pulse 2s infinite' }}></div>
             </div>
           </div>
 
           {/* Bottom Controls */}
-          <div style={{ position: 'absolute', bottom: '0', left: '0', right: '0', padding: '2rem 1.5rem', background: 'linear-gradient(transparent, #050A14 30%)', zIndex: 2010 }}>
-            <div className="flex-row justify-between" style={{ background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(10px)', padding: '1rem', borderRadius: '16px', alignItems: 'center' }}>
+          <div style={{ position: 'absolute', bottom: '0', left: '0', right: '0', padding: '2rem 1.5rem', background: 'linear-gradient(transparent, var(--bg-primary) 30%)', zIndex: 2010 }}>
+            <div className="flex-row justify-between" style={{ background: 'rgba(30, 64, 175, 0.06)', backdropFilter: 'blur(10px)', padding: '1rem', borderRadius: '16px', alignItems: 'center' }}>
               <div className="flex-col">
                 <span style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>4 min</span>
                 <span style={{ color: 'var(--text-secondary)', fontSize: '0.8rem' }}>340m • {routeGate}</span>
               </div>
               <button 
                 onClick={() => setIsLiveNavigating(false)}
-                style={{ background: '#FF4B4B', color: '#fff', border: 'none', padding: '10px 20px', borderRadius: '20px', fontWeight: 'bold', fontSize: '1rem', cursor: 'pointer' }}>
+                style={{ background: '#FF4B4B', color: 'var(--text-primary)', border: 'none', padding: '10px 20px', borderRadius: '20px', fontWeight: 'bold', fontSize: '1rem', cursor: 'pointer' }}>
                 Exit
               </button>
             </div>

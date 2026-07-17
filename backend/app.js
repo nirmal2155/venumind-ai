@@ -11,10 +11,25 @@ const { GoogleGenAI } = require('@google/genai');
 const path = require('path');
 const compression = require('compression');
 const rateLimit = require('express-rate-limit');
+const helmet = require('helmet');
 
 dotenv.config();
 
 const app = express();
+
+// Set comprehensive security headers
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      imgSrc: ["'self'", "data:", "https://*"],
+    },
+  },
+  crossOriginEmbedderPolicy: false,
+}));
 
 // Trust first proxy (Cloudflare, Render, etc.) to get correct client IP for rate limiting
 app.set('trust proxy', 1);
@@ -179,12 +194,11 @@ app.post('/api/chat', async (req, res) => {
       return res.status(400).json({ error: 'Policy violation: Unacceptable bias or discriminatory phrasing detected.' });
     }
 
-    if (!aiClient) {
-      // Intelligent mock response based on keywords
-      const lower = message.toLowerCase();
+    // Fail-proof mock fallback generator
+    const getMockFallback = (msg) => {
+      const lower = msg.toLowerCase();
       let reply = 'Welcome to Lusail Stadium! I am VenueMind AI. How can I assist you at the FIFA World Cup 2026?';
       
-      // New custom GenAI feature triggers
       if (lower.includes('doha downtown') || lower.includes('transport options')) {
         reply = '🚗 Taxi/Careem loop is heavily congested with a 35-minute delay. AI recommends taking the **Lusail Metro (Red Line)** which has active high-frequency trains running every 2.5 minutes with zero queues. Free entry with your FIFA Fan ID!';
       } else if (lower.includes('recalculate route') || lower.includes('gate b capacity spike')) {
@@ -199,15 +213,18 @@ app.post('/api/chat', async (req, res) => {
         reply = '🛡️ AI SECURITY COMMAND ACTION PLAN:\n1. **Deploy AI Shield Barrier:** Remotely lock outer barrier gates in Sector 4 to contain overflow.\n2. **Steward Dispatch:** Deploy 6 safety stewards from Sector A to Sector 4 turnstile loop.\n3. **Drone Routing:** Route security drones 04 and 08 to broadcast verbal instructions and dispersion notices.';
       } else if (lower.includes('resource allocation') || lower.includes('security stewards')) {
         reply = '📋 AI RESOURCE ALLOCATION ADVICE:\n- **Security Stewards:** Move 8 stewards from South VIP (Clear, 20% load) to North Gate (Critical, 98% load) to manage queueing grids.\n- **Medical Volunteers:** Deploy 2 mobile volunteer medical teams to West Fan Zone (88% load) to establish a cooling and first-aid hub.';
-      }
-      // Classic triggers
-      else if (lower.includes('toilet') || lower.includes('bathroom') || lower.includes('restroom')) reply = '🚻 Nearest restrooms are at Gates A & D, Level 1. Accessible restrooms available at Block 208. Average wait: 2 min.';
+      } else if (lower.includes('toilet') || lower.includes('bathroom') || lower.includes('restroom')) reply = '🚻 Nearest restrooms are at Gates A & D, Level 1. Accessible restrooms available at Block 208. Average wait: 2 min.';
       else if (lower.includes('seat') || lower.includes('section')) reply = '🏟️ Your seat is in Section 302, Row G, Seat 14. Take elevator to Level 3, turn right after Gate D. AI navigation is available in the Maps tab.';
       else if (lower.includes('parking') || lower.includes('car')) reply = '🅿️ Parking Zone B2 is 85% full. AI recommends Zone D (5 min walk). Shuttle runs every 8 min.';
       else if (lower.includes('security') || lower.includes('help') || lower.includes('emergency')) reply = '🚨 Security team alerted. Nearest security post is Gate B, 50m. If urgent, press the SOS button in the Accessibility tab.';
       else if (lower.includes('food') || lower.includes('eat') || lower.includes('drink')) reply = '🍽️ Food courts on Level 2 (Gates B & C). Halal, vegetarian & vegan options available. Current wait: 4-8 min. Use Gate D for shortest route.';
       else if (lower.includes('wifi') || lower.includes('internet')) reply = '📶 Connect to "FIFA2026_LUSAIL" (no password). AI-powered bandwidth management ensures HD streaming quality for all 92,000 fans.';
-      return res.json({ reply });
+      
+      return reply;
+    };
+
+    if (!aiClient) {
+      return res.json({ reply: getMockFallback(message) });
     }
 
     const systemPrompt = `You are VenueMind AI — the official intelligent operations assistant for FIFA World Cup 2026 at Lusail Stadium, Qatar (capacity: 92,000 fans). 
@@ -232,17 +249,35 @@ Rules:
     const selectedModel = (req.body.model && typeof req.body.model === 'string') ? req.body.model : 'gemini-2.5-flash';
     const selectedTemp = (req.body.temperature !== undefined) ? Number(req.body.temperature) : 0.7;
 
-    const response = await aiClient.models.generateContent({
-      model: selectedModel,
-      contents: fullPrompt,
-      config: {
-        temperature: selectedTemp
-      }
-    });
+    // Bulletproof Retry Logic with Exponential Backoff
+    let attempts = 0;
+    const maxAttempts = 3;
+    let lastError = null;
 
-    res.json({ reply: response.text });
+    while (attempts < maxAttempts) {
+      try {
+        const response = await aiClient.models.generateContent({
+          model: selectedModel,
+          contents: fullPrompt,
+          config: { temperature: selectedTemp }
+        });
+        return res.json({ reply: response.text });
+      } catch (error) {
+        attempts++;
+        lastError = error;
+        console.warn(`[AI Retry ${attempts}/${maxAttempts}] API Error: ${error.message}`);
+        if (attempts < maxAttempts) {
+          // Exponential backoff: 500ms, 1000ms
+          await new Promise(resolve => setTimeout(resolve, 500 * Math.pow(2, attempts - 1)));
+        }
+      }
+    }
+
+    // Fail-Safe Fallback: If all retries fail, return the intelligent mock response instead of a 500 error!
+    console.error('All AI retries failed, dropping to bulletproof mock fallback. Final error:', lastError.message);
+    return res.json({ reply: getMockFallback(message) });
   } catch (error) {
-    console.error('Error processing chat request:', error.message);
+    console.error('Critical Error processing chat request:', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });

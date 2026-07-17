@@ -94,14 +94,14 @@ const CrowdLidarSimulator = ({ routeGate }) => {
 
         // Inflow gating glow rings
         if (isTarget) {
-          ctx.strokeStyle = isEmergency ? 'rgba(255,75,75,0.3)' : 'rgba(0,255,178,0.3)';
+          ctx.strokeStyle = isEmergency ? 'rgba(255,75,75,0.3)' : 'rgba(5, 150, 105,0.3)';
           ctx.lineWidth = 2;
           ctx.beginPath();
           ctx.arc(gate.x, gate.y, 10 + Math.sin(Date.now() / 150) * 3, 0, Math.PI * 2);
           ctx.stroke();
         }
 
-        ctx.fillStyle = 'rgba(255,255,255,0.4)';
+        ctx.fillStyle = 'var(--text-muted)';
         ctx.font = '7px monospace';
         ctx.fillText(gateKey, gate.x - 14, gate.y - 8);
       });
@@ -174,7 +174,7 @@ const CrowdLidarSimulator = ({ routeGate }) => {
     <div style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden' }}>
       <canvas 
         ref={canvasRef} 
-        style={{ width: '100%', height: '100%', display: 'block', background: '#050810' }} 
+        style={{ width: '100%', height: '100%', display: 'block', background: 'var(--bg-card)' }} 
       />
     </div>
   );

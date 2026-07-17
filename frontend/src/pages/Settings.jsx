@@ -98,7 +98,7 @@ const Settings = ({ currentUser, onLogout }) => {
             justifyContent: 'center',
             border: '2px solid var(--bg-secondary)'
           }}>
-            <Check size={10} color="#fff" strokeWidth={3} />
+            <Check size={10} color="var(--text-primary)" strokeWidth={3} />
           </div>
         </div>
 

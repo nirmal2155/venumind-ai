@@ -3,10 +3,10 @@ import { Accessibility as AccessibilityIcon, Eye, Volume2, MapPin, Heart, Naviga
 import { useNavigate } from 'react-router-dom';
 
 const ACCESSIBLE_ZONES = [
-  { id: 'A', name: 'Gate A — Wheelchair Entry', status: 'Open', time: '2 min', color: '#2BFF88', note: 'Elevator & Ramp Access' },
-  { id: 'B', name: 'Gate D — Priority Access', status: 'Open', time: '1 min', color: '#2BFF88', note: 'Closest to Section 302–310' },
+  { id: 'A', name: 'Gate A — Wheelchair Entry', status: 'Open', time: '2 min', color: 'var(--accent-green)', note: 'Elevator & Ramp Access' },
+  { id: 'B', name: 'Gate D — Priority Access', status: 'Open', time: '1 min', color: 'var(--accent-green)', note: 'Closest to Section 302–310' },
   { id: 'C', name: 'Gate C — Accessible Toilets', status: 'Open', time: '3 min', color: '#FFDE59', note: '2 accessible stalls available' },
-  { id: 'D', name: 'First Aid Post 2 — Medical', status: 'Available', time: '4 min', color: '#00C8FF', note: 'Nurse on duty' },
+  { id: 'D', name: 'First Aid Post 2 — Medical', status: 'Available', time: '4 min', color: 'var(--accent-blue)', note: 'Nurse on duty' },
 ];
 
 const SENSORY_ZONES = [
@@ -97,10 +97,10 @@ const Accessibility = () => {
       <div style={{ marginBottom: '1.5rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
           <div style={{ background: 'rgba(0,200,255,0.15)', padding: '10px', borderRadius: '12px' }}>
-            <AccessibilityIcon size={28} color="#00C8FF" />
+            <AccessibilityIcon size={28} color="var(--accent-blue)" />
           </div>
           <div>
-            <h1 style={{ margin: 0, fontWeight: '900', fontSize: largeText ? '2rem' : '1.6rem', color: highContrast ? '#fff' : '#fff' }}>Accessibility<br/><span style={{ color: '#00C8FF' }}>Hub</span></h1>
+            <h1 style={{ margin: 0, fontWeight: '900', fontSize: largeText ? '2rem' : '1.6rem', color: highContrast ? 'var(--text-primary)' : 'var(--text-primary)' }}>Accessibility<br/><span style={{ color: 'var(--accent-blue)' }}>Hub</span></h1>
           </div>
         </div>
         <p style={{ color: 'var(--text-secondary)', margin: 0, lineHeight: '1.5' }}>AI-powered accessibility services for every fan at Lusail Stadium.</p>
@@ -116,7 +116,7 @@ const Accessibility = () => {
             borderRadius: '16px',
             background: sosTriggered ? 'rgba(255, 75, 75, 0.1)' : '#FF4B4B',
             border: '2px solid #FF4B4B',
-            color: sosTriggered ? '#FF4B4B' : '#fff',
+            color: sosTriggered ? '#FF4B4B' : 'var(--text-primary)',
             fontWeight: '900',
             fontSize: largeText ? '1.2rem' : '1.05rem',
             letterSpacing: '1px',
@@ -158,19 +158,19 @@ const Accessibility = () => {
                   <span style={{ fontSize: '1.1rem' }}>📍</span>
                   <div>
                     <span style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', display: 'block' }}>EXACT LOCATION</span>
-                    <strong style={{ color: '#fff' }}>{sosDetails?.location}</strong>
+                    <strong style={{ color: 'var(--text-primary)' }}>{sosDetails?.location}</strong>
                   </div>
 
                   <span style={{ fontSize: '1.1rem' }}>🛡️</span>
                   <div>
                     <span style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', display: 'block' }}>NEAREST GUARD</span>
-                    <strong style={{ color: '#fff' }}>{sosDetails?.guard}</strong>
+                    <strong style={{ color: 'var(--text-primary)' }}>{sosDetails?.guard}</strong>
                   </div>
 
                   <span style={{ fontSize: '1.1rem' }}>🚑</span>
                   <div>
                     <span style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', display: 'block' }}>NEAREST AMBULANCE</span>
-                    <strong style={{ color: '#fff' }}>{sosDetails?.ambulance}</strong>
+                    <strong style={{ color: 'var(--text-primary)' }}>{sosDetails?.ambulance}</strong>
                   </div>
 
                   <span style={{ fontSize: '1.1rem' }}>🗺️</span>
@@ -188,7 +188,7 @@ const Accessibility = () => {
                     padding: '8px',
                     borderRadius: '8px',
                     background: 'transparent',
-                    border: '1px solid rgba(255,255,255,0.15)',
+                    border: '1px solid var(--border-glass)',
                     color: 'var(--text-secondary)',
                     fontWeight: 'bold',
                     fontSize: '0.8rem',
@@ -203,7 +203,7 @@ const Accessibility = () => {
         )}
       </div>
       {/* Visual Accessibility Controls */}
-      <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', padding: '1.25rem', marginBottom: '1.5rem' }}>
+      <div style={{ background: 'rgba(30, 64, 175, 0.03)', border: '1px solid var(--border-glass)', borderRadius: '16px', padding: '1.25rem', marginBottom: '1.5rem' }}>
         <h3 style={{ margin: '0 0 14px 0', fontSize: '0.8rem', letterSpacing: '2px', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '6px' }}>
           <Eye size={14} /> VISUAL & AUDIO SETTINGS
         </h3>
@@ -213,13 +213,13 @@ const Accessibility = () => {
           { label: '🔤 Large Text Mode', desc: 'Bigger font size throughout the app', state: largeText, toggle: () => setLargeText(p => !p) },
           { label: '🔊 Audio Guide (EN)', desc: 'AI reads out directions & info aloud', state: audioGuide, toggle: handleToggleAudioGuide },
         ].map(item => (
-          <div key={item.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+          <div key={item.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: '1px solid var(--border-glass)' }}>
             <div>
-              <div style={{ fontWeight: '600', fontSize, color: '#fff' }}>{item.label}</div>
+              <div style={{ fontWeight: '600', fontSize, color: 'var(--text-primary)' }}>{item.label}</div>
               <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>{item.desc}</div>
             </div>
-            <button onClick={item.toggle} style={{ width: '52px', height: '28px', borderRadius: '14px', background: item.state ? 'var(--accent-green)' : 'rgba(255,255,255,0.1)', border: 'none', cursor: 'pointer', position: 'relative', transition: 'all 0.3s' }}>
-              <div style={{ position: 'absolute', top: '4px', left: item.state ? '28px' : '4px', width: '20px', height: '20px', borderRadius: '50%', background: '#fff', transition: 'all 0.3s' }}></div>
+            <button onClick={item.toggle} style={{ width: '52px', height: '28px', borderRadius: '14px', background: item.state ? 'var(--accent-blue)' : 'rgba(30, 64, 175, 0.12)', border: 'none', cursor: 'pointer', position: 'relative', transition: 'all 0.3s' }}>
+              <div style={{ position: 'absolute', top: '4px', left: item.state ? '28px' : '4px', width: '20px', height: '20px', borderRadius: '50%', background: '#fff', transition: 'all 0.3s', boxShadow: '0 1px 3px rgba(0,0,0,0.15)' }}></div>
             </button>
           </div>
         ))}
@@ -227,10 +227,10 @@ const Accessibility = () => {
 
       {/* GenAI Sensory rest & Calm path advisor */}
       <div className="glass-card" style={{ marginBottom: '1.5rem' }}>
-        <h3 style={{ margin: '0 0 10px 0', fontSize: '0.8rem', letterSpacing: '2px', color: '#00C8FF', display: 'flex', alignItems: 'center', gap: '6px' }}>
+        <h3 style={{ margin: '0 0 10px 0', fontSize: '0.8rem', letterSpacing: '2px', color: 'var(--accent-blue)', display: 'flex', alignItems: 'center', gap: '6px' }}>
           🧘 AI SENSORY GUIDE COORDINATOR
         </h3>
-        <p style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.7)', margin: '0 0 12px 0', lineHeight: '1.4' }}>
+        <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', margin: '0 0 12px 0', lineHeight: '1.4' }}>
           Generate quiet path mapping and sensory resting advice for neurodivergent or sensory-sensitive fans.
         </p>
         <button
@@ -240,7 +240,7 @@ const Accessibility = () => {
             width: '100%',
             background: 'rgba(0, 200, 255, 0.1)',
             border: '1px solid rgba(0, 200, 255, 0.3)',
-            color: '#00C8FF',
+            color: 'var(--accent-blue)',
             padding: '10px',
             borderRadius: '8px',
             fontWeight: 'bold',
@@ -258,7 +258,7 @@ const Accessibility = () => {
             padding: '12px',
             borderRadius: '10px',
             fontSize: '0.85rem',
-            color: '#fff',
+            color: 'var(--text-primary)',
             lineHeight: '1.4',
             fontFamily: 'monospace',
             whiteSpace: 'pre-wrap'
@@ -275,12 +275,12 @@ const Accessibility = () => {
         </h3>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           {ACCESSIBLE_ZONES.map(zone => (
-            <div key={zone.id} onClick={() => setSelectedRoute(zone.id)} style={{ background: selectedRoute === zone.id ? 'rgba(0,200,255,0.08)' : 'rgba(255,255,255,0.03)', border: `1px solid ${selectedRoute === zone.id ? '#00C8FF' : zone.color + '44'}`, borderRadius: '12px', padding: '1rem', cursor: 'pointer', transition: 'all 0.2s' }}>
+            <div key={zone.id} onClick={() => setSelectedRoute(zone.id)} style={{ background: selectedRoute === zone.id ? 'var(--accent-blue-dim)' : 'rgba(30, 64, 175, 0.03)', border: `1px solid ${selectedRoute === zone.id ? 'var(--accent-blue)' : zone.color + '44'}`, borderRadius: '12px', padding: '1rem', cursor: 'pointer', transition: 'all 0.2s' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                   <MapPin size={16} color={zone.color} />
                   <div>
-                    <div style={{ fontWeight: '600', color: '#fff', fontSize }}>{zone.name}</div>
+                    <div style={{ fontWeight: '600', color: 'var(--text-primary)', fontSize }}>{zone.name}</div>
                     <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>{zone.note}</div>
                   </div>
                 </div>
@@ -290,7 +290,7 @@ const Accessibility = () => {
                 </div>
               </div>
               {selectedRoute === zone.id && (
-                <button onClick={() => navigate('/maps')} style={{ width: '100%', marginTop: '10px', background: '#00C8FF', border: 'none', color: '#000', padding: '10px', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
+                <button onClick={() => navigate('/maps')} style={{ width: '100%', marginTop: '10px', background: 'var(--accent-blue)', border: 'none', color: '#000', padding: '10px', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
                   <Navigation size={16} /> Show Accessible Route on Map
                 </button>
               )}
@@ -304,10 +304,10 @@ const Accessibility = () => {
         <h3 style={{ margin: '0 0 12px 0', fontSize: '0.8rem', letterSpacing: '2px', color: 'var(--text-secondary)' }}>🧠 SENSORY-FRIENDLY ZONES</h3>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           {SENSORY_ZONES.map(zone => (
-            <div key={zone.name} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '12px', padding: '1rem', display: 'flex', alignItems: 'center', gap: '14px' }}>
+            <div key={zone.name} style={{ background: 'rgba(30, 64, 175, 0.03)', border: '1px solid var(--border-glass)', borderRadius: '12px', padding: '1rem', display: 'flex', alignItems: 'center', gap: '14px' }}>
               <span style={{ fontSize: '1.8rem' }}>{zone.icon}</span>
               <div style={{ flex: 1 }}>
-                <div style={{ fontWeight: '600', color: '#fff', fontSize }}>{zone.name}</div>
+                <div style={{ fontWeight: '600', color: 'var(--text-primary)', fontSize }}>{zone.name}</div>
                 <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>{zone.location}</div>
               </div>
               <div style={{ textAlign: 'right' }}>
@@ -320,7 +320,7 @@ const Accessibility = () => {
       </div>
 
       {/* Sign Language & Captioning */}
-      <div style={{ background: 'rgba(43,255,136,0.05)', border: '1px solid var(--border-green)', borderRadius: '16px', padding: '1.25rem' }}>
+      <div style={{ background: 'rgba(30, 64, 175,0.05)', border: '1px solid var(--border-green)', borderRadius: '16px', padding: '1.25rem' }}>
         <h3 style={{ margin: '0 0 12px 0', fontSize: '0.8rem', letterSpacing: '2px', color: 'var(--accent-green)', display: 'flex', alignItems: 'center', gap: '6px' }}>
           <Volume2 size={14} /> LIVE ASSISTANCE SERVICES
         </h3>
@@ -330,16 +330,16 @@ const Accessibility = () => {
             { icon: '📝', label: 'Live AI Captioning', info: 'Enabled in all PA announcements' },
             { icon: '🌍', label: 'Multilingual Audio Descriptions', info: 'EN, AR, ES, FR, PT, DE, JA, HI' },
           ].map(s => (
-            <div key={s.label} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '8px 0', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+            <div key={s.label} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '8px 0', borderBottom: '1px solid var(--border-glass)' }}>
               <span style={{ fontSize: '1.4rem' }}>{s.icon}</span>
               <div>
-                <div style={{ fontWeight: '600', color: '#fff', fontSize }}>{s.label}</div>
+                <div style={{ fontWeight: '600', color: 'var(--text-primary)', fontSize }}>{s.label}</div>
                 <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>{s.info}</div>
               </div>
             </div>
           ))}
         </div>
-        <div style={{ marginTop: '14px', display: 'flex', alignItems: 'center', gap: '8px', padding: '10px', background: 'rgba(43,255,136,0.08)', borderRadius: '10px' }}>
+        <div style={{ marginTop: '14px', display: 'flex', alignItems: 'center', gap: '8px', padding: '10px', background: 'rgba(30, 64, 175,0.08)', borderRadius: '10px' }}>
           <Heart size={16} color="var(--accent-green)" />
           <span style={{ fontSize: '0.8rem', color: 'var(--accent-green)' }}>VenueMind AI is monitoring your accessibility needs in real-time.</span>
         </div>

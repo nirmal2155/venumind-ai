@@ -123,12 +123,25 @@ describe('VenueMind AI Backend API (With GenAI Client)', () => {
       expect(res.body.reply).toContain('Temp: 0.2');
     });
 
-    it('should handle Gemini SDK errors gracefully and return 500', async () => {
-      mockGenerateContent.mockRejectedValueOnce(new Error('Gemini API Failure'));
+    it('should retry on Gemini SDK errors and succeed', async () => {
+      mockGenerateContent.mockRejectedValueOnce(new Error('Gemini API Failure 1'));
+      mockGenerateContent.mockRejectedValueOnce(new Error('Gemini API Failure 2'));
+      // 3rd attempt will succeed based on the default mock
 
       const res = await request(app).post('/api/chat').send({ message: 'Trigger Failure' });
-      expect(res.statusCode).toBe(500);
-      expect(res.body.error).toBe('Internal Server Error');
+      expect(res.statusCode).toBe(200);
+      expect(res.body.reply).toContain('Mocked Gemini Response');
+    });
+
+    it('should fallback to intelligent mock if all retries fail', async () => {
+      mockGenerateContent.mockRejectedValueOnce(new Error('Gemini API Failure 1'));
+      mockGenerateContent.mockRejectedValueOnce(new Error('Gemini API Failure 2'));
+      mockGenerateContent.mockRejectedValueOnce(new Error('Gemini API Failure 3'));
+
+      const res = await request(app).post('/api/chat').send({ message: 'toilet' });
+      expect(res.statusCode).toBe(200);
+      // It should fall back to the local bulletproof mock
+      expect(res.body.reply).toContain('Nearest restrooms');
     });
 
     it('should reject prompt injection attempts with 400', async () => {

@@ -79,7 +79,7 @@ const Login = ({ onLoginSuccess }) => {
         border: '1px solid var(--border-glass)',
         borderRadius: 'var(--radius-lg)',
         padding: '2.5rem 2rem',
-        boxShadow: '0 20px 40px rgba(0,0,0,0.4)',
+        boxShadow: '0 20px 40px rgba(30, 64, 175, 0.08)',
         zIndex: 10,
         position: 'relative'
       }}>
@@ -97,7 +97,7 @@ const Login = ({ onLoginSuccess }) => {
             </div>
           </div>
           <h2 style={{ margin: 0, fontSize: '1.75rem', fontWeight: '800', letterSpacing: '0.5px', fontFamily: 'var(--font-display, Space Grotesk)' }}>
-            VENUE<span style={{ color: '#FFD60A' }}>MIND AI</span>
+            VENUE<span style={{ color: 'var(--accent-yellow)' }}>MIND AI</span>
           </h2>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', marginTop: '8px', letterSpacing: '1px' }}>
             FIFA World Cup 2026 Operations Portal
@@ -107,8 +107,8 @@ const Login = ({ onLoginSuccess }) => {
         {/* Tab Selector */}
         <div style={{
           display: 'flex',
-          background: 'rgba(255,255,255,0.02)',
-          border: '1px solid rgba(255,255,255,0.05)',
+          background: 'rgba(30, 64, 175, 0.02)',
+          border: '1px solid var(--border-glass)',
           borderRadius: '12px',
           padding: '4px',
           marginBottom: '1.5rem'
@@ -119,7 +119,7 @@ const Login = ({ onLoginSuccess }) => {
               flex: 1,
               background: loginType === 'fan' ? 'rgba(0,200,255,0.1)' : 'transparent',
               border: 'none',
-              color: loginType === 'fan' ? '#00C8FF' : 'var(--text-secondary)',
+              color: loginType === 'fan' ? 'var(--accent-blue)' : 'var(--text-secondary)',
               padding: '8px',
               borderRadius: '8px',
               fontSize: '0.85rem',
@@ -136,7 +136,7 @@ const Login = ({ onLoginSuccess }) => {
               flex: 1,
               background: loginType === 'authority' ? 'rgba(255,214,10,0.1)' : 'transparent',
               border: 'none',
-              color: loginType === 'authority' ? '#FFD60A' : 'var(--text-secondary)',
+              color: loginType === 'authority' ? 'var(--accent-yellow)' : 'var(--text-secondary)',
               padding: '8px',
               borderRadius: '8px',
               fontSize: '0.85rem',
@@ -154,8 +154,8 @@ const Login = ({ onLoginSuccess }) => {
           {loginType === 'authority' && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
               <label style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', fontWeight: 'bold' }}>AUTHORITY ID</label>
-              <div style={{ display: 'flex', alignItems: 'center', background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '10px', padding: '10px 12px', gap: '10px' }}>
-                <ShieldCheck size={16} color="#FFD60A" />
+              <div style={{ display: 'flex', alignItems: 'center', background: 'rgba(30, 64, 175, 0.04)', border: '1px solid var(--border-glass)', borderRadius: '10px', padding: '10px 12px', gap: '10px' }}>
+                <ShieldCheck size={16} color="var(--accent-yellow)" />
                 <input
                   type="text"
                   placeholder="e.g. COLL-2026, POLICE-2026..."
@@ -171,8 +171,8 @@ const Login = ({ onLoginSuccess }) => {
             <>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                 <label style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', fontWeight: 'bold' }}>EMAIL ADDRESS</label>
-                <div style={{ display: 'flex', alignItems: 'center', background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '10px', padding: '10px 12px', gap: '10px' }}>
-                  <Mail size={16} color="rgba(255,255,255,0.4)" />
+                <div style={{ display: 'flex', alignItems: 'center', background: 'rgba(30, 64, 175, 0.04)', border: '1px solid var(--border-glass)', borderRadius: '10px', padding: '10px 12px', gap: '10px' }}>
+                  <Mail size={16} color="var(--text-muted)" />
                   <input
                     type="email"
                     placeholder="authority@stadium.org"
@@ -185,8 +185,8 @@ const Login = ({ onLoginSuccess }) => {
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                 <label style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', fontWeight: 'bold' }}>PASSPHRASE</label>
-                <div style={{ display: 'flex', alignItems: 'center', background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '10px', padding: '10px 12px', gap: '10px' }}>
-                  <Lock size={16} color="rgba(255,255,255,0.4)" />
+                <div style={{ display: 'flex', alignItems: 'center', background: 'rgba(30, 64, 175, 0.04)', border: '1px solid var(--border-glass)', borderRadius: '10px', padding: '10px 12px', gap: '10px' }}>
+                  <Lock size={16} color="var(--text-muted)" />
                   <input
                     type="password"
                     placeholder="••••••••"

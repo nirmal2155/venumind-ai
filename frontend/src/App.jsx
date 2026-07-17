@@ -46,7 +46,7 @@ class ErrorBoundary extends React.Component {
   render() {
     if (this.state.hasError) {
       return (
-        <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: '#0a0a0a', color: 'var(--text-primary)', textAlign: 'center' }}>
+        <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-primary)', color: 'var(--text-primary)', textAlign: 'center' }}>
           <AlertOctagon size={64} color="var(--accent-red)" style={{ marginBottom: '1rem' }} />
           <h2>System Offline</h2>
           <p style={{ color: 'var(--text-secondary)' }}>Our AI systems are currently rebooting. Please standby.</p>
@@ -103,7 +103,7 @@ const BottomNav = React.memo(() => {
               alignItems: 'center', 
               gap: '3px',
               textDecoration: 'none',
-              color: isActive ? 'var(--accent-green)' : 'var(--text-secondary)',
+              color: isActive ? 'var(--accent-blue)' : 'var(--text-secondary)',
               transition: 'color 0.2s',
               minWidth: '52px',
               flexShrink: 0,
@@ -143,7 +143,7 @@ const DesktopSidebar = () => {
     }}>
 
       {/* Venue Info */}
-      <div style={{ padding: '0.75rem', marginBottom: '0.75rem', borderRadius: '12px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.04)' }}>
+      <div style={{ padding: '0.75rem', marginBottom: '0.75rem', borderRadius: '12px', background: 'rgba(30, 64, 175, 0.02)', border: '1px solid var(--border-glass)' }}>
         <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', fontWeight: '600', marginBottom: '2px' }}>Lusail Stadium</div>
         <div style={{ fontSize: '0.6rem', color: 'var(--text-muted)' }}>FIFA World Cup 2026</div>
       </div>
@@ -162,9 +162,9 @@ const DesktopSidebar = () => {
               alignItems: 'center', 
               gap: '12px',
               textDecoration: 'none',
-              color: isActive ? 'var(--accent-green)' : 'var(--text-secondary)',
-              background: isActive ? 'rgba(0, 255, 178, 0.06)' : 'transparent',
-              border: `1px solid ${isActive ? 'rgba(0, 255, 178, 0.12)' : 'transparent'}`,
+              color: isActive ? 'var(--accent-blue)' : 'var(--text-secondary)',
+              background: isActive ? 'var(--accent-blue-dim)' : 'transparent',
+              border: `1px solid ${isActive ? 'rgba(30, 64, 175, 0.15)' : 'transparent'}`,
               borderRadius: '12px',
               padding: '11px 14px',
               transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -173,7 +173,7 @@ const DesktopSidebar = () => {
               position: 'relative'
             }}
           >
-            {isActive && <div style={{ position: 'absolute', left: 0, top: '50%', transform: 'translateY(-50%)', width: '3px', height: '20px', borderRadius: '0 3px 3px 0', background: 'var(--accent-green)', boxShadow: '0 0 8px var(--accent-green)' }} />}
+            {isActive && <div style={{ position: 'absolute', left: 0, top: '50%', transform: 'translateY(-50%)', width: '3px', height: '20px', borderRadius: '0 3px 3px 0', background: 'var(--accent-blue)', boxShadow: '0 0 8px rgba(30, 64, 175, 0.3)' }} />}
             <Icon size={18} />
             <span>{item.label}</span>
           </Link>
@@ -181,7 +181,7 @@ const DesktopSidebar = () => {
       })}
 
       {/* Footer info */}
-      <div style={{ marginTop: 'auto', padding: '0.75rem', borderTop: '1px solid rgba(255,255,255,0.04)', fontSize: '0.6rem', color: 'var(--text-muted)' }}>
+      <div style={{ marginTop: 'auto', padding: '0.75rem', borderTop: '1px solid var(--border-glass)', fontSize: '0.6rem', color: 'var(--text-muted)' }}>
         VenueMind AI v2.0
       </div>
     </aside>
@@ -197,11 +197,11 @@ const LiveClock = () => {
   }, []);
   
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'rgba(0,0,0,0.3)', padding: '6px 12px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'rgba(30, 64, 175, 0.04)', padding: '6px 12px', borderRadius: '12px', border: '1px solid var(--border-glass)' }}>
       <span style={{ fontSize: '0.85rem', fontWeight: 'bold', color: 'var(--text-secondary)' }}>
         {time.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
       </span>
-      <span style={{ fontSize: '0.7rem', background: 'rgba(43,255,136,0.2)', color: 'var(--accent-green)', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>LIVE</span>
+      <span style={{ fontSize: '0.7rem', background: 'var(--accent-green-dim)', color: 'var(--accent-green)', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>LIVE</span>
     </div>
   );
 };
@@ -239,7 +239,7 @@ const Header = ({ onLogout, currentUser }) => {
               onClick={onLogout}
               style={{
                 background: 'transparent',
-                border: '1px solid rgba(255,255,255,0.15)',
+                border: '1px solid var(--border-glass)',
                 color: 'var(--text-secondary)',
                 fontSize: '0.75rem',
                 fontWeight: 'bold',
@@ -325,10 +325,10 @@ const EmergencyOverlay = () => {
       animation: 'redFlash 2s infinite'
     }}>
       <div style={{ padding: '2rem 1.5rem', background: '#FF1E1E', display: 'flex', alignItems: 'center', gap: '1rem' }}>
-        <AlertOctagon size={40} color="#FFF" style={{ animation: 'pulse 1s infinite' }} />
+        <AlertOctagon size={40} color="var(--text-primary)" style={{ animation: 'pulse 1s infinite' }} />
         <div>
           <h1 style={{ margin: 0, color: 'var(--text-primary)', fontSize: '1.8rem', fontWeight: '900', textTransform: 'uppercase' }}>Evacuate Now</h1>
-          <p style={{ margin: 0, color: 'rgba(255,255,255,0.9)', fontWeight: 'bold' }}>Emergency declared in Sector 4.</p>
+          <p style={{ margin: 0, color: 'var(--text-primary)', fontWeight: 'bold' }}>Emergency declared in Sector 4.</p>
         </div>
       </div>
 
@@ -340,22 +340,22 @@ const EmergencyOverlay = () => {
           <path 
             d="M500,800 L700,600 L800,400 L950,200" 
             fill="none" 
-            stroke="#2BFF88" 
+            stroke="var(--accent-green)" 
             strokeWidth="16" 
             strokeDasharray="30, 20" 
-            style={{ animation: 'dash 1s linear infinite', filter: 'drop-shadow(0 0 20px #2BFF88)' }} 
+            style={{ animation: 'dash 1s linear infinite', filter: 'drop-shadow(0 0 20px var(--accent-green))' }} 
           />
           <circle cx="500" cy="800" r="20" fill="#FF1E1E" style={{ animation: 'pulse 1s infinite' }} />
-          <circle cx="950" cy="200" r="30" fill="#2BFF88" stroke="#FFF" strokeWidth="6" />
+          <circle cx="950" cy="200" r="30" fill="var(--accent-green)" stroke="#FFF" strokeWidth="6" />
         </svg>
 
-        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', background: 'rgba(0,0,0,0.8)', padding: '1.5rem', borderRadius: '16px', border: '2px solid #FF1E1E', textAlign: 'center', minWidth: '80%' }}>
-           <h2 style={{ color: '#2BFF88', margin: '0 0 10px 0', fontSize: '2rem', fontWeight: '900' }}>NEAREST SAFE EXIT</h2>
+        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', background: 'var(--bg-card)', padding: '1.5rem', borderRadius: '16px', border: '2px solid #FF1E1E', textAlign: 'center', minWidth: '80%' }}>
+           <h2 style={{ color: 'var(--accent-green)', margin: '0 0 10px 0', fontSize: '2rem', fontWeight: '900' }}>NEAREST SAFE EXIT</h2>
            <div className="flex-row justify-center gap-2" style={{ alignItems: 'center' }}>
              <span style={{ color: 'var(--text-primary)', fontSize: '1.5rem', fontWeight: 'bold' }}>GATE D (SOUTH)</span>
-             <ArrowRight color="#2BFF88" size={30} />
+             <ArrowRight color="var(--accent-green)" size={30} />
            </div>
-           <p style={{ color: 'rgba(255,255,255,0.7)', marginTop: '10px', fontSize: '0.9rem' }}>Follow the green path on your screen immediately.</p>
+           <p style={{ color: 'var(--text-secondary)', marginTop: '10px', fontSize: '0.9rem' }}>Follow the green path on your screen immediately.</p>
         </div>
       </div>
 
@@ -364,7 +364,7 @@ const EmergencyOverlay = () => {
           if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
           setEmergency(false);
         }} 
-        style={{ position: 'absolute', bottom: '20px', left: '50%', transform: 'translateX(-50%)', background: 'transparent', border: '1px solid rgba(255,255,255,0.3)', color: 'var(--text-primary)', padding: '10px 20px', borderRadius: '20px', fontSize: '0.8rem' }}>
+        style={{ position: 'absolute', bottom: '20px', left: '50%', transform: 'translateX(-50%)', background: 'transparent', border: '1px solid var(--border-glass)', color: 'var(--text-primary)', padding: '10px 20px', borderRadius: '20px', fontSize: '0.8rem' }}>
         Cancel Demo
       </button>
 
@@ -384,7 +384,7 @@ const Custom404 = () => {
     <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '60vh', padding: '2rem', textAlign: 'center' }}>
       <h1 style={{ fontSize: '6rem', margin: 0, color: 'var(--accent-yellow)', fontWeight: '900' }}>404</h1>
       <h2 style={{ fontSize: '1.5rem', color: 'var(--text-primary)', margin: '10px 0' }}>🛰️ Page Lost in Stadium Orbit</h2>
-      <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.9rem', maxWidth: '400px', marginBottom: '2rem' }}>
+      <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', maxWidth: '400px', marginBottom: '2rem' }}>
         The section or operational terminal you are looking for has been re-routed or is temporarily offline.
       </p>
       <button 
@@ -543,7 +543,7 @@ const AppLayout = ({ currentUser, onLogout }) => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            boxShadow: '0 8px 24px rgba(0,0,0,0.3)',
+            boxShadow: '0 8px 24px rgba(30, 64, 175, 0.08)',
             cursor: 'pointer',
             zIndex: 99999,
             transition: 'transform 0.2s ease, border-color 0.2s ease'
@@ -608,7 +608,7 @@ function MainApp() {
         
         {!booting && !currentUser ? (
           <React.Suspense fallback={
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', gap: '1rem', background: '#050a14' }}>
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', gap: '1rem', background: 'var(--bg-primary)' }}>
               <div style={{ width: '40px', height: '40px', border: '3px solid rgba(43,255,136,0.1)', borderTopColor: 'var(--accent-green)', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
             </div>
           }>

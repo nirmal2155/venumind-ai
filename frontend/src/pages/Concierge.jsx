@@ -301,7 +301,7 @@ const Concierge = () => {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              message: `[FIFA World Cup 2026 - Lusail Stadium - Language: ${selectedLang.name}] ${text}. Reply in ${selectedLang.name} language.`
+              message: `[FIFA World Cup 2026 - Lusail Stadium - Language: ${selectedLang.name}] User asks: "${text}". Reply in ${selectedLang.name} language. CRITICAL INSTRUCTION: You must ONLY answer the specific question asked. Do NOT provide extra information, unprompted advice, or hallucinate details. Keep it very concise.`
             })
           });
           const data = await res.json();
@@ -330,7 +330,7 @@ const Concierge = () => {
       
       {/* Header Status */}
       <div className="flex-col" style={{ alignItems: 'center', marginBottom: '1rem', marginTop: '0.5rem' }}>
-        <div style={{ width: '70px', height: '70px', borderRadius: '20px', background: 'var(--accent-green)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 25px rgba(43,255,136,0.2)', marginBottom: '0.75rem' }}>
+        <div style={{ width: '70px', height: '70px', border: '1px solid var(--border-blue)', marginBottom: '0.75rem' }}>
           <Bot size={36} color="#000" />
         </div>
         <h3 className="text-accent-green" style={{ fontSize: '1rem', letterSpacing: '0.5px', fontWeight: 'bold' }}>AI Assistant Active</h3>
@@ -342,12 +342,12 @@ const Concierge = () => {
               key={lang.code}
               onClick={() => handleLanguageChange(lang)}
               style={{
-                background: selectedLang.code === lang.code ? 'rgba(43,255,136,0.2)' : 'rgba(255,255,255,0.03)',
-                border: `1px solid ${selectedLang.code === lang.code ? 'var(--accent-green)' : 'rgba(255,255,255,0.1)'}`,
+                background: selectedLang.code === lang.code ? 'var(--accent-blue-dim)' : 'rgba(30, 64, 175, 0.03)',
+                border: `1px solid ${selectedLang.code === lang.code ? 'var(--accent-blue)' : 'var(--border-glass)'}`,
                 borderRadius: '12px',
                 padding: '6px 12px',
                 fontSize: '0.75rem',
-                color: '#fff',
+                color: 'var(--text-primary)',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
@@ -383,14 +383,14 @@ const Concierge = () => {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <span style={{ fontSize: '1.2rem' }}>🎙️</span>
-            <div style={{ fontSize: '0.75rem', fontWeight: 'bold', color: '#00C8FF', fontFamily: 'monospace', letterSpacing: '1px' }}>
+            <div style={{ fontSize: '0.75rem', fontWeight: 'bold', color: 'var(--accent-blue)', fontFamily: 'monospace', letterSpacing: '1px' }}>
               GEMINI LIVE AUDIO TRANSLATION BRIDGE
             </div>
           </div>
           <button
             onClick={toggleLiveAudio}
             style={{
-              background: liveAudioActive ? '#FF4B4B' : '#00C8FF',
+              background: liveAudioActive ? '#FF4B4B' : 'var(--accent-blue)',
               border: 'none',
               color: '#000',
               padding: '6px 12px',
@@ -405,7 +405,7 @@ const Concierge = () => {
           </button>
         </div>
 
-        <div style={{ fontSize: '0.78rem', color: liveAudioActive ? '#fff' : 'rgba(255,255,255,0.5)', fontFamily: 'monospace', minHeight: '24px', transition: 'all 0.3s' }}>
+        <div style={{ fontSize: '0.78rem', color: liveAudioActive ? 'var(--text-primary)' : 'rgba(255,255,255,0.5)', fontFamily: 'monospace', minHeight: '24px', transition: 'all 0.3s' }}>
           {liveAudioText}
         </div>
 
@@ -417,7 +417,7 @@ const Concierge = () => {
                 className="audio-wave-bar" 
                 style={{ 
                   width: '3px', 
-                  background: '#00C8FF',
+                  background: 'var(--accent-blue)',
                   borderRadius: '1.5px',
                   animation: `waveBar 0.5s ease-in-out infinite alternate`,
                   animationDelay: `${i * 0.08}s`
@@ -454,10 +454,10 @@ const Concierge = () => {
               {/* Accessibility Prompt */}
               {msg.hasAccessPrompt && (
                 <div className="flex-col gap-2" style={{ marginTop: '1rem' }}>
-                  <button onClick={() => confirmRoute(true)} style={{ width: '100%', background: '#00C8FF', border: 'none', color: '#000', padding: '10px', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer' }}>
+                  <button onClick={() => confirmRoute(true)} style={{ width: '100%', background: 'var(--accent-blue)', border: 'none', color: '#000', padding: '10px', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer' }}>
                     {selectedLang.code === 'hi-IN' ? 'हाँ, सुलभ मार्ग 🦽' : 'Yes, Accessible Route 🦽'}
                   </button>
-                  <button onClick={() => confirmRoute(false)} style={{ width: '100%', background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', padding: '10px', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer' }}>
+                  <button onClick={() => confirmRoute(false)} style={{ width: '100%', background: 'rgba(30, 64, 175, 0.06)', border: '1px solid var(--border-glass)', color: 'var(--text-primary)', padding: '10px', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer' }}>
                     {selectedLang.code === 'hi-IN' ? 'नहीं, सबसे तेज़ मार्ग' : 'No, Fastest Route'}
                   </button>
                 </div>
@@ -465,10 +465,10 @@ const Concierge = () => {
 
               {/* Map UI in AI Response */}
               {msg.hasMap && (
-                <div style={{ marginTop: '1rem', background: 'rgba(0,0,0,0.5)', borderRadius: '12px', padding: '0.5rem', border: `1px solid ${msg.isAccessiblePath ? '#00C8FF' : 'rgba(255,255,255,0.05)'}` }}>
-                  <div style={{ height: '140px', borderRadius: '8px', position: 'relative', overflow: 'hidden', marginBottom: '0.5rem', border: '1px solid rgba(255,255,255,0.05)' }}>
+                <div style={{ marginTop: '1rem', background: 'rgba(30, 64, 175, 0.06)', borderRadius: '12px', padding: '0.5rem', border: `1px solid ${msg.isAccessiblePath ? 'var(--accent-blue)' : 'rgba(30, 64, 175, 0.05)'}` }}>
+                  <div style={{ height: '140px', borderRadius: '8px', position: 'relative', overflow: 'hidden', marginBottom: '0.5rem', border: '1px solid var(--border-glass)' }}>
                     <img src="/images/stadium_hologram.png" alt="Map View" style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.8, filter: msg.isAccessiblePath ? 'hue-rotate(90deg)' : 'none' }} />
-                    <div style={{ position: 'absolute', bottom: '10px', left: '10px', background: msg.isAccessiblePath ? '#00C8FF' : 'var(--accent-green)', padding: '4px 12px', borderRadius: '4px', color: '#000', fontSize: '0.7rem', fontWeight: 'bold' }}>
+                    <div style={{ position: 'absolute', bottom: '10px', left: '10px', background: msg.isAccessiblePath ? 'var(--accent-blue)' : 'var(--accent-green)', padding: '4px 12px', borderRadius: '4px', color: '#000', fontSize: '0.7rem', fontWeight: 'bold' }}>
                       {msg.isAccessiblePath ? (selectedLang.code === 'hi-IN' ? 'सुलभ मार्ग 🦽' : 'ACCESSIBLE PATH 🦽') : (selectedLang.code === 'hi-IN' ? 'लाइव मार्ग' : 'LIVE PATH')}
                     </div>
                   </div>
@@ -486,7 +486,7 @@ const Concierge = () => {
 
               {/* Food Order UI */}
               {msg.hasFoodOrder && (
-                <div style={{ marginTop: '1rem', background: 'rgba(0,0,0,0.4)', borderRadius: '12px', padding: '1rem', border: '1px solid var(--accent-yellow)' }}>
+                <div style={{ marginTop: '1rem', background: 'rgba(30, 64, 175, 0.05)', borderRadius: '12px', padding: '1rem', border: '1px solid var(--accent-yellow)' }}>
                   <h4 style={{ color: 'var(--accent-yellow)', margin: '0 0 10px 0', fontSize: '1rem' }}>In-Seat Delivery Menu</h4>
                   <div className="flex-col gap-2" style={{ marginBottom: '1rem' }}>
                     <div className="flex-row justify-between" style={{ fontSize: '0.9rem' }}><span>🍔 Classic Burger</span><span>$8.00</span></div>
@@ -521,22 +521,22 @@ const Concierge = () => {
       {/* Chat Input Fixed at Bottom */}
       <div style={{ position: 'fixed', bottom: '85px', left: '0', right: '0', padding: '0 1.5rem', maxWidth: '1200px', margin: '0 auto', background: 'linear-gradient(transparent, var(--bg-secondary) 20%)', paddingTop: '20px' }}>
          <div className="flex-row gap-2" style={{ overflowX: 'auto', paddingBottom: '10px', scrollbarWidth: 'none' }}>
-           <span className="glass-card text-small" style={{ padding: '8px 16px', whiteSpace: 'nowrap', borderRadius: '16px', cursor: 'pointer', background: 'rgba(255,255,255,0.05)' }} onClick={() => sendMessage(selectedLang.code === 'hi-IN' ? "प्रार्थना कक्ष कहाँ है?" : "Where is the nearest prayer room?")}>
+           <span className="glass-card text-small" style={{ padding: '8px 16px', whiteSpace: 'nowrap', borderRadius: '16px', cursor: 'pointer', background: 'rgba(30, 64, 175, 0.05)' }} onClick={() => sendMessage(selectedLang.code === 'hi-IN' ? "प्रार्थना कक्ष कहाँ है?" : "Where is the nearest prayer room?")}>
              {selectedLang.code === 'hi-IN' ? "प्रार्थना कक्ष कहाँ है?" : "Where is the nearest prayer room?"}
            </span>
-           <span className="glass-card text-small" style={{ padding: '8px 16px', whiteSpace: 'nowrap', borderRadius: '16px', cursor: 'pointer', background: 'rgba(255,255,255,0.05)' }} onClick={() => sendMessage(selectedLang.code === 'hi-IN' ? "क्या यहाँ खाना ऑर्डर कर सकते हैं?" : "Can I order food here?")}>
+           <span className="glass-card text-small" style={{ padding: '8px 16px', whiteSpace: 'nowrap', borderRadius: '16px', cursor: 'pointer', background: 'rgba(30, 64, 175, 0.05)' }} onClick={() => sendMessage(selectedLang.code === 'hi-IN' ? "क्या यहाँ खाना ऑर्डर कर सकते हैं?" : "Can I order food here?")}>
              {selectedLang.code === 'hi-IN' ? "क्या यहाँ खाना ऑर्डर कर सकते हैं?" : "Can I order food here?"}
            </span>
-           <span className="glass-card text-small" style={{ padding: '8px 16px', whiteSpace: 'nowrap', borderRadius: '16px', cursor: 'pointer', background: 'rgba(255,255,255,0.05)' }} onClick={() => sendMessage(selectedLang.code === 'hi-IN' ? "मेरा बैग खो गया है" : "I lost my bag")}>
+           <span className="glass-card text-small" style={{ padding: '8px 16px', whiteSpace: 'nowrap', borderRadius: '16px', cursor: 'pointer', background: 'rgba(30, 64, 175, 0.05)' }} onClick={() => sendMessage(selectedLang.code === 'hi-IN' ? "मेरा बैग खो गया है" : "I lost my bag")}>
              {selectedLang.code === 'hi-IN' ? "मेरा बैग खो गया है" : "I lost my bag 🔍"}
            </span>
-           <span className="glass-card text-small" style={{ padding: '8px 16px', whiteSpace: 'nowrap', borderRadius: '16px', cursor: 'pointer', background: 'rgba(0, 200, 255, 0.1)', border: '1px solid rgba(0, 200, 255, 0.3)', color: '#00C8FF' }} onClick={() => sendMessage("Give me real-time transport options from Lusail Stadium to Doha Downtown given the taxi loop delay is 35 minutes and Metro is active.")}>
+           <span className="glass-card text-small" style={{ padding: '8px 16px', whiteSpace: 'nowrap', borderRadius: '16px', cursor: 'pointer', background: 'rgba(0, 200, 255, 0.1)', border: '1px solid rgba(0, 200, 255, 0.3)', color: 'var(--accent-blue)' }} onClick={() => sendMessage("Give me real-time transport options from Lusail Stadium to Doha Downtown given the taxi loop delay is 35 minutes and Metro is active.")}>
              🚗 Transit Advisor
            </span>
            <span className="glass-card text-small" style={{ padding: '8px 16px', whiteSpace: 'nowrap', borderRadius: '16px', cursor: 'pointer', background: 'rgba(43, 255, 136, 0.1)', border: '1px solid rgba(43, 255, 136, 0.3)', color: 'var(--accent-green)' }} onClick={() => sendMessage("Recalculate route from Gate B to Seat Section 204 given Gate B capacity spike (15m wait) and Gate C optimal flow.")}>
              🗺️ Safest Path
            </span>
-           <span className="glass-card text-small" style={{ padding: '8px 16px', whiteSpace: 'nowrap', borderRadius: '16px', cursor: 'pointer', background: 'rgba(180, 142, 255, 0.1)', border: '1px solid rgba(180, 142, 255, 0.3)', color: '#B48EFF' }} onClick={() => sendMessage("Analyze crowd density: North Gate is at 98% density, West Fan Zone is at 88%. Generate an immediate crowd control and rerouting plan.")}>
+           <span className="glass-card text-small" style={{ padding: '8px 16px', whiteSpace: 'nowrap', borderRadius: '16px', cursor: 'pointer', background: 'rgba(180, 142, 255, 0.1)', border: '1px solid rgba(180, 142, 255, 0.3)', color: 'var(--accent-purple)' }} onClick={() => sendMessage("Analyze crowd density: North Gate is at 98% density, West Fan Zone is at 88%. Generate an immediate crowd control and rerouting plan.")}>
              🚨 Dispersion Plan
            </span>
            <span className="glass-card text-small" style={{ padding: '8px 16px', whiteSpace: 'nowrap', borderRadius: '16px', cursor: 'pointer', background: 'rgba(255, 222, 89, 0.1)', border: '1px solid rgba(255, 222, 89, 0.3)', color: 'var(--accent-yellow)' }} onClick={() => sendMessage("Based on current crowd surge of 98% at North Gate and 88% at West Fan Zone, how should we dynamically re-allocate security stewards and volunteer medical units?")}>
@@ -550,11 +550,11 @@ const Concierge = () => {
             display: 'flex',
             gap: '12px',
             position: 'relative',
-            background: 'linear-gradient(rgba(18,22,33,0.9), rgba(18,22,33,0.9)) padding-box, linear-gradient(135deg, #00C8FF, #B48EFF, #2BFF88) border-box',
+            background: 'linear-gradient(rgba(241, 245, 249, 0.95), rgba(241, 245, 249, 0.95)) padding-box, linear-gradient(135deg, var(--accent-blue), var(--accent-purple), var(--accent-green)) border-box',
             border: '2px solid transparent',
             boxShadow: '0 8px 32px rgba(0,200,255,0.15)'
           }}>
-            <button onClick={handleVoiceClick} style={{ width: '40px', height: '40px', borderRadius: '50%', background: isRecording ? '#FF6B6B' : 'rgba(43,255,136,0.1)', border: 'none', color: isRecording ? '#FFF' : 'var(--accent-green)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', animation: isRecording ? 'pulse 1.5s infinite' : 'none' }}>
+            <button onClick={handleVoiceClick} style={{ width: '40px', height: '40px', borderRadius: '50%', background: isRecording ? '#FF6B6B' : 'rgba(5, 150, 105,0.1)', border: 'none', color: isRecording ? 'var(--text-primary)' : 'var(--accent-green)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', animation: isRecording ? 'pulse 1.5s infinite' : 'none' }}>
                <Mic size={20} />
             </button>
             <input 

@@ -28,7 +28,7 @@ const ROLE_METADATA = {
   organizer: {
     title: 'FIFA Tournament Director',
     badge: 'FIFA-ORGANIZER-HQ',
-    color: '#00C8FF',
+    color: 'var(--accent-blue)',
     kpis: [
       { label: 'Stadium Seating Load', value: '95,400 / 96,000' },
       { label: 'VIP Lounge Occupancy', value: '98%' },
@@ -39,7 +39,7 @@ const ROLE_METADATA = {
   government: {
     title: 'Ministry of Infrastructure',
     badge: 'GOVERNMENT-HQ',
-    color: '#2BFF88',
+    color: 'var(--accent-green)',
     kpis: [
       { label: 'Solar Output Harvest', value: '1.4 MW' },
       { label: 'HVAC Energy Load', value: '21.5°C (-14.2%)' },
@@ -192,32 +192,39 @@ Generate a response following this structure:
     }
   };
 
-  const handleSendMessage = (textToSend) => {
+  const handleSendMessage = async (textToSend) => {
     const text = textToSend || inputText;
     if (!text.trim()) return;
 
     const newMsgs = [...messages, { sender: 'user', text }];
     setMessages(newMsgs);
     setInputText('');
+    setMessages(prev => [...prev, { sender: 'ai', text: '...' }]);
 
-    setTimeout(() => {
-      const lower = text.toLowerCase();
-      let reply = '🤖 Operational Query received. Dispatch status: Nominal.';
-      if (lower.includes('gate 5')) {
-        reply = '🚪 Gate 5 is at Sector 3 North. Turn-style gates are nominal. Re-route VIP guest vehicles via Zone 2.';
-      } else if (lower.includes('medical')) {
-        reply = '🏥 The nearest Medical unit is First Aid Post 2, located behind Section 104 Corridor. Current occupancy: 1 patient.';
-      } else if (lower.includes('water')) {
-        reply = '💧 Water hydration station is at Gate A Bay (Zone 1) and Sector 2 walkway. Supply levels are stable.';
-      } else if (lower.includes('emergency')) {
-        reply = '🚨 Emergency alert status is currently NOMINAL. Evacuation paths are clear. Sector 4 lockdown controls are standing by.';
-      }
-      setMessages(prev => [...prev, { sender: 'ai', text: reply }]);
-      // Log matching query in walkie talkie log too
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: `[FIFA World Cup 2026 - Lusail Stadium Operations] You are the Venue Operations AI Assistant. User asks: "${text}". CRITICAL INSTRUCTION: You must ONLY answer the specific question asked based on stadium operational context. Do NOT provide extra information, unprompted advice, or hallucinate details. Keep it very concise.`
+        })
+      });
+      const data = await res.json();
+      setMessages(prev => {
+        const updated = [...prev];
+        updated[updated.length - 1].text = data.reply || '🤖 Operational Query received. Dispatch status: Nominal.';
+        return updated;
+      });
       if (radioConnected) {
-        setRadioLogs(prev => [...prev, `📢 [AI DISPATCH] Resolved query: "${reply}"`]);
+        setRadioLogs(prev => [...prev, `📢 [AI DISPATCH] Resolved query: "${data.reply || 'Nominal'}"`]);
       }
-    }, 600);
+    } catch (e) {
+      setMessages(prev => {
+        const updated = [...prev];
+        updated[updated.length - 1].text = '🚨 Connection error to Operations AI Node.';
+        return updated;
+      });
+    }
   };
 
   const activeMeta = ROLE_METADATA[activeRole] || ROLE_METADATA.collector;
@@ -260,9 +267,9 @@ Generate a response following this structure:
             <span style={{ background: activeMeta.color, color: '#000', fontSize: '0.65rem', fontWeight: 'bold', padding: '2px 8px', borderRadius: '12px' }}>
               {activeMeta.badge}
             </span>
-            <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.75rem', fontFamily: 'monospace' }}>SECURE ACCESS VERIFIED</span>
+            <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem', fontFamily: 'monospace' }}>SECURE ACCESS VERIFIED</span>
           </div>
-          <h2 style={{ margin: 0, fontSize: '1.8rem', fontWeight: '800', color: '#fff' }}>{activeMeta.title}</h2>
+          <h2 style={{ margin: 0, fontSize: '1.8rem', fontWeight: '800', color: 'var(--text-primary)' }}>{activeMeta.title}</h2>
           <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '0.85rem' }}>LoggedIn: {user.email}</p>
         </div>
 
@@ -273,7 +280,7 @@ Generate a response following this structure:
               key={roleKey}
               onClick={() => setActiveRole(roleKey)}
               style={{
-                background: activeRole === roleKey ? ROLE_METADATA[roleKey].color : 'rgba(255,255,255,0.03)',
+                background: activeRole === roleKey ? ROLE_METADATA[roleKey].color : 'rgba(30, 64, 175, 0.03)',
                 border: 'none',
                 color: activeRole === roleKey ? '#000' : 'var(--text-secondary)',
                 fontSize: '0.75rem',
@@ -308,7 +315,7 @@ Generate a response following this structure:
       {/* KPIs Grid */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '15px', marginBottom: '2rem' }}>
         {activeMeta.kpis.map((kpi, idx) => (
-          <div key={idx} style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '16px', padding: '1.25rem' }}>
+          <div key={idx} style={{ background: 'rgba(30, 64, 175, 0.02)', border: '1px solid var(--border-glass)', borderRadius: '16px', padding: '1.25rem' }}>
             <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', fontWeight: 'bold', letterSpacing: '1px', textTransform: 'uppercase' }}>
               {kpi.label}
             </div>
@@ -320,8 +327,8 @@ Generate a response following this structure:
       </div>
 
       {/* 📡 VenueMind GenAI Agent Matrix Hub (High Focus Security/Medical/Traffic/Weather/Energy/Collector AI) */}
-      <div style={{ background: 'linear-gradient(135deg, #090e17 0%, #05080e 100%)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '24px', padding: '1.5rem', marginBottom: '2rem' }}>
-        <h3 style={{ margin: '0 0 4px 0', fontSize: '1.2rem', color: '#fff', fontWeight: '900', letterSpacing: '-0.5px' }}>
+      <div style={{ background: 'linear-gradient(135deg, rgba(30, 64, 175, 0.06) 0%, rgba(30, 64, 175, 0.02) 100%)', border: '1px solid var(--border-glass)', borderRadius: '24px', padding: '1.5rem', marginBottom: '2rem' }}>
+        <h3 style={{ margin: '0 0 4px 0', fontSize: '1.2rem', color: 'var(--text-primary)', fontWeight: '900', letterSpacing: '-0.5px' }}>
           🌐 VenueMind GenAI Agent Matrix Hub
         </h3>
         <p style={{ margin: '0 0 1.25rem 0', color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
@@ -343,7 +350,7 @@ Generate a response following this structure:
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <Cpu size={16} color="var(--accent-purple)" />
-            <span style={{ color: '#fff', fontSize: '0.8rem', fontWeight: 'bold', fontFamily: 'monospace' }}>Google Gemini Tuning Console</span>
+            <span style={{ color: 'var(--text-primary)', fontSize: '0.8rem', fontWeight: 'bold', fontFamily: 'monospace' }}>Google Gemini Tuning Console</span>
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '15px', alignItems: 'center' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -351,7 +358,7 @@ Generate a response following this structure:
               <select 
                 value={selectedGeminiModel} 
                 onChange={(e) => setSelectedGeminiModel(e.target.value)}
-                style={{ background: '#0a0d14', border: '1px solid rgba(255,255,255,0.15)', color: '#fff', fontSize: '0.75rem', padding: '4px 8px', borderRadius: '6px', outline: 'none' }}
+                style={{ background: 'var(--bg-card)', border: '1px solid var(--border-glass)', color: 'var(--text-primary)', fontSize: '0.75rem', padding: '4px 8px', borderRadius: '6px', outline: 'none' }}
               >
                 <option value="gemini-2.5-flash">gemini-2.5-flash (Speed)</option>
                 <option value="gemini-2.5-pro">gemini-2.5-pro (Reasoning)</option>
@@ -385,13 +392,13 @@ Generate a response following this structure:
           }}>
             <button 
               onClick={() => setActiveNodeAdvice(null)}
-              style={{ position: 'absolute', top: '12px', right: '15px', background: 'transparent', border: 'none', color: '#fff', cursor: 'pointer', fontSize: '1rem', fontWeight: 'bold' }}>
+              style={{ position: 'absolute', top: '12px', right: '15px', background: 'transparent', border: 'none', color: 'var(--text-primary)', cursor: 'pointer', fontSize: '1rem', fontWeight: 'bold' }}>
               ✕
             </button>
             <h4 style={{ margin: '0 0 8px 0', fontSize: '0.9rem', color: 'var(--accent-blue)', fontWeight: 'bold', fontFamily: 'monospace' }}>
               🤖 GenAI Advice from: {activeNodeAdvice.agent}
             </h4>
-            <p style={{ margin: 0, fontSize: '0.85rem', color: '#fff', lineHeight: '1.45', whiteSpace: 'pre-line' }}>
+            <p style={{ margin: 0, fontSize: '0.85rem', color: 'var(--text-primary)', lineHeight: '1.45', whiteSpace: 'pre-line' }}>
               {activeNodeAdvice.advice}
             </p>
           </div>
@@ -457,8 +464,8 @@ Generate a response following this structure:
             <div 
               key={node.id} 
               style={{
-                background: 'rgba(255,255,255,0.02)',
-                border: '1px solid rgba(255,255,255,0.06)',
+                background: 'rgba(30, 64, 175, 0.02)',
+                border: '1px solid var(--border-glass)',
                 borderRadius: '16px',
                 padding: '1.25rem',
                 display: 'flex',
@@ -471,17 +478,17 @@ Generate a response following this structure:
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
                   <span style={{ fontSize: '1.5rem' }}>{node.icon}</span>
-                  <span style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.4)', fontFamily: 'monospace', border: '1px solid rgba(255,255,255,0.1)', padding: '2px 6px', borderRadius: '4px' }}>
+                  <span style={{ fontSize: '0.6rem', color: 'var(--text-muted)', fontFamily: 'monospace', border: '1px solid var(--border-glass)', padding: '2px 6px', borderRadius: '4px' }}>
                     {node.badge}
                   </span>
                 </div>
-                <h4 style={{ margin: '0 0 4px 0', fontSize: '0.95rem', fontWeight: 'bold', color: '#fff' }}>
+                <h4 style={{ margin: '0 0 4px 0', fontSize: '0.95rem', fontWeight: 'bold', color: 'var(--text-primary)' }}>
                   {node.title}
                 </h4>
                 <div style={{ fontSize: '0.65rem', color: 'var(--accent-green)', fontWeight: 'bold', marginBottom: '8px', fontFamily: 'monospace' }}>
                   {node.status}
                 </div>
-                <div style={{ fontSize: '0.72rem', color: 'var(--text-secondary)', fontFamily: 'monospace', marginBottom: '12px', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '8px' }}>
+                <div style={{ fontSize: '0.72rem', color: 'var(--text-secondary)', fontFamily: 'monospace', marginBottom: '12px', borderTop: '1px solid var(--border-glass)', paddingTop: '8px' }}>
                   Telemetry: {node.telemetry}
                 </div>
               </div>
@@ -511,7 +518,7 @@ Generate a response following this structure:
 
       {/* 🔮 VenueMind GenAI Predictive "What-If" Simulation Engine Sandbox */}
       <div style={{ background: 'linear-gradient(135deg, #0e0b16 0%, #06040a 100%)', border: '1px solid rgba(180, 142, 255, 0.2)', borderRadius: '24px', padding: '1.5rem', marginBottom: '2rem' }}>
-        <h3 style={{ margin: '0 0 4px 0', fontSize: '1.2rem', color: '#fff', fontWeight: '900', letterSpacing: '-0.5px' }}>
+        <h3 style={{ margin: '0 0 4px 0', fontSize: '1.2rem', color: 'var(--text-primary)', fontWeight: '900', letterSpacing: '-0.5px' }}>
           🔮 GenAI Predictive "What-If" Simulation Engine
         </h3>
         <p style={{ margin: '0 0 1.5rem 0', color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
@@ -524,7 +531,7 @@ Generate a response following this structure:
             <select
               value={whatIfScenario}
               onChange={(e) => setWhatIfScenario(e.target.value)}
-              style={{ background: '#0a0d14', border: '1px solid rgba(255,255,255,0.15)', color: '#fff', fontSize: '0.85rem', padding: '10px', borderRadius: '8px', outline: 'none' }}
+              style={{ background: 'var(--bg-card)', border: '1px solid var(--border-glass)', color: 'var(--text-primary)', fontSize: '0.85rem', padding: '10px', borderRadius: '8px', outline: 'none' }}
             >
               <option value="What if a power failure occurs at the Metro station during post-match egress?">🔌 Metro Power Failure during Egress (Transport/Safety block)</option>
               <option value="What if a ticketless crowd surge of 5,000 fans accumulates at the North Gate turnstiles?">🚨 Inbound Ticketless Crowd Surge (Perimeter Pressure block)</option>
@@ -541,14 +548,14 @@ Generate a response following this structure:
                 value={whatIfScenario}
                 onChange={(e) => setWhatIfScenario(e.target.value)}
                 placeholder="What if..."
-                style={{ flex: 1, background: '#0a0d14', border: '1px solid rgba(255,255,255,0.15)', color: '#fff', fontSize: '0.85rem', padding: '10px', borderRadius: '8px', outline: 'none' }}
+                style={{ flex: 1, background: 'var(--bg-card)', border: '1px solid var(--border-glass)', color: 'var(--text-primary)', fontSize: '0.85rem', padding: '10px', borderRadius: '8px', outline: 'none' }}
               />
               <button
                 disabled={simulating}
                 onClick={runWhatIfSimulation}
                 style={{
                   background: 'var(--accent-purple)',
-                  color: '#fff',
+                  color: 'var(--text-primary)',
                   border: 'none',
                   padding: '10px 20px',
                   borderRadius: '8px',
@@ -576,7 +583,7 @@ Generate a response following this structure:
             <h4 style={{ margin: '0 0 10px 0', fontSize: '0.9rem', color: 'var(--accent-purple)', fontWeight: 'bold', fontFamily: 'monospace' }}>
               🔍 Simulated Projections & Action Directives
             </h4>
-            <p style={{ margin: 0, fontSize: '0.85rem', color: '#fff', lineHeight: '1.5', whiteSpace: 'pre-line', fontFamily: 'monospace' }}>
+            <p style={{ margin: 0, fontSize: '0.85rem', color: 'var(--text-primary)', lineHeight: '1.5', whiteSpace: 'pre-line', fontFamily: 'monospace' }}>
               {simulationResult}
             </p>
           </div>
@@ -587,24 +594,24 @@ Generate a response following this structure:
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '20px', marginBottom: '2rem' }}>
         
         {/* Crowd Heatmap */}
-        <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '20px', padding: '1.5rem' }}>
-          <h3 style={{ margin: '0 0 1rem 0', fontSize: '1rem', color: '#fff', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div style={{ background: 'rgba(30, 64, 175, 0.03)', border: '1px solid var(--border-glass)', borderRadius: '20px', padding: '1.5rem' }}>
+          <h3 style={{ margin: '0 0 1rem 0', fontSize: '1rem', color: 'var(--text-primary)', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <Eye size={18} color={activeMeta.color} /> Live Crowd Density Heatmap
           </h3>
-          <div style={{ height: '220px', borderRadius: '12px', position: 'relative', overflow: 'hidden', background: '#0a0d14' }}>
+          <div style={{ height: '220px', borderRadius: '12px', position: 'relative', overflow: 'hidden', background: 'var(--bg-card)' }}>
             <img src="/images/stadium_heatmap.png" alt="Stadium Seating Heatmap" style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.8 }} />
-            <div style={{ position: 'absolute', top: '10px', right: '10px', background: 'rgba(255, 75, 75, 0.2)', border: '1px solid #FF4B4B', padding: '4px 10px', borderRadius: '6px', fontSize: '0.7rem', color: '#fff', fontWeight: 'bold' }}>
+            <div style={{ position: 'absolute', top: '10px', right: '10px', background: 'rgba(255, 75, 75, 0.2)', border: '1px solid #FF4B4B', padding: '4px 10px', borderRadius: '6px', fontSize: '0.7rem', color: 'var(--text-primary)', fontWeight: 'bold' }}>
               SECTOR 4 HOTSPOT DETECTED (92%)
             </div>
           </div>
         </div>
 
         {/* Live Command Log Alerts */}
-        <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '20px', padding: '1.5rem', display: 'flex', flexDirection: 'column' }}>
-          <h3 style={{ margin: '0 0 1rem 0', fontSize: '1rem', color: '#fff', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div style={{ background: 'rgba(30, 64, 175, 0.03)', border: '1px solid var(--border-glass)', borderRadius: '20px', padding: '1.5rem', display: 'flex', flexDirection: 'column' }}>
+          <h3 style={{ margin: '0 0 1rem 0', fontSize: '1rem', color: 'var(--text-primary)', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <Server size={18} color="var(--accent-yellow)" /> NASA Telemetry & Anomaly Desk
           </h3>
-          <div style={{ background: '#05070c', border: '1px solid rgba(255,222,89,0.15)', borderRadius: '8px', padding: '10px', fontFamily: 'monospace', fontSize: '0.72rem', color: 'var(--accent-yellow)', marginBottom: '12px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+          <div style={{ background: 'var(--bg-card)', border: '1px solid rgba(255,222,89,0.15)', borderRadius: '8px', padding: '10px', fontFamily: 'monospace', fontSize: '0.72rem', color: 'var(--accent-yellow)', marginBottom: '12px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
             <div>🛰️ GATE INFLOW: 142/MIN</div>
             <div>🏥 MEDICAL BAYS: NOMINAL</div>
             <div>⚡ SOLAR INPUT: 1.4 MW</div>
@@ -614,7 +621,7 @@ Generate a response following this structure:
           </div>
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '8px', maxHeight: '110px', overflowY: 'auto', paddingRight: '5px' }}>
             {logs.map((log, idx) => (
-              <div key={idx} style={{ background: 'rgba(0,0,0,0.2)', padding: '6px 10px', borderRadius: '6px', borderLeft: `3px solid ${activeMeta.color}`, fontSize: '0.75rem', fontFamily: 'monospace', color: 'rgba(255,255,255,0.85)' }}>
+              <div key={idx} style={{ background: 'rgba(30, 64, 175, 0.03)', padding: '6px 10px', borderRadius: '6px', borderLeft: `3px solid ${activeMeta.color}`, fontSize: '0.75rem', fontFamily: 'monospace', color: 'var(--text-primary)' }}>
                 {log}
               </div>
             ))}
@@ -630,7 +637,7 @@ Generate a response following this structure:
           <h3 style={{ color: '#FF4B4B', margin: '0 0 10px 0', fontSize: '1.1rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <AlertTriangle size={18} /> Authority Emergency Dispatch Center
           </h3>
-          <p style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.7)', margin: '0 0 1.25rem 0', lineHeight: '1.4' }}>
+          <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', margin: '0 0 1.25rem 0', lineHeight: '1.4' }}>
             Remotely trigger stadium-wide evacuations, lock outer security boundaries, and override public signs.
           </p>
           <div style={{ display: 'flex', gap: '10px' }}>
@@ -639,7 +646,7 @@ Generate a response following this structure:
               style={{
                 flex: 1,
                 background: '#FF4B4B',
-                color: '#fff',
+                color: 'var(--text-primary)',
                 border: 'none',
                 padding: '10px',
                 borderRadius: '8px',
@@ -656,8 +663,8 @@ Generate a response following this structure:
                 style={{
                   flex: 1,
                   background: 'transparent',
-                  border: '1px solid rgba(255,255,255,0.2)',
-                  color: '#fff',
+                  border: '1px solid var(--border-glass)',
+                  color: 'var(--text-primary)',
                   padding: '10px',
                   borderRadius: '8px',
                   fontWeight: 'bold',
@@ -673,17 +680,17 @@ Generate a response following this structure:
 
         {/* Eco Smart Grid & Transport status */}
         <div style={{ background: 'rgba(0, 200, 255, 0.03)', border: '1px solid rgba(0, 200, 255, 0.2)', borderRadius: '20px', padding: '1.5rem' }}>
-          <h3 style={{ color: '#00C8FF', margin: '0 0 10px 0', fontSize: '1.1rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <h3 style={{ color: 'var(--accent-blue)', margin: '0 0 10px 0', fontSize: '1.1rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <Zap size={18} /> Energy & Transit Telemetry
           </h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem' }}>
               <span style={{ color: 'var(--text-secondary)' }}>Solar Storage Harvest</span>
-              <strong style={{ color: '#2BFF88' }}>1.4 MW (Active)</strong>
+              <strong style={{ color: 'var(--accent-green)' }}>1.4 MW (Active)</strong>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem' }}>
               <span style={{ color: 'var(--text-secondary)' }}>Metro Station Line status</span>
-              <strong style={{ color: '#2BFF88' }}>2 min wait (High frequency)</strong>
+              <strong style={{ color: 'var(--accent-green)' }}>2 min wait (High frequency)</strong>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem' }}>
               <span style={{ color: 'var(--text-secondary)' }}>Shuttle Congestion Loop</span>
@@ -719,8 +726,8 @@ Generate a response following this structure:
       </div>
 
       {/* Predictions & Reports Generation */}
-      <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '20px', padding: '1.5rem' }}>
-        <h3 style={{ margin: '0 0 1.25rem 0', fontSize: '1.1rem', color: '#fff', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px' }}>
+      <div style={{ background: 'rgba(30, 64, 175, 0.02)', border: '1px solid var(--border-glass)', borderRadius: '20px', padding: '1.5rem' }}>
+        <h3 style={{ margin: '0 0 1.25rem 0', fontSize: '1.1rem', color: 'var(--text-primary)', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px' }}>
           <Cpu size={18} color="var(--accent-purple)" /> GenAI Predictions & Analytics Reports
         </h3>
 
@@ -730,7 +737,7 @@ Generate a response following this structure:
               AI PREDICTED CONGESTION PEAK FORECAST
             </div>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px' }}>
-              <span style={{ fontSize: '1.8rem', fontWeight: 'bold', color: '#B48EFF' }}>18:40 PM</span>
+              <span style={{ fontSize: '1.8rem', fontWeight: 'bold', color: 'var(--accent-purple)' }}>18:40 PM</span>
               <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>(Estimated Crowd Surge 98% North Gate)</span>
             </div>
           </div>
@@ -741,9 +748,9 @@ Generate a response following this structure:
                 onClick={() => handleDownload('pdf')}
                 style={{
                   flex: 1,
-                  background: 'rgba(255,255,255,0.04)',
-                  border: '1px solid rgba(255,255,255,0.15)',
-                  color: '#fff',
+                  background: 'rgba(30, 64, 175, 0.04)',
+                  border: '1px solid var(--border-glass)',
+                  color: 'var(--text-primary)',
                   padding: '10px',
                   borderRadius: '10px',
                   fontWeight: 'bold',
@@ -761,9 +768,9 @@ Generate a response following this structure:
                 onClick={() => handleDownload('json')}
                 style={{
                   flex: 1,
-                  background: 'rgba(255,255,255,0.04)',
-                  border: '1px solid rgba(255,255,255,0.15)',
-                  color: '#fff',
+                  background: 'rgba(30, 64, 175, 0.04)',
+                  border: '1px solid var(--border-glass)',
+                  color: 'var(--text-primary)',
                   padding: '10px',
                   borderRadius: '10px',
                   fontWeight: 'bold',
@@ -792,19 +799,19 @@ Generate a response following this structure:
         
         {/* AI Operations Assistant Chatbot */}
         <div style={{ background: 'rgba(0, 200, 255, 0.02)', border: '1px solid rgba(0, 200, 255, 0.15)', borderRadius: '20px', padding: '1.5rem' }}>
-          <h3 style={{ margin: '0 0 1rem 0', fontSize: '1.1rem', color: '#fff', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Cpu size={18} color="#00C8FF" /> 🛡️ AI Operations Assistant
+          <h3 style={{ margin: '0 0 1rem 0', fontSize: '1.1rem', color: 'var(--text-primary)', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <Cpu size={18} color="var(--accent-blue)" /> 🛡️ AI Operations Assistant
           </h3>
           
           {/* Quick Suggestion buttons */}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '1rem' }}>
-            <button onClick={() => handleSendMessage('Where is Gate 5?')} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '20px', padding: '6px 12px', color: '#fff', fontSize: '0.75rem', cursor: 'pointer' }}>
+            <button onClick={() => handleSendMessage('Where is Gate 5?')} style={{ background: 'rgba(30, 64, 175, 0.05)', border: '1px solid var(--border-glass)', borderRadius: '20px', padding: '6px 12px', color: 'var(--text-primary)', fontSize: '0.75rem', cursor: 'pointer' }}>
               🚪 Where is Gate 5?
             </button>
-            <button onClick={() => handleSendMessage('Where is Medical?')} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '20px', padding: '6px 12px', color: '#fff', fontSize: '0.75rem', cursor: 'pointer' }}>
+            <button onClick={() => handleSendMessage('Where is Medical?')} style={{ background: 'rgba(30, 64, 175, 0.05)', border: '1px solid var(--border-glass)', borderRadius: '20px', padding: '6px 12px', color: 'var(--text-primary)', fontSize: '0.75rem', cursor: 'pointer' }}>
               🏥 Where is Medical?
             </button>
-            <button onClick={() => handleSendMessage('Nearest Water?')} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '20px', padding: '6px 12px', color: '#fff', fontSize: '0.75rem', cursor: 'pointer' }}>
+            <button onClick={() => handleSendMessage('Nearest Water?')} style={{ background: 'rgba(30, 64, 175, 0.05)', border: '1px solid var(--border-glass)', borderRadius: '20px', padding: '6px 12px', color: 'var(--text-primary)', fontSize: '0.75rem', cursor: 'pointer' }}>
               💧 Nearest Water?
             </button>
             <button onClick={() => handleSendMessage('Emergency?')} style={{ background: 'rgba(255,75,75,0.1)', border: '1px solid rgba(255,75,75,0.2)', borderRadius: '20px', padding: '6px 12px', color: '#FF4B4B', fontSize: '0.75rem', cursor: 'pointer' }}>
@@ -813,17 +820,17 @@ Generate a response following this structure:
           </div>
 
           {/* Chat window viewport */}
-          <div style={{ height: '200px', overflowY: 'auto', background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '12px', padding: '12px', display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '1rem' }}>
+          <div style={{ height: '200px', overflowY: 'auto', background: 'rgba(30, 64, 175, 0.04)', border: '1px solid var(--border-glass)', borderRadius: '12px', padding: '12px', display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '1rem' }}>
             {messages.map((msg, idx) => (
               <div key={idx} style={{
                 alignSelf: msg.sender === 'user' ? 'flex-end' : 'flex-start',
-                background: msg.sender === 'user' ? 'rgba(0, 200, 255, 0.15)' : 'rgba(255,255,255,0.03)',
-                border: msg.sender === 'user' ? '1px solid rgba(0, 200, 255, 0.3)' : '1px solid rgba(255,255,255,0.06)',
+                background: msg.sender === 'user' ? 'var(--accent-blue-dim)' : 'rgba(30, 64, 175, 0.03)',
+                border: msg.sender === 'user' ? '1px solid rgba(30, 64, 175, 0.2)' : '1px solid var(--border-glass)',
                 padding: '10px 14px',
                 borderRadius: msg.sender === 'user' ? '14px 14px 2px 14px' : '14px 14px 14px 2px',
                 maxWidth: '85%',
                 fontSize: '0.85rem',
-                color: '#fff',
+                color: 'var(--text-primary)',
                 lineHeight: '1.4'
               }}>
                 {msg.text}
@@ -838,7 +845,7 @@ Generate a response following this structure:
               placeholder="Type operational query..."
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
-              style={{ flex: 1, background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '10px 14px', color: '#fff', outline: 'none', fontSize: '0.85rem' }}
+              style={{ flex: 1, background: 'rgba(30, 64, 175, 0.04)', border: '1px solid var(--border-glass)', borderRadius: '10px', padding: '10px 14px', color: 'var(--text-primary)', outline: 'none', fontSize: '0.85rem' }}
             />
             <button type="submit" style={{ background: 'var(--accent-yellow)', border: 'none', color: '#000', padding: '10px 20px', borderRadius: '10px', fontWeight: 'bold', cursor: 'pointer', fontSize: '0.85rem' }}>
               SEND
@@ -847,8 +854,8 @@ Generate a response following this structure:
         </div>
 
         {/* Walkie-Talkie Simulator */}
-        <div style={{ background: 'rgba(43,255,136,0.02)', border: '1px solid rgba(43,255,136,0.15)', borderRadius: '20px', padding: '1.5rem', display: 'flex', flexDirection: 'column' }}>
-          <h3 style={{ margin: '0 0 1rem 0', fontSize: '1.1rem', color: '#fff', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div style={{ background: 'rgba(30, 64, 175,0.02)', border: '1px solid rgba(5, 150, 105, 0.08)', borderRadius: '20px', padding: '1.5rem', display: 'flex', flexDirection: 'column' }}>
+          <h3 style={{ margin: '0 0 1rem 0', fontSize: '1.1rem', color: 'var(--text-primary)', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <RadioTower size={18} color="var(--accent-green)" /> Secure Live Radio Dispatch (Walkie-Talkie)
           </h3>
           
@@ -858,7 +865,7 @@ Generate a response following this structure:
               <button
                 onClick={connectRadio}
                 style={{
-                  background: 'rgba(43,255,136,0.15)',
+                  background: 'rgba(30, 64, 175,0.15)',
                   border: '1px solid var(--accent-green)',
                   color: 'var(--accent-green)',
                   padding: '12px 24px',
@@ -880,7 +887,7 @@ Generate a response following this structure:
           ) : (
             <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '12px' }}>
               {/* Radio details card */}
-              <div style={{ background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '12px', padding: '12px' }}>
+              <div style={{ background: 'rgba(30, 64, 175, 0.04)', border: '1px solid var(--border-glass)', borderRadius: '12px', padding: '12px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
                   <span style={{ fontSize: '0.7rem', color: 'var(--text-secondary)' }}>CHANNEL: OPERATIONS-HQ-01</span>
                   <span style={{ fontSize: '0.7rem', color: 'var(--accent-green)', fontWeight: 'bold' }}>🟢 RADIO ACTIVE</span>
@@ -892,7 +899,7 @@ Generate a response following this structure:
               </div>
 
               {/* Radio feed logs */}
-              <div style={{ flex: 1, height: '120px', overflowY: 'auto', background: '#000', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '10px', fontFamily: 'monospace', fontSize: '0.75rem', color: 'var(--accent-green)' }}>
+              <div style={{ flex: 1, height: '120px', overflowY: 'auto', background: 'var(--bg-card)', border: '1px solid var(--border-glass)', borderRadius: '8px', padding: '10px', fontFamily: 'monospace', fontSize: '0.75rem', color: 'var(--accent-green)' }}>
                 {radioLogs.map((log, idx) => (
                   <div key={idx} style={{ marginBottom: '4px' }}>&gt; {log}</div>
                 ))}
@@ -904,9 +911,9 @@ Generate a response following this structure:
                 onMouseUp={togglePushToTalk}
                 style={{
                   width: '100%',
-                  background: pushToTalkActive ? '#FF4B4B' : 'rgba(43,255,136,0.1)',
+                  background: pushToTalkActive ? '#FF4B4B' : 'rgba(5, 150, 105,0.1)',
                   border: `1px solid ${pushToTalkActive ? '#FF4B4B' : 'var(--accent-green)'}`,
-                  color: pushToTalkActive ? '#fff' : 'var(--accent-green)',
+                  color: pushToTalkActive ? 'var(--text-primary)' : 'var(--accent-green)',
                   padding: '12px',
                   borderRadius: '10px',
                   fontWeight: 'bold',

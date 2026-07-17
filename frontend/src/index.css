@@ -7,37 +7,37 @@
 
 :root {
   /* ---- Core Neutral Palette ---- */
-  --bg-primary:    #f0f4f8; /* Soft Light Blue/Slate Background */
-  --bg-secondary:  #ffffff; /* Pure White Card Background */
-  --bg-card:       #ffffff;
-  --bg-card-hover: #f1f5f9; 
-  --bg-glass:      rgba(255, 255, 255, 0.96);
-  --bg-elevated:   #ffffff;
+  --bg-primary:    #0f172a; /* Dark Slate Background */
+  --bg-secondary:  #1e293b; /* Dark Card Background */
+  --bg-card:       #1e293b;
+  --bg-card-hover: #334155; 
+  --bg-glass:      rgba(30, 41, 59, 0.96);
+  --bg-elevated:   #1e293b;
 
-  /* ---- Accent Colors (Tailwind Specs) ---- */
-  --accent-green:      #059669; /* Emerald 600 */
-  --accent-green-dim:  rgba(5, 150, 105, 0.08);
-  --accent-yellow:     #d97706; /* Amber 600 */
-  --accent-yellow-dim: rgba(217, 119, 6, 0.08);
-  --accent-blue:       #1e40af; /* Deep Royal Blue */
-  --accent-blue-dim:   rgba(30, 64, 175, 0.08);
-  --accent-red:        #dc2626; /* Red 600 */
-  --accent-red-dim:    rgba(220, 38, 38, 0.08);
-  --accent-purple:     #6d28d9; /* Violet 700 */
-  --accent-purple-dim: rgba(109, 40, 217, 0.08);
-  --accent-cyan:       #0891b2;
-  --accent-orange:     #ea580c;
+  /* ---- Accent Colors (Tailwind Specs for Dark Mode) ---- */
+  --accent-green:      #34d399; /* Emerald 400 */
+  --accent-green-dim:  rgba(52, 211, 153, 0.15);
+  --accent-yellow:     #fbbf24; /* Amber 400 */
+  --accent-yellow-dim: rgba(251, 191, 36, 0.15);
+  --accent-blue:       #60a5fa; /* Blue 400 */
+  --accent-blue-dim:   rgba(96, 165, 250, 0.15);
+  --accent-red:        #f87171; /* Red 400 */
+  --accent-red-dim:    rgba(248, 113, 113, 0.15);
+  --accent-purple:     #a78bfa; /* Violet 400 */
+  --accent-purple-dim: rgba(167, 139, 250, 0.15);
+  --accent-cyan:       #22d3ee;
+  --accent-orange:     #fb923c;
 
   /* ---- Text ---- */
-  --text-primary:   #0f172a; /* Slate 900 */
-  --text-secondary: #334e68; /* Deep Slate-Blue 700 */
-  --text-muted:     #627d98; /* Muted Slate-Blue 500 */
+  --text-primary:   #f8fafc; /* Slate 50 */
+  --text-secondary: #cbd5e1; /* Slate 300 */
+  --text-muted:     #94a3b8; /* Slate 400 */
 
   /* ---- Borders ---- */
-  --border-glass:  #cbd5e1; /* Slate 300 */
-  --border-green:  rgba(5, 150, 105, 0.25);
-  --border-yellow: rgba(217, 119, 6, 0.25);
-  --border-blue:   rgba(30, 64, 175, 0.3);
+  --border-glass:  #334155; /* Slate 700 */
+  --border-green:  rgba(52, 211, 153, 0.3);
+  --border-yellow: rgba(251, 191, 36, 0.3);
+  --border-blue:   rgba(96, 165, 250, 0.3);
 
   /* ---- Typography ---- */
   --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -68,12 +68,12 @@ body {
   overflow-x: hidden;
 }
 
-/* ---- Ambient Soft Light-Blue Highlight ---- */
+/* ---- Ambient Soft Glow Highlight ---- */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
-  background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(30, 64, 175, 0.05) 0%, transparent 80%);
+  background: radial-gradient(ellipse 60% 40% at 50% 0%, var(--accent-blue-dim) 0%, transparent 80%);
   pointer-events: none;
   z-index: 0;
 }

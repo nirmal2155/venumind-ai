@@ -3,8 +3,8 @@ import { ShieldCheck, Stethoscope, Users, Wrench, CheckCircle2, AlertTriangle, M
 
 const ROLES = [
   { id: 'security', label: 'Security', icon: ShieldCheck, color: '#FF4B4B', badge: 'SEC-042' },
-  { id: 'medic',    label: 'Medic',    icon: Stethoscope, color: '#00C8FF', badge: 'MED-012' },
-  { id: 'volunteer',label: 'Volunteer',icon: Users,        color: '#2BFF88', badge: 'VOL-187' },
+  { id: 'medic',    label: 'Medic',    icon: Stethoscope, color: 'var(--accent-blue)', badge: 'MED-012' },
+  { id: 'volunteer',label: 'Volunteer',icon: Users,        color: 'var(--accent-green)', badge: 'VOL-187' },
   { id: 'ops',      label: 'Operations', icon: Wrench,     color: '#FFDE59', badge: 'OPS-006' },
 ];
 
@@ -38,7 +38,7 @@ const AI_BRIEFINGS = {
   ops:      'AI analysis: Solar Grid harvested 87% capacity today. Grid B momentary dip detected at 09:32. Predictive maintenance window: tonight 02:00–04:00.',
 };
 
-const PRIORITY_COLOR = { HIGH: '#FF4B4B', MEDIUM: '#FFDE59', LOW: '#2BFF88' };
+const PRIORITY_COLOR = { HIGH: '#FF4B4B', MEDIUM: '#FFDE59', LOW: 'var(--accent-green)' };
 
 const Staff = () => {
   const [activeRole, setActiveRole] = useState(null);
@@ -145,10 +145,10 @@ const Staff = () => {
         </div>
 
         {/* Live Alerts ticker */}
-        <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '12px', padding: '1rem', marginBottom: '2rem' }}>
+        <div style={{ background: 'rgba(30, 64, 175, 0.03)', border: '1px solid var(--border-glass)', borderRadius: '12px', padding: '1rem', marginBottom: '2rem' }}>
           <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', letterSpacing: '1px', marginBottom: '8px', fontFamily: 'monospace' }}>LIVE COMMAND FEED</div>
           {liveAlerts.map((a, i) => (
-            <div key={i} style={{ fontFamily: 'monospace', fontSize: '0.8rem', color: i === 0 ? '#fff' : 'rgba(255,255,255,0.4)', marginBottom: '4px', animation: i === 0 ? 'fadeIn 0.5s ease' : 'none' }}>{a}</div>
+            <div key={i} style={{ fontFamily: 'monospace', fontSize: '0.8rem', color: i === 0 ? 'var(--text-primary)' : 'var(--text-muted)', marginBottom: '4px', animation: i === 0 ? 'fadeIn 0.5s ease' : 'none' }}>{a}</div>
           ))}
         </div>
 
@@ -157,12 +157,12 @@ const Staff = () => {
           {ROLES.map(role => {
             const Icon = role.icon;
             return (
-              <button key={role.id} onClick={() => selectRole(role)} style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${role.color}33`, borderRadius: '16px', padding: '1.5rem', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '12px', transition: 'all 0.2s', textAlign: 'left' }}>
+              <button key={role.id} onClick={() => selectRole(role)} style={{ background: 'rgba(30, 64, 175, 0.03)', border: `1px solid ${role.color}33`, borderRadius: '16px', padding: '1.5rem', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '12px', transition: 'all 0.2s', textAlign: 'left' }}>
                 <div style={{ background: `${role.color}22`, width: '48px', height: '48px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <Icon size={24} color={role.color} />
                 </div>
                 <div>
-                  <div style={{ fontWeight: '700', fontSize: '1rem', color: '#fff' }}>{role.label}</div>
+                  <div style={{ fontWeight: '700', fontSize: '1rem', color: 'var(--text-primary)' }}>{role.label}</div>
                   <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', fontFamily: 'monospace' }}>ID: {role.badge}</div>
                 </div>
                 <div style={{ background: role.color, color: '#000', fontSize: '0.65rem', fontWeight: 'bold', padding: '3px 10px', borderRadius: '12px' }}>
@@ -179,7 +179,7 @@ const Staff = () => {
             <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--accent-yellow)', boxShadow: '0 0 8px var(--accent-yellow)' }}></div>
             <span style={{ fontSize: '0.7rem', color: 'var(--accent-yellow)', fontWeight: 'bold', letterSpacing: '1.5px', fontFamily: 'monospace' }}>GENAI STAFF ALLOCATION COORDINATOR</span>
           </div>
-          <p style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.7)', margin: '0 0 1rem 0', lineHeight: '1.4' }}>
+          <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', margin: '0 0 1rem 0', lineHeight: '1.4' }}>
             Optimize shifts, stewards, and volunteer medical unit distributions dynamically based on gate crowd levels.
           </p>
           <button
@@ -207,7 +207,7 @@ const Staff = () => {
               padding: '12px',
               borderRadius: '10px',
               fontSize: '0.85rem',
-              color: '#fff',
+              color: 'var(--text-primary)',
               lineHeight: '1.4',
               fontFamily: 'monospace',
               whiteSpace: 'pre-wrap'
@@ -228,26 +228,26 @@ const Staff = () => {
                 📊 Live AI Resource Optimization Decisions
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-                <div style={{ background: 'rgba(255,255,255,0.02)', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                <div style={{ background: 'rgba(30, 64, 175, 0.02)', padding: '10px', borderRadius: '8px', border: '1px solid var(--border-glass)' }}>
                   <div style={{ fontSize: '0.65rem', color: 'var(--text-secondary)' }}>SECURITY STEWARDS</div>
-                  <strong style={{ fontSize: '0.95rem', color: '#fff' }}>🛡️ {resourcePlan.security} Required</strong>
+                  <strong style={{ fontSize: '0.95rem', color: 'var(--text-primary)' }}>🛡️ {resourcePlan.security} Required</strong>
                 </div>
-                <div style={{ background: 'rgba(255,255,255,0.02)', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                <div style={{ background: 'rgba(30, 64, 175, 0.02)', padding: '10px', borderRadius: '8px', border: '1px solid var(--border-glass)' }}>
                   <div style={{ fontSize: '0.65rem', color: 'var(--text-secondary)' }}>VOLUNTEERS</div>
-                  <strong style={{ fontSize: '0.95rem', color: '#fff' }}>🙋 {resourcePlan.volunteers} Required</strong>
+                  <strong style={{ fontSize: '0.95rem', color: 'var(--text-primary)' }}>🙋 {resourcePlan.volunteers} Required</strong>
                 </div>
-                <div style={{ background: 'rgba(255,255,255,0.02)', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                <div style={{ background: 'rgba(30, 64, 175, 0.02)', padding: '10px', borderRadius: '8px', border: '1px solid var(--border-glass)' }}>
                   <div style={{ fontSize: '0.65rem', color: 'var(--text-secondary)' }}>AMBULANCES</div>
-                  <strong style={{ fontSize: '0.95rem', color: '#fff' }}>🚑 {resourcePlan.ambulances} Units</strong>
+                  <strong style={{ fontSize: '0.95rem', color: 'var(--text-primary)' }}>🚑 {resourcePlan.ambulances} Units</strong>
                 </div>
-                <div style={{ background: 'rgba(255,255,255,0.02)', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                <div style={{ background: 'rgba(30, 64, 175, 0.02)', padding: '10px', borderRadius: '8px', border: '1px solid var(--border-glass)' }}>
                   <div style={{ fontSize: '0.65rem', color: 'var(--text-secondary)' }}>HIGH-FLOW TOILETS</div>
-                  <strong style={{ fontSize: '0.95rem', color: '#fff' }}>🚻 {resourcePlan.toilets} Stalls</strong>
+                  <strong style={{ fontSize: '0.95rem', color: 'var(--text-primary)' }}>🚻 {resourcePlan.toilets} Stalls</strong>
                 </div>
               </div>
               <div style={{ background: 'rgba(0, 200, 255, 0.05)', padding: '10px', borderRadius: '8px', border: '1px solid rgba(0, 200, 255, 0.15)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: '0.7rem', color: '#00C8FF', fontWeight: 'bold' }}>💧 REQUIRED WATER SUPPLY (HYDRATION):</span>
-                <strong style={{ fontSize: '0.95rem', color: '#fff', fontFamily: 'monospace' }}>{resourcePlan.water}</strong>
+                <span style={{ fontSize: '0.7rem', color: 'var(--accent-blue)', fontWeight: 'bold' }}>💧 REQUIRED WATER SUPPLY (HYDRATION):</span>
+                <strong style={{ fontSize: '0.95rem', color: 'var(--text-primary)', fontFamily: 'monospace' }}>{resourcePlan.water}</strong>
               </div>
             </div>
           )}
@@ -274,22 +274,22 @@ const Staff = () => {
             <span style={{ fontSize: '0.7rem', fontFamily: 'monospace', color: 'var(--text-secondary)' }}>ID: {activeRole.badge} · SHIFT ACTIVE</span>
           </div>
         </div>
-        <button onClick={() => setActiveRole(null)} style={{ background: 'rgba(255,255,255,0.05)', border: 'none', color: 'var(--text-secondary)', borderRadius: '8px', padding: '8px 12px', cursor: 'pointer', fontSize: '0.8rem' }}>← Back</button>
+        <button onClick={() => setActiveRole(null)} style={{ background: 'rgba(30, 64, 175, 0.05)', border: 'none', color: 'var(--text-secondary)', borderRadius: '8px', padding: '8px 12px', cursor: 'pointer', fontSize: '0.8rem' }}>← Back</button>
       </div>
 
       {/* AI Briefing Card */}
-      <div style={{ background: 'linear-gradient(135deg, rgba(43,255,136,0.08), rgba(43,255,136,0.02))', border: '1px solid var(--border-green)', borderRadius: '16px', padding: '1.25rem', marginBottom: '1.5rem' }}>
+      <div style={{ background: 'linear-gradient(135deg, rgba(5, 150, 105, 0.06), rgba(43,255,136,0.02))', border: '1px solid var(--border-green)', borderRadius: '16px', padding: '1.25rem', marginBottom: '1.5rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
-          <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: 'var(--accent-green)', boxShadow: '0 0 8px var(--accent-green)', animation: 'pulse 1.5s infinite' }}></div>
+          <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: 'var(--accent-green)', boxShadow: '0 0 8px var(--accent-blue)', animation: 'pulse 1.5s infinite' }}></div>
           <span style={{ fontSize: '0.7rem', color: 'var(--accent-green)', fontWeight: 'bold', letterSpacing: '1px', fontFamily: 'monospace' }}>GEMINI AI LIVE BRIEFING</span>
         </div>
         {aiLoading ? (
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <div style={{ width: '18px', height: '18px', border: '2px solid rgba(43,255,136,0.2)', borderTopColor: 'var(--accent-green)', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
+            <div style={{ width: '18px', height: '18px', border: '1px solid var(--border-blue)', borderTopColor: 'var(--accent-green)', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
             <span style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>Gemini AI is analyzing stadium data...</span>
           </div>
         ) : (
-          <p style={{ color: '#fff', fontSize: '0.9rem', lineHeight: '1.6', margin: 0, fontStyle: 'italic' }}>{aiReply}</p>
+          <p style={{ color: 'var(--text-primary)', fontSize: '0.9rem', lineHeight: '1.6', margin: 0, fontStyle: 'italic' }}>{aiReply}</p>
         )}
       </div>
 
@@ -302,7 +302,7 @@ const Staff = () => {
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           {tasks.map(task => (
-            <div key={task.id} style={{ background: task.done ? 'rgba(43,255,136,0.05)' : 'rgba(255,255,255,0.03)', border: `1px solid ${task.done ? 'var(--border-green)' : `${PRIORITY_COLOR[task.priority]}33`}`, borderRadius: '12px', padding: '1rem', display: 'flex', alignItems: 'flex-start', gap: '12px', transition: 'all 0.3s' }}>
+            <div key={task.id} style={{ background: task.done ? 'var(--accent-green-dim)' : 'rgba(30, 64, 175, 0.03)', border: `1px solid ${task.done ? 'var(--border-green)' : `${PRIORITY_COLOR[task.priority]}33`}`, borderRadius: '12px', padding: '1rem', display: 'flex', alignItems: 'flex-start', gap: '12px', transition: 'all 0.3s' }}>
               <div style={{ marginTop: '2px' }}>
                 <span style={{ background: task.done ? 'var(--accent-green)' : PRIORITY_COLOR[task.priority], color: '#000', fontSize: '0.55rem', fontWeight: 'bold', padding: '2px 8px', borderRadius: '8px' }}>{task.done ? 'DONE' : task.priority}</span>
               </div>
@@ -311,10 +311,10 @@ const Staff = () => {
                   <MapPin size={12} color="var(--text-secondary)" />
                   <span style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', fontFamily: 'monospace' }}>{task.sector}</span>
                 </div>
-                <p style={{ margin: 0, fontSize: '0.9rem', color: task.done ? 'var(--text-secondary)' : '#fff', textDecoration: task.done ? 'line-through' : 'none', lineHeight: '1.4' }}>{task.task}</p>
+                <p style={{ margin: 0, fontSize: '0.9rem', color: task.done ? 'var(--text-secondary)' : 'var(--text-primary)', textDecoration: task.done ? 'line-through' : 'none', lineHeight: '1.4' }}>{task.task}</p>
               </div>
               {!task.done && (
-                <button onClick={() => markDone(task.id)} style={{ background: 'rgba(43,255,136,0.1)', border: '1px solid var(--border-green)', borderRadius: '8px', padding: '6px 10px', cursor: 'pointer', color: 'var(--accent-green)', fontSize: '0.75rem', fontWeight: 'bold', whiteSpace: 'nowrap' }}>
+                <button onClick={() => markDone(task.id)} style={{ background: 'rgba(30, 64, 175,0.1)', border: '1px solid var(--border-green)', borderRadius: '8px', padding: '6px 10px', cursor: 'pointer', color: 'var(--accent-green)', fontSize: '0.75rem', fontWeight: 'bold', whiteSpace: 'nowrap' }}>
                   ✓ Done
                 </button>
               )}
@@ -330,7 +330,7 @@ const Staff = () => {
           <button style={{ background: 'rgba(255,75,75,0.1)', border: '1px solid rgba(255,75,75,0.3)', borderRadius: '12px', padding: '12px', color: '#FF4B4B', fontWeight: 'bold', fontSize: '0.85rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
             <AlertTriangle size={16} /> Request Backup
           </button>
-          <button style={{ background: 'rgba(0,200,255,0.1)', border: '1px solid rgba(0,200,255,0.3)', borderRadius: '12px', padding: '12px', color: '#00C8FF', fontWeight: 'bold', fontSize: '0.85rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
+          <button style={{ background: 'var(--accent-blue-dim)', border: '1px solid rgba(0,200,255,0.3)', borderRadius: '12px', padding: '12px', color: 'var(--accent-blue)', fontWeight: 'bold', fontSize: '0.85rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
             <CheckCircle2 size={16} /> Sector Clear
           </button>
         </div>
@@ -340,7 +340,7 @@ const Staff = () => {
       <div>
         <h3 style={{ margin: '0 0 12px 0', fontSize: '0.85rem', color: 'var(--text-secondary)', letterSpacing: '2px' }}>📋 AI INCIDENT REPORT</h3>
         {reportSent ? (
-          <div style={{ background: 'rgba(43,255,136,0.08)', border: '1px solid var(--border-green)', borderRadius: '12px', padding: '1rem', textAlign: 'center', color: 'var(--accent-green)', fontWeight: 'bold' }}>
+          <div style={{ background: 'rgba(30, 64, 175,0.08)', border: '1px solid var(--border-green)', borderRadius: '12px', padding: '1rem', textAlign: 'center', color: 'var(--accent-green)', fontWeight: 'bold' }}>
             ✅ Report Submitted to Command Node via AI
           </div>
         ) : (
@@ -349,7 +349,7 @@ const Staff = () => {
               value={reportInput}
               onChange={e => setReportInput(e.target.value)}
               placeholder="Describe incident for AI to log & escalate..."
-              style={{ flex: 1, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '12px', color: '#fff', fontSize: '0.9rem', outline: 'none' }}
+              style={{ flex: 1, background: 'rgba(30, 64, 175, 0.03)', border: '1px solid var(--border-glass)', borderRadius: '10px', padding: '12px', color: 'var(--text-primary)', fontSize: '0.9rem', outline: 'none' }}
             />
             <button type="submit" style={{ background: activeRole.color, border: 'none', borderRadius: '10px', padding: '12px 16px', cursor: 'pointer', fontWeight: 'bold', color: '#000' }}>Send</button>
           </form>

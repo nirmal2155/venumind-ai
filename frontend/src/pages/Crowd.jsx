@@ -96,18 +96,18 @@ const Crowd = () => {
       {/* Header */}
       <div className="flex-row justify-between" style={{ alignItems: 'center', marginBottom: '1.5rem' }}>
         <h2 style={{ fontSize: '2rem', margin: 0, fontWeight: '300' }}>Live Crowd<br/><span style={{fontWeight: '800'}}>Analytics</span></h2>
-        <div style={{ background: 'rgba(255,255,255,0.1)', padding: '8px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ background: 'rgba(30, 64, 175, 0.06)', padding: '8px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Activity className="text-accent-green" size={24} />
         </div>
       </div>
 
       {/* Summary KPI Block */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginBottom: '2rem' }}>
-        <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '12px', padding: '10px' }}>
+        <div style={{ background: 'rgba(30, 64, 175, 0.03)', border: '1px solid var(--border-glass)', borderRadius: '12px', padding: '10px' }}>
           <div style={{ fontSize: '0.65rem', color: 'var(--text-secondary)', fontFamily: 'monospace' }}>TOTAL DETECTED FANS</div>
-          <div style={{ fontSize: '1.3rem', fontWeight: 'bold', color: '#fff', marginTop: '4px' }}>{totalFans.toLocaleString()}</div>
+          <div style={{ fontSize: '1.3rem', fontWeight: 'bold', color: 'var(--text-primary)', marginTop: '4px' }}>{totalFans.toLocaleString()}</div>
         </div>
-        <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '12px', padding: '10px' }}>
+        <div style={{ background: 'rgba(30, 64, 175, 0.03)', border: '1px solid var(--border-glass)', borderRadius: '12px', padding: '10px' }}>
           <div style={{ fontSize: '0.65rem', color: 'var(--text-secondary)', fontFamily: 'monospace' }}>AVG STADIUM LOAD</div>
           <div style={{ fontSize: '1.3rem', fontWeight: 'bold', color: 'var(--accent-green)', marginTop: '4px' }}>{avgDensity}%</div>
         </div>
@@ -116,10 +116,10 @@ const Crowd = () => {
       {/* GenAI Dispersion Strategy Advisor */}
       <div className="glass-card" style={{ marginBottom: '1.5rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
-          <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#B48EFF', boxShadow: '0 0 8px #B48EFF' }}></div>
-          <span style={{ fontSize: '0.7rem', color: '#B48EFF', fontWeight: 'bold', letterSpacing: '1.5px', fontFamily: 'monospace' }}>GENAI DISPERSION STRATEGY</span>
+          <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--accent-purple)', boxShadow: '0 0 8px var(--accent-purple)' }}></div>
+          <span style={{ fontSize: '0.7rem', color: 'var(--accent-purple)', fontWeight: 'bold', letterSpacing: '1.5px', fontFamily: 'monospace' }}>GENAI DISPERSION STRATEGY</span>
         </div>
-        <p style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.7)', margin: '0 0 1rem 0', lineHeight: '1.4' }}>
+        <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', margin: '0 0 1rem 0', lineHeight: '1.4' }}>
           Analyze active surge bottlenecks across North Gate (98%) and West Fan Zone (88%) to output tactical safety mitigation guides.
         </p>
         <button
@@ -129,7 +129,7 @@ const Crowd = () => {
             width: '100%',
             background: 'rgba(180, 142, 255, 0.1)',
             border: '1px solid rgba(180, 142, 255, 0.3)',
-            color: '#B48EFF',
+            color: 'var(--accent-purple)',
             padding: '10px',
             borderRadius: '8px',
             fontWeight: 'bold',
@@ -147,7 +147,7 @@ const Crowd = () => {
             padding: '12px',
             borderRadius: '10px',
             fontSize: '0.85rem',
-            color: '#fff',
+            color: 'var(--text-primary)',
             lineHeight: '1.4',
             fontFamily: 'monospace',
             whiteSpace: 'pre-wrap'
@@ -167,7 +167,7 @@ const Crowd = () => {
           <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem', lineHeight: '1.5' }}>Gate A density reached 98%. Estimated wait time exceeds acceptable limits. AI recommends immediate digital rerouting to Gate B.</p>
           <button 
             onClick={activateReroute}
-            style={{ width: '100%', background: '#FF4B4B', color: '#FFF', border: 'none', padding: '14px', borderRadius: '12px', fontSize: '1rem', fontWeight: 'bold', cursor: 'pointer', display: 'flex', justifyContent: 'center', gap: '8px', alignItems: 'center' }}>
+            style={{ width: '100%', background: '#FF4B4B', color: 'var(--text-primary)', border: 'none', padding: '14px', borderRadius: '12px', fontSize: '1rem', fontWeight: 'bold', cursor: 'pointer', display: 'flex', justifyContent: 'center', gap: '8px', alignItems: 'center' }}>
             ACTIVATE AI REROUTING <ArrowRight size={18} />
           </button>
         </div>
@@ -192,7 +192,7 @@ const Crowd = () => {
           <article key={gate.id} className="glass-card" style={{ padding: '1.25rem' }}>
             <div className="flex-row justify-between" style={{ marginBottom: '1rem', alignItems: 'center' }}>
               <div className="flex-row gap-3" style={{ alignItems: 'center' }}>
-                <div style={{ width: '40px', height: '40px', background: 'rgba(255,255,255,0.05)', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '1.2rem' }}>
+                <div style={{ width: '40px', height: '40px', background: 'rgba(30, 64, 175, 0.05)', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '1.2rem' }}>
                   {gate.id}
                 </div>
                 <div>
@@ -207,7 +207,7 @@ const Crowd = () => {
             </div>
             
             {/* Density Bar */}
-            <div style={{ width: '100%', height: '8px', background: 'rgba(255,255,255,0.1)', borderRadius: '4px', overflow: 'hidden' }}>
+            <div style={{ width: '100%', height: '8px', background: 'rgba(30, 64, 175, 0.06)', borderRadius: '4px', overflow: 'hidden' }}>
               <div style={{ 
                 width: `${gate.density}%`, 
                 height: '100%', 
@@ -224,7 +224,7 @@ const Crowd = () => {
         <button onClick={simulateSurge} style={{ flex: 1, padding: '12px', background: 'rgba(255, 75, 75, 0.2)', border: '1px solid #FF4B4B', color: '#FF4B4B', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer' }}>
           Simulate Surge
         </button>
-        <button onClick={reset} style={{ flex: 1, padding: '12px', background: 'rgba(255, 255, 255, 0.1)', border: '1px solid rgba(255,255,255,0.2)', color: '#FFF', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer' }} aria-label="Reset crowd simulation">
+        <button onClick={reset} style={{ flex: 1, padding: '12px', background: 'var(--border-glass)', border: '1px solid var(--border-glass)', color: 'var(--text-primary)', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer' }} aria-label="Reset crowd simulation">
           Reset
         </button>
       </div>

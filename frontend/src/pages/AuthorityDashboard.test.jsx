@@ -65,6 +65,12 @@ describe('AuthorityDashboard Component', () => {
 
   it('interacts with AI Operations Assistant chatbot successfully', async () => {
     const handleLogout = vi.fn();
+    
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve({ reply: 'Gate 5 is at Sector 3 North' })
+    });
+
     render(
       <EmergencyProvider>
         <AuthorityDashboard user={mockUser} onLogout={handleLogout} />
@@ -73,7 +79,7 @@ describe('AuthorityDashboard Component', () => {
 
     expect(screen.getByText(/AI Operations Assistant/i)).toBeInTheDocument();
 
-    const gateBtn = screen.getByRole('button', { name: /Where is Gate 5?/i });
+    const gateBtn = screen.getByRole('button', { name: /Where is Gate 5\?/i });
     fireEvent.click(gateBtn);
 
     await waitFor(() => {

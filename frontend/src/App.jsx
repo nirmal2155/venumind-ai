@@ -29,6 +29,18 @@ class ErrorBoundary extends React.Component {
 
   componentDidCatch(error, errorInfo) {
     console.error("VenueMind AI Error Caught:", error, errorInfo);
+    
+    // Auto-resolve Vite / React lazy-load chunk errors by refreshing the client
+    const errorStr = String(error).toLowerCase();
+    if (
+      errorStr.includes('chunk') || 
+      errorStr.includes('loading') || 
+      errorStr.includes('failed to fetch') || 
+      errorStr.includes('dynamically imported')
+    ) {
+      console.warn("Dynamic import failure detected. Automatically rebooting interface...");
+      window.location.reload();
+    }
   }
 
   render() {
